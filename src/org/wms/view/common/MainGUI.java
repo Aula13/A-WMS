@@ -29,10 +29,7 @@ public class MainGUI extends ContentPane implements Navigable, Observer {
 	private static final long serialVersionUID = 4151709269001700322L;
 	
     private StatusBarLabel lblDbConn = asf.getStatusBarLabel();
-    private StatusBarLabel lblPlcConn = asf.getStatusBarLabel();
-    private StatusBarLabel lblAlarms = asf.getStatusBarLabel();
     
-    private StatusBarLabel lblWMSWorkMode;
     private StatusBarLabel lblUsers;
     
     private JTextField lblTitle;
@@ -77,8 +74,6 @@ public class MainGUI extends ContentPane implements Navigable, Observer {
 	}
 	
 	private void initComponents() {
-		lblWMSWorkMode = asf.getStatusBarLabel();
-		
 		lblUsers = new StatusBarLabel(RMColour.RM_GREEN, RMColour.RM_DARK_GRAY);
 		lblUsers.setBorder(
                 BorderFactory.createCompoundBorder(
@@ -93,20 +88,13 @@ public class MainGUI extends ContentPane implements Navigable, Observer {
     	setTitle("A-WMS");
     	setDefaultCloseOperation(EXIT_ON_CLOSE);
     	
-    	//Configurazione del pannello nord
+    	//Application title configuration
     	titlePanel = FactoryReferences.panels.getPanelWithTitle("A-WMS");
         remove(npanel);
     	add(titlePanel, BorderLayout.NORTH);
         
-        //Configurazione del pannello sud
-//    	I18n i18n = Localization.i18n;
-//    	lblDbConn.setTexts(i18n.tr("GeneralClient.lblDbConn.ok"), i18n.tr("GeneralClient.lblDbConn.error"));
-//      lblPlcConn.setTexts(i18n.tr("GeneralClient.lblPlcConn.ok"), i18n.tr("GeneralClient.lblPlcConn.error"));
-//      lblAlarms.setTexts(i18n.tr("GeneralClient.lblAlarms.ok"), i18n.tr("GeneralClient.lblAlarms.error"));
+        //Status bar configuration
         spanel.add(lblDbConn);
-        spanel.add(lblPlcConn);
-        spanel.add(lblAlarms);
-        spanel.add(lblWMSWorkMode);
         spanel.add(lblUsers);
                 
         //Configurazione del pannello ovest (navigazione)
