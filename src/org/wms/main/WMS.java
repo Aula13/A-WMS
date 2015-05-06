@@ -1,7 +1,5 @@
 package org.wms.main;
 
-import it.rmautomazioni.database.common.ConnectionStatus;
-import it.rmautomazioni.database.common.DbConnectionConfiguration;
 import it.rmautomazioni.database.common.DbConnectionProvider;
 import it.rmautomazioni.database.common.DbStatusChecker;
 import it.rmautomazioni.security.Security;
@@ -12,15 +10,17 @@ import it.rmautomazioni.view.factories.swing.ConcreteAppStyleFactory;
 import it.rmautomazioni.view.factories.swing.ConcreteButtonFactory;
 import it.rmautomazioni.view.factories.swing.ConcreteFieldFactory;
 import it.rmautomazioni.view.factories.swing.ConcretePanelFactory;
-import it.rmautomazioni.view.graphicsresource.IconResource;
-import it.rmautomazioni.view.graphicsresource.ImageResource;
 
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.wms.config.Configuration;
 import org.wms.config.HibernateUtil;
+import org.wms.config.ResourceUtil;
+import org.wms.config.SecurityConfig;
+import org.wms.controller.common.MainGUIController;
 import org.wms.view.common.MainGUI;
 
 public class WMS {
@@ -66,30 +66,32 @@ public class WMS {
 			FactoryReferences.fields = new ConcreteFieldFactory();
 			FactoryReferences.appStyle = new ConcreteAppStyleFactory();
 
-			IconResource iconResource = new IconResource("");
-			FactoryReferences.buttons = new ConcreteButtonFactory(iconResource);
+			FactoryReferences.buttons = new ConcreteButtonFactory(ResourceUtil.iconResource);
 
-			ImageResource imageResource = new ImageResource("");
-			FactoryReferences.panels = new ConcretePanelFactory(imageResource);
+			FactoryReferences.panels = new ConcretePanelFactory(ResourceUtil.imageResource);
 
-			Security.initializeSecurity(Configuration.USER_LOGOUT_TIME_MIN);
+			SecurityConfig.initializeSecurity(Configuration.USER_LOGOUT_TIME_MIN);
 
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			
+			
+			MainGUI mgui = new MainGUI(DbConnectionProvider.CONNECTION_STATUS, SecurityConfig.getSecurityManager().getStatus());
+			new MainGUIController(mgui);
+				
 			SwingUtilities.invokeLater(new Runnable() {
 
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
-					MainGUI mgui = new MainGUI(DbConnectionProvider.CONNECTION_STATUS, Security.getSecurityManager().getStatus());
-
 					mgui.setVisible(true);
 				}
-			});
-
-			Security.getSecurityManager().openLoginScreen(SecurityLevel.ADMIN);
+			});			
+			
+			SecurityConfig.getSecurityManager().openLoginScreen(SecurityLevel.OPERATOR);
 
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			MessageBox.errorBox("Error", "Error during application initialization");
+			return;
 		}
 	}
 

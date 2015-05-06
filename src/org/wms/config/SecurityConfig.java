@@ -12,7 +12,7 @@ public final class SecurityConfig {
 	public static SecurityManager initializeSecurity(int logoutMin) {
 		SECURITY_MANAGER = new SecurityManager(logoutMin);
 		
-		SECURITY_MANAGER.addUser(new User("OPERATOR", "OPERATOR", SecurityLevel.SUPERVISOR));
+		SECURITY_MANAGER.addUser(new User("OPERATOR", "OPERATOR", SecurityLevel.OPERATOR));
 		SECURITY_MANAGER.addUser(new User("SUPERVISOR", "SUPERVISOR", SecurityLevel.SUPERVISOR));
 		SECURITY_MANAGER.addUser(new User("ADMIN", "bonfanti", SecurityLevel.ADMIN));
 		
