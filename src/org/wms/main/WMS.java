@@ -2,6 +2,7 @@ package org.wms.main;
 
 import it.rmautomazioni.database.common.ConnectionStatus;
 import it.rmautomazioni.database.common.DbConnectionConfiguration;
+import it.rmautomazioni.database.common.DbConnectionProvider;
 import it.rmautomazioni.database.common.DbStatusChecker;
 import it.rmautomazioni.security.Security;
 import it.rmautomazioni.security.SecurityLevel;
@@ -19,6 +20,7 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.wms.config.Configuration;
+import org.wms.config.HibernateUtil;
 import org.wms.view.common.MainGUI;
 
 public class WMS {
@@ -31,7 +33,7 @@ public class WMS {
 		
 		try {
 			//Check that another application instance doesn't exist
-			if(LockFile.checkLockFile()) {
+			if(!LockFile.checkLockFile()) {
 				MessageBox.errorBox("Error", "Another instance of the application is running.");
 				return;
 			}
@@ -49,14 +51,16 @@ public class WMS {
 					Configuration.DBCHECKER_LOGGER, 
 					1000, 
 					Configuration.getDbConfiguration());
-
+			
 			if(!dbStatusChecker.checkDatabaseConnection()) {
 				MessageBox.errorBox("Database connection error.", "Error");
 				return;
-			}
+			}	
 			
-			ConnectionStatus cs = new ConnectionStatus();
-
+			dbStatusChecker.start();
+			
+			//Init hibernate
+			HibernateUtil.getSessionFactory();
 
 
 			FactoryReferences.fields = new ConcreteFieldFactory();
@@ -75,7 +79,7 @@ public class WMS {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					MainGUI mgui = new MainGUI(cs, Security.getSecurityManager().getStatus());
+					MainGUI mgui = new MainGUI(DbConnectionProvider.CONNECTION_STATUS, Security.getSecurityManager().getStatus());
 
 					mgui.setVisible(true);
 				}

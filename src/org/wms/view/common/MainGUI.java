@@ -28,7 +28,7 @@ public class MainGUI extends ContentPane implements Navigable, Observer {
 	
 	private static final long serialVersionUID = 4151709269001700322L;
 	
-    private StatusBarLabel lblDbConn = asf.getStatusBarLabel();
+    private StatusBarLabel lblDbConn;
     
     private StatusBarLabel lblUsers;
     
@@ -71,9 +71,12 @@ public class MainGUI extends ContentPane implements Navigable, Observer {
 		initUI();
 		dbConnectionStatus.addObserver(this);
 		securityStatus.addObserver(this);
+		update(null, null);
 	}
 	
 	private void initComponents() {
+		lblDbConn = asf.getStatusBarLabel();
+		
 		lblUsers = new StatusBarLabel(RMColour.RM_GREEN, RMColour.RM_DARK_GRAY);
 		lblUsers.setBorder(
                 BorderFactory.createCompoundBorder(
