@@ -36,13 +36,20 @@ public class WMS {
 		try {
 			
 			checkIfAlreadyInstantiated();
+			
 			loadConfigFile();
+			
 			startDBConnectionChecker();
+			
 			//Init hibernate
 			HibernateUtil.getSessionFactory();
+			
 			initFactories();
+			
 			SecurityConfig.initializeSecurity(Configuration.USER_LOGOUT_TIME_MIN);
+			
 			invokeGUI();
+			
 			SecurityConfig.getSecurityManager().openLoginScreen(SecurityLevel.OPERATOR);
 
 		} catch (Exception e) {
