@@ -13,6 +13,7 @@ import it.rmautomazioni.view.factories.swing.ConcretePanelFactory;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -35,39 +36,13 @@ public class WMS {
 		try {
 			
 			checkIfAlreadyInstantiated();
-			
 			loadConfigFile();
-			
 			startDBConnectionChecker();
-
-			
 			//Init hibernate
 			HibernateUtil.getSessionFactory();
-
-
-			FactoryReferences.fields = new ConcreteFieldFactory();
-			FactoryReferences.appStyle = new ConcreteAppStyleFactory();
-
-			FactoryReferences.buttons = new ConcreteButtonFactory(ResourceUtil.iconResource);
-
-			FactoryReferences.panels = new ConcretePanelFactory(ResourceUtil.imageResource);
-
+			initFactories();
 			SecurityConfig.initializeSecurity(Configuration.USER_LOGOUT_TIME_MIN);
-
-			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-			
-			
-			MainGUI mgui = new MainGUI(DbConnectionProvider.CONNECTION_STATUS, SecurityConfig.getSecurityManager().getStatus());
-			new MainGUIController(mgui);
-				
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					mgui.setVisible(true);
-				}
-			});			
-			
+			invokeGUI();
 			SecurityConfig.getSecurityManager().openLoginScreen(SecurityLevel.OPERATOR);
 
 		} catch (Exception e) {
@@ -84,41 +59,49 @@ public class WMS {
 	}
 	
 	private static void checkIfAlreadyInstantiated() throws Exception{
-		try{
-			if(!LockFile.checkLockFile())
-				throw new AlreadyInstantiatedException();
-		}
-		catch (Exception e) {
-				throw e;
-		}
+		if(!LockFile.checkLockFile())
+			throw new AlreadyInstantiatedException();
 	}
 
 	private static void loadConfigFile() throws Exception{
-		try{
-			if(!Configuration.basicInfoFromFile())
-				throw new ConfigFileLoadingException();
-		}
-		catch (Exception e){
-				throw e;
-		}
+		if(!Configuration.basicInfoFromFile())
+			throw new ConfigFileLoadingException();
 	}
 	
 	private static void startDBConnectionChecker() throws Exception {
-		try{
-			DbStatusChecker dbStatusChecker = new DbStatusChecker(
-					"DBChecker", 
-					Configuration.DBCHECKER_LOGGER, 
-					1000, 
-					Configuration.getDbConfiguration());
+		DbStatusChecker dbStatusChecker = new DbStatusChecker(
+				"DBChecker", 
+				Configuration.DBCHECKER_LOGGER, 
+				1000, 
+				Configuration.getDbConfiguration());
+		
+		if(!dbStatusChecker.checkDatabaseConnection())
+			throw new DBConnectionException();
+		
+		dbStatusChecker.start();
+	}
+	
+	private static void initFactories(){
+		FactoryReferences.fields = new ConcreteFieldFactory();
+		FactoryReferences.appStyle = new ConcreteAppStyleFactory();
+		FactoryReferences.buttons = new ConcreteButtonFactory(ResourceUtil.iconResource);
+		FactoryReferences.panels = new ConcretePanelFactory(ResourceUtil.imageResource);
+	}
+	
+	private static void invokeGUI() throws Exception{
+		
+		UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		
+		MainGUI mgui = new MainGUI(DbConnectionProvider.CONNECTION_STATUS, SecurityConfig.getSecurityManager().getStatus());
+		new MainGUIController(mgui);
 			
-			if(!dbStatusChecker.checkDatabaseConnection())
-				throw new DBConnectionException();
-			
-			dbStatusChecker.start();
-		}
-		catch (Exception e){
-			throw e;
-		}
+		SwingUtilities.invokeLater(new Runnable() {
+	
+			@Override
+			public void run() {
+				mgui.setVisible(true);
+			}
+		});
 	}
 	
 }
