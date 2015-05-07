@@ -21,43 +21,25 @@ import org.wms.config.HibernateUtil;
 import org.wms.config.ResourceUtil;
 import org.wms.config.SecurityConfig;
 import org.wms.controller.common.MainGUIController;
+import org.wms.exception.AlreadyInstantiatedException;
+import org.wms.exception.ConfigFileLoadingException;
+import org.wms.exception.DBConnectionException;
 import org.wms.view.common.MainGUI;
 
 public class WMS {
 
 	public static void main(String[] args) {
 		
-		//Log4j configuration
-		PropertyConfigurator.configure("config/log4j.properties"); //
-		Logger logger = Logger.getLogger(Configuration.SUPERVISOR_LOGGER);
+		Logger logger = setupLogger();
 		
 		try {
-			//Check that another application instance doesn't exist
-			if(!LockFile.checkLockFile()) {
-				MessageBox.errorBox("Error", "Another instance of the application is running.");
-				return;
-			}
 			
-			//Load configuration file 
-			if(!Configuration.basicInfoFromFile())
-			{
-				MessageBox.errorBox("Error", "Error during application configuration file initialization.");
-				return;	
-			}
+			checkIfAlreadyInstantiated();
 			
-			//Start database connection checker
-			DbStatusChecker dbStatusChecker = new DbStatusChecker(
-					"DBChecker", 
-					Configuration.DBCHECKER_LOGGER, 
-					1000, 
-					Configuration.getDbConfiguration());
+			loadConfigFile();
 			
-			if(!dbStatusChecker.checkDatabaseConnection()) {
-				MessageBox.errorBox("Database connection error.", "Error");
-				return;
-			}	
-			
-			dbStatusChecker.start();
+			startDBConnectionChecker();
+
 			
 			//Init hibernate
 			HibernateUtil.getSessionFactory();
@@ -94,5 +76,49 @@ public class WMS {
 			return;
 		}
 	}
+	
+	private static Logger setupLogger(){
+		//Log4j configuration
+		PropertyConfigurator.configure("config/log4j.properties"); //
+		return Logger.getLogger(Configuration.SUPERVISOR_LOGGER);
+	}
+	
+	private static void checkIfAlreadyInstantiated() throws Exception{
+		try{
+			if(!LockFile.checkLockFile())
+				throw new AlreadyInstantiatedException();
+		}
+		catch (Exception e) {
+				throw e;
+		}
+	}
 
+	private static void loadConfigFile() throws Exception{
+		try{
+			if(!Configuration.basicInfoFromFile())
+				throw new ConfigFileLoadingException();
+		}
+		catch (Exception e){
+				throw e;
+		}
+	}
+	
+	private static void startDBConnectionChecker() throws Exception {
+		try{
+			DbStatusChecker dbStatusChecker = new DbStatusChecker(
+					"DBChecker", 
+					Configuration.DBCHECKER_LOGGER, 
+					1000, 
+					Configuration.getDbConfiguration());
+			
+			if(!dbStatusChecker.checkDatabaseConnection())
+				throw new DBConnectionException();
+			
+			dbStatusChecker.start();
+		}
+		catch (Exception e){
+			throw e;
+		}
+	}
+	
 }
