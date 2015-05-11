@@ -1,9 +1,9 @@
 *.DS_Store
-codecover/
-/bin/
-/target/
-/WMS/
+
+/codecover
+/bin
+/target
+/WMS
 /*.log
 /log
-/db/*
-/db/
+/db
