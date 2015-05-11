@@ -3,6 +3,7 @@ package org.wms.config;
 import it.rmautomazioni.database.common.DbConnectionConfiguration;
 import it.rmautomazioni.view.common.MessageBox;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,7 +20,7 @@ import org.apache.log4j.Logger;
 public class Configuration {
 	
 	protected static Properties props = new Properties();
-	
+	protected static FileReader cfgFile;
 	/**
 	 * Database connection string
 	 */
@@ -67,7 +68,9 @@ public class Configuration {
 	public static boolean basicInfoFromFile() {
 		
         try {
-			props.load(new FileReader("config/config.properties"));
+        	if(cfgFile==null)
+        		cfgFile = new FileReader("config/config.properties");
+			props.load(cfgFile);
 		} catch (FileNotFoundException e) {
 			logger.error("Configuration file not found " + e.getMessage());
 			MessageBox.errorBox("Configuration file not found " + e.getMessage(), "Error");
