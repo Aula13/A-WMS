@@ -1,4 +1,7 @@
 /bin/
 /target/
 /WMS/
-/derby.log
+/*.log
+/log
+/db/log/*
+/db/*.lck

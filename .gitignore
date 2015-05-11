@@ -3,5 +3,4 @@
 /WMS/
 /*.log
 /log
-/db/log/*
-/db/*.lck
+/db/*
