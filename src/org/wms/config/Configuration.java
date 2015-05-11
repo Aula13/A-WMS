@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
  */
 public class Configuration {
 	
-	public static Properties props;
+	protected static Properties props = new Properties();
 	
 	/**
 	 * Database connection string
@@ -66,7 +66,6 @@ public class Configuration {
 	 */
 	public static boolean basicInfoFromFile() {
 		
-		props = new Properties();
         try {
 			props.load(new FileReader("config/config.properties"));
 		} catch (FileNotFoundException e) {
