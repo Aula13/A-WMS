@@ -16,66 +16,24 @@ import org.wms.view.common.MainGUI;
 public class MainGUIController {
 	
 	private final MainGUI gui;
+	
+	private final LoginPopupMenu loginMenu;
 
 	public MainGUIController(MainGUI gui) {
 		super();
 		this.gui = gui;
+		loginMenu = new LoginPopupMenu();
 		
-		gui.getLblUsers().addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				JPopupMenu menu = new JPopupMenu();
-				
-				JMenuItem btnLogin = new JMenuItem("Login");
-				menu.add(btnLogin);
-				
-				btnLogin.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						SecurityConfig.getSecurityManager().openLoginScreen(SecurityLevel.NO_LEVEL);
-					}
-				});
-				
-				JMenuItem btnLogout = new JMenuItem("Logout");
-				btnLogout.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						SecurityConfig.getSecurityManager().logout();						
-					}
-				});
-				menu.add(btnLogout);
-				
-				menu.show(gui, e.getXOnScreen(), e.getYOnScreen());
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
-		
+		gui.getLblUsers().setComponentPopupMenu(loginMenu);
 	}
+
+	public MainGUI getGui() {
+		return gui;
+	}
+
+	public LoginPopupMenu getLoginMenu() {
+		return loginMenu;
+	}
+	
+	
 }

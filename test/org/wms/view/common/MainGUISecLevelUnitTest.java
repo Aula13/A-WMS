@@ -62,7 +62,7 @@ public class MainGUISecLevelUnitTest {
 	@Parameters
 	public static Collection<TestParameter[]> data() {
 		return Arrays.asList(new TestParameter[][] {
-			{new TestParameter(null, RMColour.RM_LIGHT_GRAY, "NO USER LOGGED")},
+			{new TestParameter(null, RMColour.RM_DARK_GRAY, "No user logged")},
 			{new TestParameter(SecurityLevel.NO_LEVEL, RMColour.RM_GREEN, "NO_LEVEL")},
 			{new TestParameter(SecurityLevel.OPERATOR, RMColour.RM_GREEN, "OPERATOR")},
 			{new TestParameter(SecurityLevel.SUPERVISOR, RMColour.RM_GREEN, "SUPERVISOR")},

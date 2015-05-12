@@ -14,7 +14,7 @@ public final class SecurityConfig {
 		
 		SECURITY_MANAGER.addUser(new User("OPERATOR", "OPERATOR", SecurityLevel.OPERATOR));
 		SECURITY_MANAGER.addUser(new User("SUPERVISOR", "SUPERVISOR", SecurityLevel.SUPERVISOR));
-		SECURITY_MANAGER.addUser(new User("ADMIN", "bonfanti", SecurityLevel.ADMIN));
+		SECURITY_MANAGER.addUser(new User("ADMIN", "ADMIN", SecurityLevel.ADMIN));
 		
 		UserTimeoutChecker timeoutChecker = new UserTimeoutChecker(SECURITY_MANAGER);
 		timeoutChecker.start();
