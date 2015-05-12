@@ -23,11 +23,21 @@ public class NavigationPanel extends JPanel {
 	public JButton btnVerifyList;
 
 	public JButton btnJobsList;
+	
+	private SecurityLevel level;
 
 	public NavigationPanel() {
 		initComponents();
 		initUI();
 		changeUser(SecurityLevel.NO_LEVEL);
+	}
+	
+	public JPanel getNavBar(){
+		return navBar;
+	}
+	
+	public SecurityLevel getLevel(){
+		return level;
 	}
 
 	private void initComponents() {
@@ -56,6 +66,8 @@ public class NavigationPanel extends JPanel {
 
 
 	public void changeUser(SecurityLevel level) {
+		
+		this.level = level;
 
 		switch (level) {
 		case NO_LEVEL:

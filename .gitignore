@@ -1,5 +1,7 @@
 *.DS_Store
 
+.project
+.classpath
 /codecover
 /bin
 /target
