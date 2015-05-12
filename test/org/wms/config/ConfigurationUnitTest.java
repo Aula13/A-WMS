@@ -1,6 +1,7 @@
 package org.wms.config;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -10,36 +11,35 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class ConfigurationUnitTest {
 	
-	private static Properties mockProp;
-	private static FileReader mockFileReader;
+	private Properties mockProp;
+	private FileReader mockFileReader;
 	
-	private static Configuration cfg;
-	
-	private static String testDbCon = "DBCONSTR";
-	private static String testDbDriver = "DBDRIVER";
-	private static String testDbPsw = "DBPSW";
-	private static String testDbUsr = "DBUSR";
+	private String testDbCon = "DBCONSTR";
+	private String testDbDriver = "DBDRIVER";
+	private String testDbPsw = "DBPSW";
+	private String testDbUsr = "DBUSR";
 	
 	private static int testUserLogoutTime = 100;
 	
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	@Before
+	public void setUpBefore() throws Exception {
 		mockProp = mock(Properties.class);
-		cfg.props = mockProp;
+		Configuration.props = mockProp;
 		mockFileReader = mock(FileReader.class);
-		cfg.cfgFile = mockFileReader;
+		Configuration.cfgFile = mockFileReader;
 		
 		when(mockProp.getProperty(Configuration.DATABASE_CONNECTION_STRING_PROP_NAME)).thenReturn(testDbCon);
 		when(mockProp.getProperty(Configuration.DATABASE_DRIVER_CLASS_PROP_NAME)).thenReturn(testDbDriver);
 		when(mockProp.getProperty(Configuration.DATABASE_PASSWORD_PROP_NAME)).thenReturn(testDbPsw);
 		when(mockProp.getProperty(Configuration.DATABASE_USER_PROP_NAME)).thenReturn(testDbUsr);
 		when(mockProp.getProperty(Configuration.USER_LOGOUT_TIME_MIN_PROP_NAME)).thenReturn(Integer.toString(testUserLogoutTime));
+		
+		Configuration.basicInfoFromFile();
 	}
 
 	@Test
@@ -58,35 +58,35 @@ public class ConfigurationUnitTest {
 
 	@Test
 	public void testGetDbConnString() {
-		assertTrue(cfg.getDbConnString().compareTo(testDbCon)==0);
+		assertTrue(Configuration.getDbConnString()==testDbCon);
 	}
 
 	@Test
 	public void testGetDbDriverClass() {
-		assertTrue(cfg.getDbDriverClass()==testDbDriver);
+		assertTrue(Configuration.getDbDriverClass()==testDbDriver);
 	}
 
 	@Test
 	public void testGetDbUser() {
-		assertTrue(cfg.getDbUser()==testDbUsr);
+		assertTrue(Configuration.getDbUser()==testDbUsr);
 	}
 
 	@Test
 	public void testGetDbPassword() {
-		assertTrue(cfg.getDbPassword()==testDbPsw);
+		assertTrue(Configuration.getDbPassword()==testDbPsw);
 	}
 
 	@Test
 	public void testGetDbConfiguration() {
-		assertTrue(cfg.getDbConfiguration().getConnectionString()==testDbCon);
-		assertTrue(cfg.getDbConfiguration().getDriverName()==testDbDriver);
-		assertTrue(cfg.getDbConfiguration().getPassword()==testDbPsw);
-		assertTrue(cfg.getDbConfiguration().getUserName()==testDbUsr);
+		assertTrue(Configuration.getDbConfiguration().getConnectionString()==testDbCon);
+		assertTrue(Configuration.getDbConfiguration().getDriverName()==testDbDriver);
+		assertTrue(Configuration.getDbConfiguration().getPassword()==testDbPsw);
+		assertTrue(Configuration.getDbConfiguration().getUserName()==testDbUsr);
 	}
 	
 	@Test
 	public void testUserLogoutTime() {
-		assertTrue(cfg.USER_LOGOUT_TIME_MIN==testUserLogoutTime);
+		assertTrue(Configuration.USER_LOGOUT_TIME_MIN==testUserLogoutTime);
 	}
 
 }

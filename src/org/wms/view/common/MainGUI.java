@@ -4,20 +4,15 @@ import it.rmautomazioni.database.common.ConnectionStatus;
 import it.rmautomazioni.security.SecurityLevel;
 import it.rmautomazioni.security.SecurityStatus;
 import it.rmautomazioni.view.common.Navigable;
-import it.rmautomazioni.view.controls.JActiveButton;
 import it.rmautomazioni.view.controls.StatusBarLabel;
-import it.rmautomazioni.view.factories.AbstractAppStyleFactory;
 import it.rmautomazioni.view.factories.ApplicationFont;
 import it.rmautomazioni.view.factories.FactoryReferences;
 import it.rmautomazioni.view.factories.ImagePanel;
 import it.rmautomazioni.view.factories.RMColour;
-import it.rmautomazioni.view.graphicsresource.IconType;
 import it.rmautomazioni.view.graphicsresource.ImageType;
 
 import java.awt.BorderLayout;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -26,31 +21,72 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import org.wms.config.ResourceUtil;
 
+/**
+ * Main GUI show the user interface parts always visible for the user
+ * (status bar, title panel, navigation bar) * 
+ * 
+ * @author stefano
+ *
+ */
 public class MainGUI extends ContentPane implements Navigable, Observer {
 
-	private static final long serialVersionUID = 4151709269001700322L;
-
+	private static final long serialVersionUID = 4151709269001700322L; 
+	
+	/**
+	 * Connection label status
+	 */
 	private StatusBarLabel lblDbConn;
 
-	public StatusBarLabel lblUsers;
+	/**
+	 * Security label status
+	 */
+	private StatusBarLabel lblUsers;
 
+	/**
+	 * Panel title label
+	 */
 	private JLabel lblTitle;
 
+	/**
+	 * Navigation panel
+	 */
 	public NavigationPanel navPanel;
 
+	/**
+	 * Panel title, with background image
+	 */
 	ImagePanel titlePanel;
 
-	//Utility per cambio pagina
-	private JPanel currentPanel;
+	
+	/**
+	 * Center panel (where the content are delivered)
+	 */
+	protected JPanel currentPanel;
+	
+	/**
+	 * Map the possible center panels (pages) 
+	 */
 	private Map<Integer, JPanel> panels;
 
+	/**
+	 * Connection status observable
+	 */
 	ConnectionStatus dbConnectionStatus;
+	
+	/**
+	 * Security status observable
+	 */
 	SecurityStatus securityStatus;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param dbConnectionStatus reference to the connection status observable
+	 * @param securityStatus reference to the security status observable
+	 */
 	public MainGUI(ConnectionStatus dbConnectionStatus, SecurityStatus securityStatus) {
 		super(FactoryReferences.appStyle);
 		panels = new HashMap<>();
@@ -65,6 +101,9 @@ public class MainGUI extends ContentPane implements Navigable, Observer {
 		update(null, null);
 	}
 
+	/**
+	 * Init components that need to be inserted in the gui
+	 */
 	private void initComponents() {
 		lblDbConn = asf.getStatusBarLabel();
 
@@ -85,6 +124,9 @@ public class MainGUI extends ContentPane implements Navigable, Observer {
 		titlePanel.add(lblTitle);
 	}
 
+	/**
+	 * Place the component inside the GUI
+	 */
 	protected void initUI() {
 		//Frame title
 		setTitle("A-WMS");
@@ -105,14 +147,16 @@ public class MainGUI extends ContentPane implements Navigable, Observer {
 		setText();
 	}
 
+	/**
+	 * Init components text
+	 */
 	private void setText() {
 		lblDbConn.setTexts("DB online", "DB offline");
 	}
 
-	public void setContextTitle(String st) {
-		//    	titlePanel.setTitle("A-WMS" + " - " + st);
-	}
-
+	/* (non-Javadoc)
+	 * @see it.rmautomazioni.view.common.Navigable#changePanel(javax.swing.JPanel)
+	 */
 	@Override
 	public void changePanel(JPanel panel) {
 
@@ -129,11 +173,17 @@ public class MainGUI extends ContentPane implements Navigable, Observer {
 		currentPanel.setVisible(true);
 	}
 
+	/* (non-Javadoc)
+	 * @see it.rmautomazioni.view.common.Navigable#setTitleName(java.lang.String)
+	 */
 	@Override
 	public void setTitleName(String name) {
-		setContextTitle(name);
+		lblTitle.setText("A-WMS - " + name);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		if(dbConnectionStatus.isDbConnectionStatus())
@@ -156,10 +206,25 @@ public class MainGUI extends ContentPane implements Navigable, Observer {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see it.rmautomazioni.view.common.Navigable#setActiveButton(javax.swing.JButton)
+	 */
 	@Override
 	public void setActiveButton(JButton button) {
 		//		for (JButton cmd : navigationButtonsList) {
 		//			((JActiveButton) cmd).setActive(button == cmd);
 		//		}
+	}
+
+	public StatusBarLabel getLblDbConn() {
+		return lblDbConn;
+	}
+
+	public StatusBarLabel getLblUsers() {
+		return lblUsers;
+	}
+
+	public JLabel getLblTitle() {
+		return lblTitle;
 	}
 }

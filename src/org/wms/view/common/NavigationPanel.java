@@ -4,7 +4,6 @@ import it.rmautomazioni.security.SecurityLevel;
 import it.rmautomazioni.view.factories.FactoryReferences;
 import it.rmautomazioni.view.graphicsresource.IconType;
 
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;

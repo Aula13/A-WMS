@@ -2,7 +2,6 @@ package org.wms.main;
 
 import it.rmautomazioni.database.common.DbConnectionProvider;
 import it.rmautomazioni.database.common.DbStatusChecker;
-import it.rmautomazioni.security.Security;
 import it.rmautomazioni.security.SecurityLevel;
 import it.rmautomazioni.view.common.MessageBox;
 import it.rmautomazioni.view.factories.FactoryReferences;
@@ -13,7 +12,6 @@ import it.rmautomazioni.view.factories.swing.ConcretePanelFactory;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;

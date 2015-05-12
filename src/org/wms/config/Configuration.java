@@ -3,7 +3,6 @@ package org.wms.config;
 import it.rmautomazioni.database.common.DbConnectionConfiguration;
 import it.rmautomazioni.view.common.MessageBox;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;

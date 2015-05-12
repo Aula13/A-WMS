@@ -22,7 +22,6 @@ import javax.swing.border.LineBorder;
  * methods provided, to add/remove Buttons, add/remove (sub)menu voices and
  * insert useful information. Programmer can't change this structure.
  *
- * @author	RM Automazioni di Renato Mandaglio
  * @version	1.0
  * @date	1st February, 2014
  * @param	npanel	panel provided for the interface title
@@ -65,6 +64,9 @@ public abstract class ContentPane extends JFrame {
 
     }
 
+    /**
+     * GUI initialization
+     */
     private void initUI() {
         /*jframe setup*/
         Toolkit tk = Toolkit.getDefaultToolkit();

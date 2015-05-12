@@ -21,7 +21,7 @@ public class MainGUIController {
 		super();
 		this.gui = gui;
 		
-		gui.lblUsers.addMouseListener(new MouseListener() {
+		gui.getLblUsers().addMouseListener(new MouseListener() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
