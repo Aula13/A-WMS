@@ -21,6 +21,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.wms.config.ResourceUtil;
 
+/**
+ * GUI test main GUI class
+ * 
+ * @author stefano
+ *
+ */
 public class MainGUIUnitTest {
 	
 	static MainGUI guiTest;
@@ -41,6 +47,10 @@ public class MainGUIUnitTest {
 		guiTest = new MainGUI(mockConStatus, mockSecStatus);
 	}
 	
+	/**
+	 * Test database connection status fail
+	 * status bar label should be RED and show text "DB offline" 
+	 */
 	@Test
 	public void testUpdateConnectionFail() {
 		when(mockConStatus.isDbConnectionStatus()).thenReturn(false);
@@ -49,6 +59,10 @@ public class MainGUIUnitTest {
 		assertTrue(guiTest.getLblDbConn().getText().compareTo("DB offline")==0);
 	}
 	
+	/**
+	 * Test database connection status ok
+	 * status bar label should be GREEN and show text "DB online"
+	 */
 	@Test
 	public void testUpdateConnectionRight() {
 		when(mockConStatus.isDbConnectionStatus()).thenReturn(true);
@@ -57,12 +71,20 @@ public class MainGUIUnitTest {
 		assertTrue(guiTest.getLblDbConn().getText().compareTo("DB online")==0);
 	}	
 	
+	/**
+	 * Test context title
+	 * label in title should be set
+	 */
 	@Test
 	public void testSetContextTitle() {
 		guiTest.setTitleName("ATITLE");
 		assertTrue(guiTest.getLblTitle().getText().compareTo("A-WMS - ATITLE")==0);
 	}
 
+	/**
+	 * Test change center panel method
+	 * center panel should be changed
+	 */
 	@Test
 	public void testChangePanel() {
 		JPanel testPanel1 = new JPanel();
@@ -77,6 +99,10 @@ public class MainGUIUnitTest {
 		assertTrue(guiTest.currentPanel==testPanel1);
 	}
 
+	/**
+	 * Test active button method
+	 * active button should be with white background
+	 */
 	@Test
 	public void testSetActiveButton() {
 		fail("Not yet implemented"); // TODO
