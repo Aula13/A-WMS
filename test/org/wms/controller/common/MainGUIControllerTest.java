@@ -16,6 +16,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.wms.view.common.MainGUI;
 
+/**
+ * Test listeners created in MainGUIController
+ * 
+ * @author stefano
+ *
+ */
 public class MainGUIControllerTest {
 	
 	private static MainGUI mockGUI;
@@ -23,8 +29,6 @@ public class MainGUIControllerTest {
 	private static MainGUIController ctrlTest;
 	
 	private static StatusBarLabel lblUserTest;
-	
-	private static MouseListener listener; 
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -37,7 +41,7 @@ public class MainGUIControllerTest {
 	}
 
 	@Test
-	public void test() {
+	public void testPopupMenu() {
 		fail("not implemented yet"); //TODO
 	}
 

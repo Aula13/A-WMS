@@ -14,6 +14,12 @@ import java.util.Properties;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Test configuration class
+ * 
+ * @author stefano
+ *
+ */
 public class ConfigurationUnitTest {
 	
 	private Properties mockProp;
@@ -42,11 +48,19 @@ public class ConfigurationUnitTest {
 		Configuration.basicInfoFromFile();
 	}
 
+	/**
+	 * Test file loaded successfully
+	 */
 	@Test
 	public void testBasicInfoFromFile() {
 		assertTrue(Configuration.basicInfoFromFile());
 	}
 	
+	/**
+	 * Test file not loaded for missing or fails
+	 * 
+	 * @throws IOException
+	 */
 	@Test
 	public void testBasicInfoFromFileFail() throws IOException {
 		doThrow(new FileNotFoundException()).when(mockProp).load(mockFileReader);
@@ -56,26 +70,41 @@ public class ConfigurationUnitTest {
 		assertFalse(Configuration.basicInfoFromFile());
 	}
 
+	/**
+	 * Test db connection string correctly provided
+	 */
 	@Test
 	public void testGetDbConnString() {
 		assertTrue(Configuration.getDbConnString()==testDbCon);
 	}
 
+	/**
+	 * Test db driver class string correctly provided
+	 */
 	@Test
 	public void testGetDbDriverClass() {
 		assertTrue(Configuration.getDbDriverClass()==testDbDriver);
 	}
 
+	/**
+	 * Test db user string correctly provided
+	 */
 	@Test
 	public void testGetDbUser() {
 		assertTrue(Configuration.getDbUser()==testDbUsr);
 	}
 
+	/**
+	 * Test database password string correctly provided
+	 */
 	@Test
 	public void testGetDbPassword() {
 		assertTrue(Configuration.getDbPassword()==testDbPsw);
 	}
 
+	/**
+	 * Test db configuration class correctly provided
+	 */
 	@Test
 	public void testGetDbConfiguration() {
 		assertTrue(Configuration.getDbConfiguration().getConnectionString()==testDbCon);
@@ -84,6 +113,9 @@ public class ConfigurationUnitTest {
 		assertTrue(Configuration.getDbConfiguration().getUserName()==testDbUsr);
 	}
 	
+	/**
+	 * Test logout timeout correctly provided
+	 */
 	@Test
 	public void testUserLogoutTime() {
 		assertTrue(Configuration.USER_LOGOUT_TIME_MIN==testUserLogoutTime);

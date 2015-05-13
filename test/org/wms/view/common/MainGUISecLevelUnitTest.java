@@ -57,6 +57,12 @@ public class MainGUISecLevelUnitTest {
 	static SecurityStatus mockSecStatus;
 	
 	/**
+	 * Test[0]: user not logged, label should be gray and show text No user logged
+	 * Test[1]: user with NO_LEVEL logged, label should be green and show text NO_LEVEL
+	 * Test[2]: user with OPERATOR logged, label should be green and show text OPERATOR
+	 * Test[3]: user with SUPERVISOR logged, label should be green and show text SUPERVISOR
+	 * Test[4]: user with ADMIN logged, label should be green and show text ADMIN
+	 * 
 	 * @return collection of parameters for test
 	 */
 	@Parameters
