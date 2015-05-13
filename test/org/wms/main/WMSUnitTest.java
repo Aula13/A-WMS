@@ -2,6 +2,7 @@ package org.wms.main;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import it.rmautomazioni.database.common.DbStatusChecker;
 import it.rmautomazioni.view.common.MessageBox;
 
 import org.apache.log4j.Logger;
@@ -19,22 +20,20 @@ import org.wms.exception.AlreadyInstantiatedException;
 import org.wms.exception.ConfigFileLoadingException;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({LockFile.class, Logger.class, MessageBox.class})
+@PrepareForTest({LockFile.class, Logger.class, MessageBox.class, Configuration.class})
 @PowerMockIgnore("javax.management.*")
 public class WMSUnitTest {
-	
-	//private static WMS wmsTest;
-	
+		
 	@Rule
 	 public ExpectedException exception = ExpectedException.none();
 	
 	@Before
-	public void initMocks(){
+	public void initMocks() throws Exception{
 		PowerMockito.mockStatic(LockFile.class);
 		PowerMockito.mockStatic(MessageBox.class);
-		//PowerMockito.mockStatic(Configuration.class);
+		PowerMockito.mockStatic(Configuration.class);
+		mock(DbStatusChecker.class);
 		mock(Logger.class);
-		mock(Configuration.class);
 	}
 
 
@@ -55,6 +54,15 @@ public class WMSUnitTest {
 		WMS.launchWMS();
 	}
 	
+//	@Test
+//	public void testDBConnectionException() throws Exception {
+//		when(LockFile.checkLockFile()).thenReturn(true);
+//		when(Configuration.basicInfoFromFile()).thenReturn(true);
+//		when(dbStatusChecker.checkDatabaseConnection()).thenReturn(true);
+//		
+//	    exception.expect(DBConnectionException.class);
+//		WMS.launchWMS();
+//	}
 
 
 }
