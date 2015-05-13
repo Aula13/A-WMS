@@ -6,12 +6,20 @@ package org.wms.exception;
  * @author Daniele Ciriello, Pessina Stefano
  *
  */
+@SuppressWarnings("serial")
 public class AlreadyInstantiatedException extends Exception {
 	
+	/**
+	 * Constructor
+	 */
 	public AlreadyInstantiatedException(){
 		super("Another instance of the application is running.");
 	}
 
+	/**
+	 * Constructor
+	 * @param message custom message to be shown
+	 */
 	public AlreadyInstantiatedException(String message){
 		     super(message);
 		  }

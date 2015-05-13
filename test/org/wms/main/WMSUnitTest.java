@@ -37,8 +37,7 @@ public class WMSUnitTest {
 	public ExpectedException exception = ExpectedException.none();
 	
 	/**
-	 * 
-	 * @throws Exception
+	 * Initialize the mocks before each test
 	 */
 	@Before
 	public void initMocks(){
@@ -50,6 +49,12 @@ public class WMSUnitTest {
 	}
 
 
+	/**
+	 * test if wms does launch an AlreadyInstantiatedException when
+	 * the lock file is already locked
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	public void testAlreadyInstantiatedException() throws Exception {
 		when(LockFile.checkLockFile()).thenReturn(false);
@@ -58,6 +63,12 @@ public class WMSUnitTest {
 		WMS.launchWMS();
 	}
 
+	/**
+	 * test if wms does launch a ConfigFileLoadingException when the file can't
+	 * be loaded
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	public void testConfigFileLoadingException() throws Exception {
 		when(LockFile.checkLockFile()).thenReturn(true);
