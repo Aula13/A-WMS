@@ -19,16 +19,29 @@ import org.wms.config.Configuration;
 import org.wms.exception.AlreadyInstantiatedException;
 import org.wms.exception.ConfigFileLoadingException;
 
+/**
+ * WMS Unit test class
+ * 
+ * @author Daniele Ciriello, Stefano Pessina
+ *
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({LockFile.class, Logger.class, MessageBox.class, Configuration.class})
 @PowerMockIgnore("javax.management.*")
 public class WMSUnitTest {
 		
+	/**
+	 * Expected exception useful to check if a function throws an exception
+	 */
 	@Rule
-	 public ExpectedException exception = ExpectedException.none();
+	public ExpectedException exception = ExpectedException.none();
 	
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	@Before
-	public void initMocks() throws Exception{
+	public void initMocks(){
 		PowerMockito.mockStatic(LockFile.class);
 		PowerMockito.mockStatic(MessageBox.class);
 		PowerMockito.mockStatic(Configuration.class);
