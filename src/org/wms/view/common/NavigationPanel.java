@@ -11,34 +11,68 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ * @author Stefano Pessina, Daniele Ciriello 
+ *
+ */
 public class NavigationPanel extends JPanel {
 
+	/**
+	 * 
+	 */
 	private JPanel navBar;
 
+	/**
+	 * 
+	 */
 	public JButton btnHome;	
 
+	/**
+	 * 
+	 */
 	public JButton btnOrdersList;
 
+	/**
+	 * 
+	 */
 	public JButton btnVerifyList;
 
+	/**
+	 * 
+	 */
 	public JButton btnJobsList;
 	
+	/**
+	 * 
+	 */
 	private SecurityLevel level;
 
+	/**
+	 * 
+	 */
 	public NavigationPanel() {
 		initComponents();
 		initUI();
 		changeUser(SecurityLevel.NO_LEVEL);
 	}
 	
+	/**
+	 * @return
+	 */
 	public JPanel getNavBar(){
 		return navBar;
 	}
 	
+	/**
+	 * @return
+	 */
 	public SecurityLevel getLevel(){
 		return level;
 	}
 
+	/**
+	 * 
+	 */
 	private void initComponents() {
 		List<JButton> navigationButtonsList = new ArrayList<>();
 
@@ -57,6 +91,9 @@ public class NavigationPanel extends JPanel {
 		navBar = FactoryReferences.panels.getVerticalNavigationBarPanel(navigationButtonsList);
 	}
 
+	/**
+	 * 
+	 */
 	private void initUI() {
 		setLayout(new GridLayout(1,1));
 		
@@ -64,6 +101,9 @@ public class NavigationPanel extends JPanel {
 	}
 
 
+	/**
+	 * @param level
+	 */
 	public void changeUser(SecurityLevel level) {
 		
 		this.level = level;
