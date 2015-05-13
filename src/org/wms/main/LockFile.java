@@ -6,8 +6,17 @@ import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 
+/**
+ * The file being locked in order to check if another application instance is running
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class LockFile {
 
+	/**
+	 * the lock file's name
+	 */
 	public final static String lockFileName = ".app.lock";
 
 	/**
