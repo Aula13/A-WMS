@@ -12,43 +12,47 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
+ * Left Navigation panel, contains the menu buttons like the Home Button and show them 
+ * based on the current user's security level. This class get initialized with a NO_LEVEL
+ * security level.
+ * 
  * @author Stefano Pessina, Daniele Ciriello 
  *
  */
 public class NavigationPanel extends JPanel {
 
 	/**
-	 * 
+	 * Left menu bar
 	 */
 	private JPanel navBar;
 
 	/**
-	 * 
+	 * Home button
 	 */
 	public JButton btnHome;	
 
 	/**
-	 * 
+	 * Orders list button
 	 */
 	public JButton btnOrdersList;
 
 	/**
-	 * 
+	 * Verify list button
 	 */
 	public JButton btnVerifyList;
 
 	/**
-	 * 
+	 * Jobs list button
 	 */
 	public JButton btnJobsList;
 	
 	/**
-	 * 
+	 * current security level
 	 */
 	private SecurityLevel level;
 
 	/**
-	 * 
+	 * Constructor
 	 */
 	public NavigationPanel() {
 		initComponents();
@@ -57,21 +61,25 @@ public class NavigationPanel extends JPanel {
 	}
 	
 	/**
-	 * @return
+	 * Getter
+	 * 
+	 * @return the navigation bar
 	 */
 	public JPanel getNavBar(){
 		return navBar;
 	}
 	
 	/**
-	 * @return
+	 * Getter
+	 * 
+	 * @return the current security level
 	 */
 	public SecurityLevel getLevel(){
 		return level;
 	}
 
 	/**
-	 * 
+	 * Initialize navigation bar and buttons
 	 */
 	private void initComponents() {
 		List<JButton> navigationButtonsList = new ArrayList<>();
@@ -92,7 +100,7 @@ public class NavigationPanel extends JPanel {
 	}
 
 	/**
-	 * 
+	 * Initialize User Interface
 	 */
 	private void initUI() {
 		setLayout(new GridLayout(1,1));
@@ -102,7 +110,9 @@ public class NavigationPanel extends JPanel {
 
 
 	/**
-	 * @param level
+	 * Change the current user and show/hide relative buttons
+	 * 
+	 * @param level reference to the current security level 
 	 */
 	public void changeUser(SecurityLevel level) {
 		
