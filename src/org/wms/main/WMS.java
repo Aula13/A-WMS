@@ -25,8 +25,19 @@ import org.wms.exception.ConfigFileLoadingException;
 import org.wms.exception.DBConnectionException;
 import org.wms.view.common.MainGUI;
 
+/**
+ * Application's main class, it contains the main method and invoke MainGUI
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class WMS {
 
+	/**
+	 * Main method
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		
 		Logger logger = setupLogger();
@@ -57,22 +68,42 @@ public class WMS {
 		}
 	}
 	
+	/**
+	 * Set up and return the logger
+	 * 
+	 * @return the application's logger
+	 */
 	private static Logger setupLogger(){
 		//Log4j configuration
 		PropertyConfigurator.configure("config/log4j.properties"); //
 		return Logger.getLogger(Configuration.SUPERVISOR_LOGGER);
 	}
 	
+	/**
+	 * Check if another application is running
+	 * 
+	 * @throws Exeption, AlreadyInstantiatedException
+	 */
 	private static void checkIfAlreadyInstantiated() throws Exception{
 		if(!LockFile.checkLockFile())
 			throw new AlreadyInstantiatedException();
 	}
 
+	/**
+	 * Try to load the configuration file
+	 * 
+	 * @throws Exception, ConfigFileLoadingException
+	 */
 	private static void loadConfigFile() throws Exception{
 		if(!Configuration.basicInfoFromFile())
 			throw new ConfigFileLoadingException();
 	}
 	
+	/**
+	 * Try to create a database status checker ad start it
+	 * 
+	 * @throws Exception, DBConnectionException
+	 */
 	private static void startDBConnectionChecker() throws Exception {
 		DbStatusChecker dbStatusChecker = new DbStatusChecker(
 				"DBChecker", 
@@ -86,6 +117,9 @@ public class WMS {
 		dbStatusChecker.start();
 	}
 	
+	/**
+	 * Initialize the factories
+	 */
 	private static void initFactories(){
 		FactoryReferences.fields = new ConcreteFieldFactory();
 		FactoryReferences.appStyle = new ConcreteAppStyleFactory();
@@ -93,6 +127,11 @@ public class WMS {
 		FactoryReferences.panels = new ConcretePanelFactory(ResourceUtil.imageResource);
 	}
 	
+	/**
+	 * Invoke the main GUI
+	 * 
+	 * @throws Exception
+	 */
 	private static void invokeGUI() throws Exception{
 		
 		UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
