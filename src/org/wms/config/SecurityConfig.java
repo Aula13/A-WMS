@@ -9,7 +9,7 @@ import it.rmautomazioni.security.UserTimeoutChecker;
  * SecurityConfig is a static class
  * where is stored the reference to the security manager
  * 
- * @author stefano
+ * @author Stefano Pessina, Daniele Ciriello
  *
  */
 public final class SecurityConfig {

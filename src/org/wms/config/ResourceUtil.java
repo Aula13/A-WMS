@@ -11,7 +11,7 @@ import it.rmautomazioni.view.graphicsresource.ImageType;
  * Keep reference to object for retrive icon/image
  * 
  * 
- * @author stefano
+ * @author Stefano Pessina, Daniele Ciriello
  *
  */
 public class ResourceUtil {

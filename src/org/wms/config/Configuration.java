@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 /**
  * Load basic database and logger configurations from file
  * 
- * @author stefano
+ * @author Stefano Pessina, Daniele Ciriello
  *
  */
 public class Configuration {

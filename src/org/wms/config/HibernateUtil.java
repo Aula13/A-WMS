@@ -10,7 +10,7 @@ import org.hibernate.service.ServiceRegistry;
  * 
  * Keep reference to the session factory
  * 
- * @author stefano
+ * @author Stefano Pessina, Daniele Ciriello
  *
  */
 public class HibernateUtil {
