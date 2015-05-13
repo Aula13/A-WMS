@@ -11,13 +11,16 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 
 /**
- * Load configuration file
+ * Load basic database and logger configurations from file
  * 
  * @author stefano
  *
  */
 public class Configuration {
 	
+	/**
+	 * reference to the properties in the file
+	 */
 	protected static Properties props = new Properties();
 	protected static FileReader cfgFile;
 	/**
@@ -92,22 +95,37 @@ public class Configuration {
 		return true;
 	}
 	
+	/**
+	 * @return database connection string
+	 */
 	public static String getDbConnString() {
 		return DATABASE_CONNECTION_STRING;
 	}
 
+	/**
+	 * @return database driver class
+	 */
 	public static String getDbDriverClass() {
 		return DATABASE_DRIVER_CLASS;
 	}
 
+	/**
+	 * @return database user name
+	 */
 	public static String getDbUser() {
 		return DATABASE_USER;
 	}
 
+	/**
+	 * @return database password
+	 */
 	public static String getDbPassword() {
 		return DATABASE_PASSWORD;
 	}
 	
+	/**
+	 * @return database configuration class
+	 */
 	public static DbConnectionConfiguration getDbConfiguration() {
 		return dbConfig;
 	}
