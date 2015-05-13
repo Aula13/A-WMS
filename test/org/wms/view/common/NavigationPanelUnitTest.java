@@ -15,10 +15,24 @@ import org.junit.Before;
 import org.junit.Test;
 import org.wms.config.ResourceUtil;
 
+/**
+ * Left navigation panel test class
+ * 
+ * @author Daniele
+ *
+ */
 public class NavigationPanelUnitTest {
 	
+	/**
+	 * Navigation panel being tested
+	 */
 	private static NavigationPanel navPanel;
 
+	/**
+	 * Set up environment for test
+	 * 
+	 * @throws Exception
+	 */
 	@Before
 	public void setUpBeforeClass() throws Exception {
 		FactoryReferences.buttons = new ConcreteButtonFactory(ResourceUtil.iconResource);
@@ -28,6 +42,9 @@ public class NavigationPanelUnitTest {
 		
 	}
 	
+	/**
+	 * Initializing components test
+	 */
 	public void testInitComponents(){
 		JPanel navBar = navPanel.getNavBar();
 		
@@ -45,6 +62,10 @@ public class NavigationPanelUnitTest {
 		testNoLevelLevel();
 	}
 	
+	
+	/**
+	 * Make sure the entry security level is NO_LEVEL and only home button is visible
+	 */
 	public void testNoLevelLevel(){
 		assertEquals(SecurityLevel.NO_LEVEL, navPanel.getLevel());
 		assertTrue(navPanel.btnHome.isVisible());
@@ -53,6 +74,9 @@ public class NavigationPanelUnitTest {
 		assertFalse(navPanel.btnJobsList.isVisible());
 	}
 	
+	/**
+	 * Change security level to OPERATOR and check the visible buttons
+	 */
 	@Test
 	public void testOperatorLevel(){
 		navPanel.changeUser(SecurityLevel.OPERATOR);
@@ -63,6 +87,9 @@ public class NavigationPanelUnitTest {
 		assertTrue(navPanel.btnJobsList.isVisible());
 	}	
 	
+	/**
+	 * Change security level to SUPERVISOR and check the visible buttons
+	 */
 	@Test
 	public void testSupervisorLevel(){
 		navPanel.changeUser(SecurityLevel.SUPERVISOR);
@@ -73,6 +100,9 @@ public class NavigationPanelUnitTest {
 		assertFalse(navPanel.btnJobsList.isVisible());
 	}	
 	
+	/**
+	 * Change security level to ADMIN and check the visible buttons
+	 */
 	@Test
 	public void testAdminLevel(){
 		navPanel.changeUser(SecurityLevel.ADMIN);

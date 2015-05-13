@@ -74,7 +74,7 @@ public class MainGUISecLevelUnitTest {
 	public TestParameter aData;
 
 	/**
-	 * Setup envirorment for test (factories and mock)
+	 * Setup environment for test (factories and mock)
 	 * 
 	 * @throws Exception
 	 */
