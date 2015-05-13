@@ -5,10 +5,26 @@ import it.rmautomazioni.security.SecurityManager;
 import it.rmautomazioni.security.User;
 import it.rmautomazioni.security.UserTimeoutChecker;
 
+/**
+ * SecurityConfig is a static class
+ * where is stored the reference to the security manager
+ * 
+ * @author stefano
+ *
+ */
 public final class SecurityConfig {
 	
+	/**
+	 * provide methods for login, logout etc
+	 */
 	private static SecurityManager SECURITY_MANAGER;
 	
+	/**
+	 * Initialize the security manager
+	 * 
+	 * @param logoutMin programmatically logout timeout
+	 * @return reference to the static manager
+	 */
 	public static SecurityManager initializeSecurity(int logoutMin) {
 		SECURITY_MANAGER = new SecurityManager(logoutMin);
 		
@@ -22,6 +38,9 @@ public final class SecurityConfig {
 		return SECURITY_MANAGER;
 	}
 	
+	/**
+	 * @return the reference to the security manager
+	 */
 	public static SecurityManager getSecurityManager() {
 		return SECURITY_MANAGER;
 	}
