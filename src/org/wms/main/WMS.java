@@ -37,8 +37,19 @@ public class WMS {
 	 * Main method
 	 * 
 	 * @param args
+	 * 
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
+		launchWMS();
+	}
+	
+	/**
+	 * Magic happens here
+	 * 
+	 * @throws Exception 
+	 */
+	public static void launchWMS() throws Exception{
 		
 		Logger logger = setupLogger();
 		
@@ -64,7 +75,7 @@ public class WMS {
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			MessageBox.errorBox("Error", "Error during application initialization");
-			return;
+			throw e;
 		}
 	}
 	
