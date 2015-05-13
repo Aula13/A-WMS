@@ -1,10 +1,12 @@
 package org.wms.exception;
 
+/**
+ * To be thrown in case another instance of the application is runing
+ * 
+ * @author Daniele Ciriello, Pessina Stefano
+ *
+ */
 public class AlreadyInstantiatedException extends Exception {
-	  /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	
 	public AlreadyInstantiatedException(){
 		super("Another instance of the application is running.");
