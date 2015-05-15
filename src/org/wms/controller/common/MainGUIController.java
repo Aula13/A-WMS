@@ -14,13 +14,13 @@ public class MainGUIController {
 	/**
 	 * Reference to the main GUI
 	 */
-	private final MainGUI gui;
+	protected final MainGUI gui;
 	
 	/**
 	 * Login popup menu, it's showed when users
 	 * press on user label in the satus bar
 	 */
-	private final LoginPopupMenu loginMenu;
+	protected final LoginPopupMenu loginMenu;
 
 	public MainGUIController(MainGUI gui) {
 		super();

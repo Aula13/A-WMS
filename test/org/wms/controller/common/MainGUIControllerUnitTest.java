@@ -22,7 +22,7 @@ import org.wms.view.common.MainGUI;
  * @author stefano
  *
  */
-public class MainGUIControllerTest {
+public class MainGUIControllerUnitTest {
 	
 	private static MainGUI mockGUI;
 	
@@ -40,9 +40,27 @@ public class MainGUIControllerTest {
 		ctrlTest = new MainGUIController(mockGUI);
 	}
 
+	/**
+	 * Test popup menu should be attached to the lblUser label
+	 */
 	@Test
 	public void testPopupMenu() {
-		fail("not implemented yet"); //TODO
+		assertTrue(lblUserTest.getComponentPopupMenu()!=null);
 	}
-
+	
+	/**
+	 * Test gui should be returned by getGui method
+	 */
+	@Test
+	public void testGetGUI() {
+		assertTrue(ctrlTest.getGui().equals(mockGUI));
+	}
+	
+	/**
+	 * Test loginPopupMenu should be returned by getPopupMenu method
+	 */
+	@Test
+	public void testGetPopupMenu() {
+		assertTrue(ctrlTest.getLoginMenu().equals(ctrlTest.loginMenu));
+	}
 }

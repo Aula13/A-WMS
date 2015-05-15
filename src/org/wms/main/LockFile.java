@@ -19,6 +19,14 @@ public class LockFile {
 	 */
 	public final static String lockFileName = ".app.lock";
 
+	protected static RandomAccessFile raf;
+	
+	protected static FileChannel channel;
+	
+	protected static FileLock lock;
+	
+	protected static File file;
+	
 	/**
 	 * Check if another instance of the application is running
 	 * 
@@ -27,21 +35,19 @@ public class LockFile {
 	 */
 	@SuppressWarnings("resource")
 	public static boolean checkLockFile() throws IOException {
-
-		RandomAccessFile raf = null;
-		FileChannel channel = null;
-		FileLock lock = null;
-
-		File file = new File(lockFileName);
+		
+		file = new File(lockFileName);
 		file.deleteOnExit();
 		file.createNewFile();
 
 		raf = new RandomAccessFile(file, "rw");
+		
 		channel = raf.getChannel();
 		lock = channel.tryLock();
 		
 		if (lock == null) 
 			return false;
-		else return true;
+		else 
+			return true;
 	}
 }
