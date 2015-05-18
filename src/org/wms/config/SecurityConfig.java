@@ -19,6 +19,8 @@ public final class SecurityConfig {
 	 */
 	private static SecurityManager SECURITY_MANAGER;
 	
+	protected static UserTimeoutChecker timeoutChecker;
+	
 	/**
 	 * Initialize the security manager
 	 * 
@@ -32,7 +34,7 @@ public final class SecurityConfig {
 		SECURITY_MANAGER.addUser(new User("SUPERVISOR", "SUPERVISOR", SecurityLevel.SUPERVISOR));
 		SECURITY_MANAGER.addUser(new User("ADMIN", "ADMIN", SecurityLevel.ADMIN));
 		
-		UserTimeoutChecker timeoutChecker = new UserTimeoutChecker(SECURITY_MANAGER);
+		timeoutChecker = new UserTimeoutChecker(SECURITY_MANAGER);
 		timeoutChecker.start();
 		
 		return SECURITY_MANAGER;

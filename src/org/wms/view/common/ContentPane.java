@@ -47,7 +47,7 @@ public abstract class ContentPane extends JFrame {
      * Fundamental: this method "draws" the interface, sets the panels and the
      * bars It also prepares the spaces for the population.
      *
-     * @author	RM Automazioni di Renato Mandaglio
+     * @author	Stefano Pessina, Daniele Ciriello
      * @version	1.0
      * @date	1st February, 2014
      * @param	npanel	panel provided for the interface title
