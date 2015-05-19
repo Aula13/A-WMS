@@ -15,6 +15,16 @@ public class AlreadyInstantiatedException extends Exception {
 	public AlreadyInstantiatedException(){
 		super("Another instance of the application is running.");
 	}
+	
+
+	/**
+	 * Constructor
+	 * 
+	 * @param e an Exception
+	 */
+	public AlreadyInstantiatedException(Exception e){
+		super(e.getMessage());
+	}
 
 	/**
 	 * Constructor

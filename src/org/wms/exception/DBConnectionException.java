@@ -15,6 +15,15 @@ public class DBConnectionException extends Exception {
 	public DBConnectionException(){
 		super("Database connection error.");
 	}
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param e an Exception
+	 */
+	public DBConnectionException(Exception e){
+		super(e.getMessage());
+	}
 
 	/**
 	 * Constructor
