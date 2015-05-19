@@ -19,6 +19,16 @@ public class ConfigFileLoadingException extends Exception {
 	/**
 	 * Constructor
 	 * 
+	 * @param e an Exception
+	 */
+	public ConfigFileLoadingException(Exception e){
+		super(e.getMessage());
+	}
+
+	
+	/**
+	 * Constructor
+	 * 
 	 * @param message custom message to be shown
 	 */
 	public ConfigFileLoadingException(String message){
