@@ -1,5 +1,6 @@
 package org.wms.main;
 
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import it.rmautomazioni.database.common.DbConnectionConfiguration;
@@ -13,12 +14,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import static org.junit.Assert.*;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.wms.config.Configuration;
+import org.wms.config.HibernateUtil;
 import org.wms.exception.AlreadyInstantiatedException;
 import org.wms.exception.ConfigFileLoadingException;
 import org.wms.exception.DBConnectionException;
@@ -33,7 +34,8 @@ import org.wms.exception.DBConnectionException;
 @PrepareForTest({LockFile.class, 
 	Logger.class, 
 	MessageBox.class, 
-	Configuration.class})
+	Configuration.class,
+	HibernateUtil.class})
 @PowerMockIgnore("javax.management.*")
 public class WMSUnitTest {
 		
@@ -53,6 +55,7 @@ public class WMSUnitTest {
 		PowerMockito.mockStatic(LockFile.class);
 		PowerMockito.mockStatic(MessageBox.class);
 		PowerMockito.mockStatic(Configuration.class);
+		PowerMockito.mockStatic(HibernateUtil.class);
 		dbStatusChecker = mock(DbStatusChecker.class);
 		WMS.dbStatusChecker = dbStatusChecker;
 		mock(Logger.class);

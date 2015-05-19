@@ -1,8 +1,11 @@
 package org.wms.config;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.wms.exception.ConfigFileLoadingException;
 
 /**
  * Test hibernate configuration
@@ -15,12 +18,19 @@ import org.junit.Test;
  */
 public class HibernateUtilIntegTest {
 
+	@Before
+	public void beforeTest() throws ConfigFileLoadingException {
+		if(HibernateUtil.getSessionFactory()==null)
+			HibernateUtil.buildSessionFactory();
+	}
+	
 	/**
 	 * Test the factory should be configured correctly
+	 * @throws ConfigFileLoadingException 
 	 */
 	@Test
 	public void testGetSessionFactory() {
-		assertTrue(HibernateUtil.getSessionFactory()!=null);
+		assertNotNull(HibernateUtil.getSessionFactory());
 	}
 
 	/**

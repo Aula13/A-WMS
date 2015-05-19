@@ -1,9 +1,12 @@
 package org.wms.config;
 
+import java.io.File;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import org.wms.exception.ConfigFileLoadingException;
 
 /**
  * Load hibernate configurations
@@ -18,7 +21,7 @@ public class HibernateUtil {
 	/**
 	 * Session factory reference
 	 */
-	private static final SessionFactory sessionFactory = buildSessionFactory();
+	private static SessionFactory sessionFactory;
 	
 	/**
 	 * Service registry reference
@@ -30,21 +33,23 @@ public class HibernateUtil {
 	 * change configure file 
 	 * 
 	 * @return session factory
+	 * @throws ConfigFileLoadingException 
 	 */
-	private static SessionFactory buildSessionFactory() {
+	public static void buildSessionFactory() throws ConfigFileLoadingException {
 		try {
 			// load from different directory
+			
 			Configuration configuration = new Configuration();
-		    configuration.configure("/config/hibernate.cfg.xml");
+			File cfgFile = new File("config/hibernate.cfg.xml");
+		    configuration.configure(cfgFile);
 		    serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
 		            configuration.getProperties()).build();
-		    SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-		    return sessionFactory;
+		    sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 		    
 		} catch (Throwable ex) {
 			// Make sure you log the exception, as it might be swallowed
 			System.err.println("Initial SessionFactory creation failed." + ex);
-			throw new ExceptionInInitializerError(ex);
+			throw new ConfigFileLoadingException(ex.getMessage());
 		}
 	}
 	
