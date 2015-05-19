@@ -2,8 +2,10 @@ package org.wms.main;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import it.rmautomazioni.database.common.DbConnectionConfiguration;
 import it.rmautomazioni.database.common.DbStatusChecker;
 import it.rmautomazioni.view.common.MessageBox;
+import it.rmautomazioni.view.factories.FactoryReferences;
 
 import org.apache.log4j.Logger;
 import org.junit.Before;
@@ -11,6 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import static org.junit.Assert.*;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -18,6 +21,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.wms.config.Configuration;
 import org.wms.exception.AlreadyInstantiatedException;
 import org.wms.exception.ConfigFileLoadingException;
+import org.wms.exception.DBConnectionException;
 
 /**
  * WMS Unit test class
@@ -26,7 +30,10 @@ import org.wms.exception.ConfigFileLoadingException;
  *
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({LockFile.class, Logger.class, MessageBox.class, Configuration.class})
+@PrepareForTest({LockFile.class, 
+	Logger.class, 
+	MessageBox.class, 
+	Configuration.class})
 @PowerMockIgnore("javax.management.*")
 public class WMSUnitTest {
 		
@@ -36,6 +43,8 @@ public class WMSUnitTest {
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 	
+	public static DbStatusChecker dbStatusChecker;
+	
 	/**
 	 * Initialize the mocks before each test
 	 */
@@ -44,7 +53,8 @@ public class WMSUnitTest {
 		PowerMockito.mockStatic(LockFile.class);
 		PowerMockito.mockStatic(MessageBox.class);
 		PowerMockito.mockStatic(Configuration.class);
-		mock(DbStatusChecker.class);
+		dbStatusChecker = mock(DbStatusChecker.class);
+		WMS.dbStatusChecker = dbStatusChecker;
 		mock(Logger.class);
 	}
 
@@ -78,15 +88,24 @@ public class WMSUnitTest {
 		WMS.launchWMS();
 	}
 	
-//	@Test
-//	public void testDBConnectionException() throws Exception {
-//		when(LockFile.checkLockFile()).thenReturn(true);
-//		when(Configuration.basicInfoFromFile()).thenReturn(true);
-//		when(dbStatusChecker.checkDatabaseConnection()).thenReturn(true);
-//		
-//	    exception.expect(DBConnectionException.class);
-//		WMS.launchWMS();
-//	}
+	@Test
+	public void testDBConnectionException() throws Exception {
+		when(LockFile.checkLockFile()).thenReturn(true);
+		when(Configuration.basicInfoFromFile()).thenReturn(true);
+		when(Configuration.getDbConfiguration()).thenReturn(new DbConnectionConfiguration("", "", "", ""));
+		when(dbStatusChecker.checkDatabaseConnection()).thenReturn(false);
+		
+		exception.expect(DBConnectionException.class);
+		WMS.launchWMS();
+	}
 
+	@Test
+	public void testInitFactory() throws Exception {
+		WMS.initFactories();
+		assertNotNull(FactoryReferences.appStyle);
+		assertNotNull(FactoryReferences.buttons);
+		assertNotNull(FactoryReferences.fields);
+		assertNotNull(FactoryReferences.panels);
+	}
 
 }

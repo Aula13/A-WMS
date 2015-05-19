@@ -33,6 +33,8 @@ import org.wms.view.common.MainGUI;
  */
 public class WMS {
 
+	protected static DbStatusChecker dbStatusChecker;
+	
 	/**
 	 * Main method
 	 * 
@@ -116,7 +118,7 @@ public class WMS {
 	 * @throws Exception, DBConnectionException
 	 */
 	private static void startDBConnectionChecker() throws Exception {
-		DbStatusChecker dbStatusChecker = new DbStatusChecker(
+		dbStatusChecker = new DbStatusChecker(
 				"DBChecker", 
 				Configuration.DBCHECKER_LOGGER, 
 				1000, 
@@ -131,7 +133,7 @@ public class WMS {
 	/**
 	 * Initialize the factories
 	 */
-	private static void initFactories(){
+	protected static void initFactories(){
 		FactoryReferences.fields = new ConcreteFieldFactory();
 		FactoryReferences.appStyle = new ConcreteAppStyleFactory();
 		FactoryReferences.buttons = new ConcreteButtonFactory(ResourceUtil.iconResource);

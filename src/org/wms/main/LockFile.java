@@ -50,4 +50,10 @@ public class LockFile {
 		else 
 			return true;
 	}
+	
+	public static boolean unlockFile() throws IOException {
+		channel.close();
+		raf.close();
+		return file.delete();
+	}
 }
