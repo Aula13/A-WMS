@@ -23,6 +23,7 @@ import org.wms.controller.common.MainGUIController;
 import org.wms.exception.AlreadyInstantiatedException;
 import org.wms.exception.ConfigFileLoadingException;
 import org.wms.exception.DBConnectionException;
+import org.wms.model.common.ModelReference;
 import org.wms.view.common.MainGUI;
 
 /**
@@ -70,11 +71,16 @@ public class WMS {
 			
 			SecurityConfig.initializeSecurity(Configuration.USER_LOGOUT_TIME_MIN);
 			
+			ModelReference.initModel();
+			
 			invokeGUI();
 			
 			SecurityConfig.getSecurityManager().openLoginScreen(SecurityLevel.OPERATOR);
-
+			
+			startBackgroudTasks();
+			
 		} catch (Exception e) {
+			stopBackgroudTasks();
 			logger.error(e.getMessage());
 			MessageBox.errorBox("Error", "Error during application initialization");
 			throw e;
@@ -126,8 +132,6 @@ public class WMS {
 		
 		if(!dbStatusChecker.checkDatabaseConnection())
 			throw new DBConnectionException();
-		
-		dbStatusChecker.start();
 	}
 	
 	/**
@@ -161,4 +165,18 @@ public class WMS {
 		});
 	}
 	
+	/**
+	 * Start background tasks
+	 */
+	private static void startBackgroudTasks() {
+		dbStatusChecker.start();
+	}
+	
+	
+	/**
+	 * Stop background tasks
+	 */
+	private static void stopBackgroudTasks() {
+//		dbStatusChecker.
+	}
 }

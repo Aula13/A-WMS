@@ -2,6 +2,7 @@ package org.wms.config;
 
 import java.io.File;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -60,6 +61,17 @@ public class HibernateUtil {
 	 */
 	public static SessionFactory getSessionFactory() {
 		return sessionFactory;
+	}
+	
+	/**
+	 * Get current session
+	 * 
+	 * @return current session
+	 */
+	public static Session getSession() {
+		if(sessionFactory.isClosed())
+			sessionFactory.openSession();
+		return sessionFactory.getCurrentSession();
 	}
 	
 	/**
