@@ -3,20 +3,21 @@ package org.wms.model.order;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Order")
+@Table(name="OrderRow")
 public class OrderRow {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="OrderId")
+	@JoinColumn(name="Id")
 	private Order order;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="MaterialId")
+	@JoinColumn(name="Code")
 	private Material material;
 	
 	@Column(name="Quantity")

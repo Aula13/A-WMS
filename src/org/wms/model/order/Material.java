@@ -18,7 +18,7 @@ public class Material {
 	@Column(name="Code")
 	private long code;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="Material")
+	@OneToMany(fetch = FetchType.LAZY)
 	private Set<OrderRow> orders = new HashSet<>();
 	
 	

@@ -16,5 +16,8 @@
 		
 		<property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
 		
+		<mapping class="org.wms.model.order.Order"/>
+		<mapping class="org.wms.model.order.Material"/>
+		<mapping class="org.wms.model.order.OrderRow"/>
 	</session-factory>
 </hibernate-configuration>

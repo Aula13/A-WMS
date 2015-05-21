@@ -26,7 +26,7 @@ public class Order extends Observable {
 	@Column(name="Priority")
 	private Priority priority = Priority.LOW;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="Order")
+	@OneToMany(fetch = FetchType.LAZY)
 	private Set<OrderRow> rows = new HashSet<>();
 	
 	

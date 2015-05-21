@@ -1,5 +1,6 @@
 package org.wms.model.common;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -17,7 +18,16 @@ public class ModelReference {
 	private static void initInputOrders() {
 		Session session = HibernateUtil.getSession();
 		session.beginTransaction();
+		
+		Order order = new Order(1002453523, new Date(2015, 05, 3));
+		session.save(order);
+		
 		inputOrders = session.createCriteria(Order.class).list();
+				
 		session.getTransaction().commit();
+		
+		for (Order ord : inputOrders) {
+			System.out.println(ord.getId());
+		}
 	}
 }
