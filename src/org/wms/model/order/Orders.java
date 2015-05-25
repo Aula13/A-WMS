@@ -21,7 +21,7 @@ public class Orders extends Observable {
 			this.orders.put(ord.getId(), ord);
 	}	
 	
-	public boolean addOrder(Order order) {
+	public synchronized boolean addOrder(Order order) {
 		if(orders.containsKey(order.getId()))
 			return false;
 		
@@ -38,7 +38,7 @@ public class Orders extends Observable {
 		return true;
 	}
 	
-	public boolean deleteOrder(Order order) {
+	public synchronized boolean deleteOrder(Order order) {
 		if(!orders.containsKey(order.getId()))
 			return false;
 		Session session = HibernateUtil.getSession();
@@ -54,7 +54,7 @@ public class Orders extends Observable {
 		return true;
 	}
 	
-	public boolean updateOrder(Order order) {
+	public synchronized boolean updateOrder(Order order) {
 		if(!orders.containsKey(order.getId()))
 			return false;
 		
