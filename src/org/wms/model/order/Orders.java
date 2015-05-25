@@ -68,7 +68,7 @@ public class Orders extends Observable {
 		return true;
 	}
 	
-	public List<Order> getOrderList() {
+	public List<Order> getUnmodificableOrderList() {
 		return Collections.unmodifiableList(new ArrayList<>(orders.values()));
 	}
 }

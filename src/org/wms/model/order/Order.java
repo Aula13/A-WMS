@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="wms_order")
-public class Order extends Observable {
+public class Order {
 	
 	@Id
 	@Column(name="Id")

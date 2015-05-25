@@ -36,6 +36,8 @@ public class InputOrdersView extends JPanel implements Observer {
 	}
 	
 	private void initUI() {
+		setName("INPUT ORDERS");
+		
 		setLayout(new GridLayout(1,1));
 		
 		JScrollPane scrollPane = new JScrollPane(inputOrdersTable);
