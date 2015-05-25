@@ -1,5 +1,8 @@
 package org.wms.controller.inputorder;
 
+import it.rmautomazioni.view.factories.FactoryReferences;
+import it.rmautomazioni.view.factories.JSpinnerType;
+
 import javax.swing.table.AbstractTableModel;
 
 import org.wms.model.order.Order;
@@ -18,17 +21,22 @@ public class OrdersTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return ordersModel.getOrderList().size();
+		return ordersModel.getUnmodificableOrderList().size();
 	}
 
 	@Override
 	public int getColumnCount() {
 		return headers.length;
 	}
+	
+	@Override
+	public String getColumnName(int column) {
+		return headers[column];
+	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		Order order = ordersModel.getOrderList().get(rowIndex);
+		Order order = ordersModel.getUnmodificableOrderList().get(rowIndex);
 		
 		switch (columnIndex) {
 		case 0:

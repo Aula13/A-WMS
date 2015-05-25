@@ -14,10 +14,13 @@
 		<property name="hibernate.generate_statistics">true</property>
 		<property name="show_sql">true</property>
 		
+		<!-- contesto alla factory hibernate -->
 		<property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
 		
+		<!-- se le cambi le annotazioni del modello, cambia la struttura del database -->
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		
+		<!-- dichiarazione delle classi mappate nel database -->
 		<mapping class="org.wms.model.order.Order"/>
 		<mapping class="org.wms.model.order.Material"/>
 		<mapping class="org.wms.model.order.OrderRow"/>
