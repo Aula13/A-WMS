@@ -50,12 +50,12 @@ public class NavigationPanelUnitTest {
 		
 		assertNotNull(navBar);
 		assertNotNull(navPanel.btnHome);
-		assertNotNull(navPanel.btnOrdersList);
+		assertNotNull(navPanel.btnInputOrders);
 		assertNotNull(navPanel.btnVerifyList);
 		assertNotNull(navPanel.btnJobsList);
 		
 		assertEquals(navBar, navPanel.btnHome.getParent());
-		assertEquals(navBar, navPanel.btnOrdersList.getParent());
+		assertEquals(navBar, navPanel.btnInputOrders.getParent());
 		assertEquals(navBar, navPanel.btnVerifyList.getParent());
 		assertEquals(navBar, navPanel.btnJobsList.getParent());
 		
@@ -69,7 +69,7 @@ public class NavigationPanelUnitTest {
 	public void testNoLevelLevel(){
 		assertEquals(SecurityLevel.NO_LEVEL, navPanel.getLevel());
 		assertTrue(navPanel.btnHome.isVisible());
-		assertFalse(navPanel.btnOrdersList.isVisible());
+		assertFalse(navPanel.btnInputOrders.isVisible());
 		assertFalse(navPanel.btnVerifyList.isVisible());
 		assertFalse(navPanel.btnJobsList.isVisible());
 	}
@@ -82,7 +82,7 @@ public class NavigationPanelUnitTest {
 		navPanel.changeUser(SecurityLevel.OPERATOR);
 		assertEquals(SecurityLevel.OPERATOR, navPanel.getLevel());
 		assertTrue(navPanel.btnHome.isVisible());
-		assertFalse(navPanel.btnOrdersList.isVisible());
+		assertFalse(navPanel.btnInputOrders.isVisible());
 		assertFalse(navPanel.btnVerifyList.isVisible());
 		assertTrue(navPanel.btnJobsList.isVisible());
 	}	
@@ -95,7 +95,7 @@ public class NavigationPanelUnitTest {
 		navPanel.changeUser(SecurityLevel.SUPERVISOR);
 		assertEquals(SecurityLevel.SUPERVISOR, navPanel.getLevel());
 		assertTrue(navPanel.btnHome.isVisible());
-		assertFalse(navPanel.btnOrdersList.isVisible());
+		assertFalse(navPanel.btnInputOrders.isVisible());
 		assertTrue(navPanel.btnVerifyList.isVisible());
 		assertFalse(navPanel.btnJobsList.isVisible());
 	}	
@@ -108,7 +108,7 @@ public class NavigationPanelUnitTest {
 		navPanel.changeUser(SecurityLevel.ADMIN);
 		assertEquals(SecurityLevel.ADMIN, navPanel.getLevel());
 		assertTrue(navPanel.btnHome.isVisible());
-		assertTrue(navPanel.btnOrdersList.isVisible());
+		assertTrue(navPanel.btnInputOrders.isVisible());
 		assertTrue(navPanel.btnVerifyList.isVisible());
 		assertTrue(navPanel.btnJobsList.isVisible());
 	}

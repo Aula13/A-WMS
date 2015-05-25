@@ -2,7 +2,6 @@ package org.wms.model.order;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Observable;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -20,15 +19,17 @@ public class Order {
 	@Column(name="Id")
 	private long id;
 	
-	@Column(name="EmissionDate")
+	@Column(name="EmissionDate", nullable=false)
 	private Date emissionDate;
 	
-	@Column(name="Priority")
+	@Column(name="Priority", nullable=false)
 	private Priority priority = Priority.LOW;
 	
 	@OneToMany(fetch = FetchType.LAZY)
 	private Set<OrderRow> rows = new HashSet<>();
 	
+	@Column(name="OrderType", nullable=false)
+	private OrderType type; 
 	
 	private OrderStatus orderStatus = OrderStatus.WAITING;
 	
@@ -42,24 +43,27 @@ public class Order {
 	public Order() {
 	}
 	
-	public Order(long id, Date emissionDate) {
+	public Order(long id, Date emissionDate, OrderType orderType) {
 		super();
 		this.id = id;
 		this.emissionDate = emissionDate;
+		this.type = orderType;
 	}
 
-	public Order(long id, Date emissionDate, Priority priority) {
+	public Order(long id, Date emissionDate, OrderType orderType, Priority priority) {
 		super();
 		this.id = id;
 		this.emissionDate = emissionDate;
+		this.type = orderType;
 		this.priority = priority;
 	}
 
-	public Order(long id, Date emissionDate, Priority priority,
+	public Order(long id, Date emissionDate, OrderType orderType, Priority priority,
 			Set<OrderRow> rows) {
 		super();
 		this.id = id;
 		this.emissionDate = emissionDate;
+		this.type = orderType;
 		this.priority = priority;
 		this.rows = rows;
 	}
@@ -70,6 +74,10 @@ public class Order {
 
 	public Date getEmissionDate() {
 		return emissionDate;
+	}
+	
+	public OrderType getType() {
+		return type;
 	}
 
 	public Priority getPriority() {
