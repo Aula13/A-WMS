@@ -54,7 +54,7 @@ public class OrderEditView extends JDialog {
 	 * @param order to modify
 	 * @throws ParseException 
 	 */
-	public OrderEditView(Order order) throws ParseException {
+	public OrderEditView(Order order) {
 		super();
 		initComponents();
 		this.order = order;

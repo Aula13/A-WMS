@@ -18,7 +18,7 @@
 		<property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
 		
 		<!-- se le cambi le annotazioni del modello, cambia la struttura del database -->
-		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="hibernate.hbm2ddl.auto">create</property>
 		
 		<!-- dichiarazione delle classi mappate nel database -->
 		<mapping class="org.wms.model.order.Order"/>

@@ -11,17 +11,25 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Material")
+@Table(name="wms_material")
 public class Material {
 	
 	@Id
-	@Column(name="Code")
+	@Column(name="material_id")
 	private long code;
 	
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="material")
 	private Set<OrderRow> orders = new HashSet<>();
 	
 	public Material() {
 	}
+
+	public Material(long code) {
+		super();
+		this.code = code;
+	}
 	
+	public long getCode() {
+		return code;
+	}
 }

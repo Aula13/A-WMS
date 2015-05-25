@@ -16,19 +16,19 @@ import javax.persistence.Table;
 public class Order {
 	
 	@Id
-	@Column(name="Id")
+	@Column(name="order_id")
 	private long id;
 	
-	@Column(name="EmissionDate", nullable=false)
+	@Column(name="emission_date", nullable=false)
 	private Date emissionDate;
 	
-	@Column(name="Priority", nullable=false)
+	@Column(name="prioriry", nullable=false)
 	private Priority priority = Priority.LOW;
 	
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="order")
 	private Set<OrderRow> rows = new HashSet<>();
 	
-	@Column(name="OrderType", nullable=false)
+	@Column(name="order_type", nullable=false)
 	private OrderType type; 
 	
 	private OrderStatus orderStatus = OrderStatus.WAITING;
@@ -37,7 +37,7 @@ public class Order {
 	
 	private float allocationPercentual = 0.0f;
 	
-	@Column(name="DoneDate")
+	@Column(name="done_date")
 	private Date doneDate;
 	
 	public Order() {
