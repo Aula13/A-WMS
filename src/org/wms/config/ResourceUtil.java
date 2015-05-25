@@ -46,8 +46,12 @@ public class ResourceUtil {
 	private static IconResource initIconResource() {
 		IconResource iconResource = new IconResource(Configuration.SUPERVISOR_LOGGER);
 		
-		iconResource.addResource(IconType.HOME.name(), iconPath + "home.png");
-		iconResource.addResource(IconType.SETTING.name(), iconPath + "home.png");
+		iconResource.addResource(IconTypeAWMS.HOME.name(), iconPath + "home.png");
+		iconResource.addResource(IconTypeAWMS.INPUT_ORDER.name(), iconPath + "input-order.png");
+		iconResource.addResource(IconTypeAWMS.OUTPUT_ORDER.name(), iconPath + "output-order.png");
+		iconResource.addResource(IconTypeAWMS.PLUS.name(), iconPath + "plus.png");
+		iconResource.addResource(IconTypeAWMS.MINUS.name(), iconPath + "minus.png");
+		iconResource.addResource(IconTypeAWMS.EDIT.name(), iconPath + "edit.png");
 		
 		return iconResource;
 	}
