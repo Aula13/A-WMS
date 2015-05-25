@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Order")
+@Table(name="wms_order")
 public class Order extends Observable {
 	
 	@Id
@@ -38,6 +38,9 @@ public class Order extends Observable {
 	
 	@Column(name="DoneDate")
 	private Date doneDate;
+	
+	public Order() {
+	}
 	
 	public Order(long id, Date emissionDate) {
 		super();

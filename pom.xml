@@ -30,7 +30,7 @@
 	<dependency>
 		<groupId>org.apache.derby</groupId>
 		<artifactId>derby</artifactId>
-		<version>10.11.1.1</version>
+		<version>10.10.1.1</version>
 	</dependency>
 	<dependency>
 		<groupId>org.mockito</groupId>
@@ -47,5 +47,10 @@
 		<artifactId>powermock-module-junit4</artifactId>
 		<version>1.6.2</version>
 	</dependency>
+	<dependency>
+  		<groupId>org.swinglabs</groupId>
+  		<artifactId>swingx</artifactId>
+  		<version>1.6.1</version>
+  	</dependency>
   </dependencies>
 </project>

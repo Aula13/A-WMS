@@ -1,7 +1,11 @@
 package org.wms.controller.common;
 
+import it.rmautomazioni.controller.listener.ChangePageListener;
+
+import org.wms.model.common.ModelReference;
 import org.wms.view.common.LoginPopupMenu;
 import org.wms.view.common.MainGUI;
+import org.wms.view.inputorder.InputOrdersView;
 
 /**
  * Main GUI controller manage the connection between models and the main GUI
@@ -21,6 +25,8 @@ public class MainGUIController {
 	 * press on user label in the satus bar
 	 */
 	protected final LoginPopupMenu loginMenu;
+	
+	protected final InputOrdersView inputOrdersView;
 
 	public MainGUIController(MainGUI gui) {
 		super();
@@ -28,6 +34,13 @@ public class MainGUIController {
 		loginMenu = new LoginPopupMenu();
 		
 		gui.getLblUsers().setComponentPopupMenu(loginMenu);
+		
+		inputOrdersView = new InputOrdersView(ModelReference.ordersModel);
+		
+		ChangePageListener homePageListener = new ChangePageListener(
+				gui.navPanel.btnHome, 
+				inputOrdersView, 
+				gui);
 	}
 
 	/**
