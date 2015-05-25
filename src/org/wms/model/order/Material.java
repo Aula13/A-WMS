@@ -21,5 +21,7 @@ public class Material {
 	@OneToMany(fetch = FetchType.LAZY)
 	private Set<OrderRow> orders = new HashSet<>();
 	
+	public Material() {
+	}
 	
 }

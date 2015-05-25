@@ -5,6 +5,7 @@ import it.rmautomazioni.database.common.DbStatusChecker;
 import it.rmautomazioni.security.SecurityLevel;
 import it.rmautomazioni.view.common.MessageBox;
 import it.rmautomazioni.view.factories.FactoryReferences;
+import it.rmautomazioni.view.factories.jx.ConcreteJXAppStyleFactory;
 import it.rmautomazioni.view.factories.swing.ConcreteAppStyleFactory;
 import it.rmautomazioni.view.factories.swing.ConcreteButtonFactory;
 import it.rmautomazioni.view.factories.swing.ConcreteFieldFactory;
@@ -139,7 +140,7 @@ public class WMS {
 	 */
 	protected static void initFactories(){
 		FactoryReferences.fields = new ConcreteFieldFactory();
-		FactoryReferences.appStyle = new ConcreteAppStyleFactory();
+		FactoryReferences.appStyle = new ConcreteJXAppStyleFactory();
 		FactoryReferences.buttons = new ConcreteButtonFactory(ResourceUtil.iconResource);
 		FactoryReferences.panels = new ConcretePanelFactory(ResourceUtil.imageResource);
 	}
