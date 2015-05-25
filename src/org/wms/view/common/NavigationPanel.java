@@ -84,16 +84,16 @@ public class NavigationPanel extends JPanel {
 	private void initComponents() {
 		List<JButton> navigationButtonsList = new ArrayList<>();
 
-		btnHome = FactoryReferences.buttons.getButtonWithIcon(IconType.SETTING);
+		btnHome = FactoryReferences.buttons.getButtonWithIcon(IconType.SETTING.name());
 		navigationButtonsList.add(btnHome);
 
-		btnOrdersList = FactoryReferences.buttons.getButtonWithIcon(IconType.SETTING);
+		btnOrdersList = FactoryReferences.buttons.getButtonWithIcon(IconType.SETTING.name());
 		navigationButtonsList.add(btnOrdersList);
 
-		btnVerifyList = FactoryReferences.buttons.getButtonWithIcon(IconType.SETTING);
+		btnVerifyList = FactoryReferences.buttons.getButtonWithIcon(IconType.SETTING.name());
 		navigationButtonsList.add(btnVerifyList);
 
-		btnJobsList = FactoryReferences.buttons.getButtonWithIcon(IconType.SETTING);
+		btnJobsList = FactoryReferences.buttons.getButtonWithIcon(IconType.SETTING.name());
 		navigationButtonsList.add(btnJobsList);
 
 		navBar = FactoryReferences.panels.getVerticalNavigationBarPanel(navigationButtonsList);
