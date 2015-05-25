@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.stream.Collectors;
 
 import org.hibernate.Session;
 import org.wms.config.HibernateUtil;
@@ -21,7 +22,7 @@ public class Orders extends Observable {
 	}	
 	
 	public boolean addOrder(Order order) {
-		if(!orders.containsKey(order.getId()))
+		if(orders.containsKey(order.getId()))
 			return false;
 		
 		Session session = HibernateUtil.getSession();
@@ -59,7 +60,7 @@ public class Orders extends Observable {
 		
 		Session session = HibernateUtil.getSession();
 		session.beginTransaction();
-		session.save(order);
+		session.update(order);
 		session.getTransaction().commit();
 		
 		setChanged();
@@ -70,5 +71,12 @@ public class Orders extends Observable {
 	
 	public List<Order> getUnmodificableOrderList() {
 		return Collections.unmodifiableList(new ArrayList<>(orders.values()));
+	}
+	
+	public List<Order> getUnmodificableOrderList(OrderType orderType) {
+		List<Order> orderList = (new ArrayList<>(orders.values())).stream()
+				.filter(order -> order.getType()==orderType)
+				.collect(Collectors.toList());
+		return orderList;
 	}
 }

@@ -1,27 +1,30 @@
-package org.wms.controller.inputorder;
-
-import it.rmautomazioni.view.factories.FactoryReferences;
-import it.rmautomazioni.view.factories.JSpinnerType;
+package org.wms.controller.order;
 
 import javax.swing.table.AbstractTableModel;
 
 import org.wms.model.order.Order;
+import org.wms.model.order.OrderType;
 import org.wms.model.order.Orders;
 
 public class OrdersTableModel extends AbstractTableModel {
-	
+
+	private static final long serialVersionUID = 295473410143480706L;
+
 	private Orders ordersModel;
 	
 	private String[] headers = {"Code", "Emission date", "Priority", "Order status", "Complete %", "Allocation %"};
 	
-	public OrdersTableModel(Orders ordersModel) {
+	private OrderType orderType;
+	
+	public OrdersTableModel(Orders ordersModel, OrderType orderType) {
 		super();
 		this.ordersModel = ordersModel;
+		this.orderType = orderType;
 	}
 
 	@Override
 	public int getRowCount() {
-		return ordersModel.getUnmodificableOrderList().size();
+		return ordersModel.getUnmodificableOrderList(orderType).size();
 	}
 
 	@Override
@@ -36,7 +39,7 @@ public class OrdersTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		Order order = ordersModel.getUnmodificableOrderList().get(rowIndex);
+		Order order = ordersModel.getUnmodificableOrderList(orderType).get(rowIndex);
 		
 		switch (columnIndex) {
 		case 0:

@@ -2,7 +2,6 @@ package org.wms.view.common;
 
 import it.rmautomazioni.security.SecurityLevel;
 import it.rmautomazioni.view.factories.FactoryReferences;
-import it.rmautomazioni.view.graphicsresource.IconType;
 
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -10,6 +9,8 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import org.wms.config.IconTypeAWMS;
 
 /**
  * Left Navigation panel, contains the menu buttons like the Home Button and show them 
@@ -34,7 +35,8 @@ public class NavigationPanel extends JPanel {
 	/**
 	 * Orders list button
 	 */
-	public JButton btnOrdersList;
+	public JButton btnInputOrders;
+	public JButton btnOutputOrders;
 
 	/**
 	 * Verify list button
@@ -84,16 +86,19 @@ public class NavigationPanel extends JPanel {
 	private void initComponents() {
 		List<JButton> navigationButtonsList = new ArrayList<>();
 
-		btnHome = FactoryReferences.buttons.getButtonWithIcon(IconType.SETTING.name());
+		btnHome = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.HOME.name());
 		navigationButtonsList.add(btnHome);
 
-		btnOrdersList = FactoryReferences.buttons.getButtonWithIcon(IconType.SETTING.name());
-		navigationButtonsList.add(btnOrdersList);
+		btnInputOrders = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.INPUT_ORDER.name());
+		navigationButtonsList.add(btnInputOrders);
+		
+		btnOutputOrders = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.OUTPUT_ORDER.name());
+		navigationButtonsList.add(btnOutputOrders);
 
-		btnVerifyList = FactoryReferences.buttons.getButtonWithIcon(IconType.SETTING.name());
+		btnVerifyList = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.HOME.name());
 		navigationButtonsList.add(btnVerifyList);
 
-		btnJobsList = FactoryReferences.buttons.getButtonWithIcon(IconType.SETTING.name());
+		btnJobsList = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.HOME.name());
 		navigationButtonsList.add(btnJobsList);
 
 		navBar = FactoryReferences.panels.getVerticalNavigationBarPanel(navigationButtonsList);
@@ -118,28 +123,28 @@ public class NavigationPanel extends JPanel {
 		
 		this.level = level;
 
+		btnHome.setVisible(false);
+		btnInputOrders.setVisible(false);
+		btnOutputOrders.setVisible(false);
+		btnVerifyList.setVisible(false);
+		btnJobsList.setVisible(false);
+		
 		switch (level) {
 		case NO_LEVEL:
 			btnHome.setVisible(true);
-			btnOrdersList.setVisible(false);
-			btnVerifyList.setVisible(false);
-			btnJobsList.setVisible(false);
 			break;
 		case OPERATOR:
 			btnHome.setVisible(true);
-			btnOrdersList.setVisible(false);
-			btnVerifyList.setVisible(false);
 			btnJobsList.setVisible(true);
 			break;
 		case SUPERVISOR:
 			btnHome.setVisible(true);
-			btnOrdersList.setVisible(false);
 			btnVerifyList.setVisible(true);
-			btnJobsList.setVisible(false);
 			break;
 		case ADMIN:
 			btnHome.setVisible(true);
-			btnOrdersList.setVisible(true);
+			btnInputOrders.setVisible(true);
+			btnOutputOrders.setVisible(true);
 			btnVerifyList.setVisible(true);
 			btnJobsList.setVisible(true);
 			break;
