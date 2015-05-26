@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.util.Date;
 
 import org.wms.controller.common.AbstractTableSelectionListener;
+import org.wms.controller.orderedit.OrderEditViewController;
 import org.wms.model.common.ModelReference;
 import org.wms.model.order.Materials;
 import org.wms.model.order.Order;
@@ -24,7 +25,7 @@ public class OrdersViewController {
 	private Materials materialsModel;
 	
 	private OrderType orderType;
-
+	
 	public OrdersViewController(OrdersView view, Orders ordersModel, Materials materialsModel) {
 		super();
 		this.view = view;
@@ -41,7 +42,7 @@ public class OrdersViewController {
 			@Override
 			public void actionTriggered() {
 				Order order = new Order(ordersModel.newOrderId(), new Date(), orderType);
-				launchOrderEditView(order);
+				launchOrderEditView(order, true);
 			}
 		};
 		
@@ -57,7 +58,7 @@ public class OrdersViewController {
 				int rowIndex = view.getOrdersTable().getSelectedRow();
 				
 				Order order = ordersModel.getUnmodificableOrderList(orderType).get(rowIndex);
-				launchOrderEditView(order);
+				launchOrderEditView(order, false);
 
 			}
 		};
@@ -76,7 +77,8 @@ public class OrdersViewController {
 				Order order = ordersModel.getUnmodificableOrderList(orderType).get(rowIndex);
 				
 				if(MessageBox.questionBox("Are you sure to delete the order " + order.getId(), "Confirm")==0)
-					ordersModel.deleteOrder(order);
+					if(!ordersModel.deleteOrder(order))
+						MessageBox.errorBox("Error during order deleting operation", "Error");
 			}
 		};
 		
@@ -98,10 +100,11 @@ public class OrdersViewController {
 	}
 	
 	
-	private void launchOrderEditView(Order order){
+	private void launchOrderEditView(Order order, boolean isNew){
 		
 		try {
 			OrderEditView editOrderDialog = new OrderEditView(order, materialsModel.getUnmodificableMaterialList());
+			new OrderEditViewController(editOrderDialog, order, ordersModel, isNew);
 			editOrderDialog.setVisible(true);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

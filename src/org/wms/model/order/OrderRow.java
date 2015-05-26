@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+
 @Entity
 @Table(name="wms_order_row")
 public class OrderRow implements Serializable {
@@ -23,11 +25,11 @@ public class OrderRow implements Serializable {
 	@Column(name="order_row_id")
 	private long id;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="order_id")
 	private Order order;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="material_id")
 	private Material material;
 	
@@ -62,5 +64,12 @@ public class OrderRow implements Serializable {
 	
 	public void setMaterial(Material material) {
 		this.material = material;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof OrderRow)
+			return id == ((OrderRow) obj).id;
+		return super.equals(obj);
 	}
 }

@@ -21,7 +21,7 @@ public class MaterialDao {
 			session.getTransaction().commit();
 			return true;
 		} catch (Exception e) {
-			logger.error(formatLogMessage("Error during create material " + material.getCode() + "; Exception: " + e.getMessage()));
+			logger.error(formatLogMessage("Error during create material " + material.getCode() + "; Exception: " + e));
 		}
 		return false;
 	}
@@ -30,10 +30,11 @@ public class MaterialDao {
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
-			session.save(material);		
+			session.saveOrUpdate(material);		
 			session.getTransaction().commit();
+			return false;
 		} catch (Exception e) {
-			logger.error(formatLogMessage("Error during get update material " + material.getCode() + "; Exception: " +e.getMessage()));
+			logger.error(formatLogMessage("Error during get update material " + material.getCode() + "; Exception: " + e));
 		}
 		return true;
 	}
@@ -44,10 +45,11 @@ public class MaterialDao {
 			session.beginTransaction();
 			session.delete(new Material(materialId));		
 			session.getTransaction().commit();
+			return true;
 		} catch (Exception e) {
-			logger.error(formatLogMessage("Error during delete material by id " + materialId + "; Exception: "+ e.getMessage()));
+			logger.error(formatLogMessage("Error during delete material by id " + materialId + "; Exception: "+ e));
 		}
-		return true;
+		return false;
 	}
 
 	public static Optional<Material> get(Long materialId) {
@@ -59,9 +61,9 @@ public class MaterialDao {
 			material = (Material) session.get(Material.class, materialId);
 			session.getTransaction().commit();
 		} catch (Exception e) {
-			logger.error(formatLogMessage("Error during get material by id " + e.getMessage()));
+			logger.error(formatLogMessage("Error during get material by id " + e));
 		}
-		return Optional.of(material);
+		return Optional.ofNullable(material);
 	}
 
 	public static Optional<List<Material>> selectAll() {
@@ -73,10 +75,10 @@ public class MaterialDao {
 			materials = session.createCriteria(Material.class).list();
 			session.getTransaction().commit();
 		} catch (Exception e) {
-			logger.error(formatLogMessage("Error during get all material " + e.getMessage()));
+			logger.error(formatLogMessage("Error during get all material " + e));
 		}
 		
-		return Optional.of(materials);
+		return Optional.ofNullable(materials);
 	}	
 
 	private static String formatLogMessage(String message) {

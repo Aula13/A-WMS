@@ -27,7 +27,7 @@ public class Orders extends Observable {
 	}
 	
 	public synchronized boolean deleteOrder(Order order) {
-		if(!OrderDao.delete(order.getId()))
+		if(!OrderDao.delete(order))
 			return false;
 		
 		setChanged();

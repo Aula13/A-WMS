@@ -79,7 +79,6 @@ public class OrderEditView extends JDialog {
 		initMaterialPanel();
 		initConfrimationPanel();
 		initContainerPanel();
-		initActions();
 	}
 	
 
@@ -156,27 +155,11 @@ public class OrderEditView extends JDialog {
 		confirmationPanel.add(cancelButton);
 	}
 
-	/**
-	 * create action listeners for buttons
-	 */
-	private void initActions() {
-		confirmButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//TODO implementare bottone conferma
-			}
-		});
-		
-		cancelButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);						
-			}
-		});
+	public JButton getConfirmButton() {
+		return confirmButton;
 	}
 	
-	 
-	
+	public JButton getCancelButton() {
+		return cancelButton;
+	}
 }

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,7 +27,7 @@ public class Order {
 	@Column(name="prioriry", nullable=false)
 	private Priority priority = Priority.LOW;
 	
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="order")
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="order", cascade=CascadeType.ALL)
 	private List<OrderRow> rows = new ArrayList<>();
 	
 	@Column(name="order_type", nullable=false)
@@ -44,6 +45,17 @@ public class Order {
 	public Order() {
 	}
 	
+	
+	
+	public Order(long id) {
+		this(id,
+			new Date(),
+			OrderType.INPUT,
+			Priority.LOW);
+	}
+
+
+
 	public Order(long id, Date emissionDate, OrderType orderType) {
 		super();
 		this.id = id;
@@ -64,6 +76,17 @@ public class Order {
 
 	public long getId() {
 		return id;
+	}
+	
+	/**
+	 * check if all the data are provided for the order
+	 * 
+	 * @return true = the data are complete 
+	 */
+	public boolean isDataComplete() {
+		if(getEmissionDate()==null)
+			return false;
+		return true;
 	}
 
 	public Date getEmissionDate() {

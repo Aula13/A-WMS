@@ -3,6 +3,7 @@ package org.wms.model.order;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,7 +19,7 @@ public class Material {
 	@Column(name="material_id")
 	private long code;
 	
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="material")
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="material", cascade=CascadeType.ALL)
 	private List<OrderRow> orders = new ArrayList<>();
 	
 	public Material() {
