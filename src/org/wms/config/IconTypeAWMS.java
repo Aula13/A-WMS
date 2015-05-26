@@ -11,5 +11,6 @@ public enum IconTypeAWMS {
 	EDIT,
 	
 	CONFIRM,
-	CANCEL
+	CANCEL,
+	USER
 }

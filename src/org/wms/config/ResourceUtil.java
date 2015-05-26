@@ -54,6 +54,7 @@ public class ResourceUtil {
 		iconResource.addResource(IconTypeAWMS.EDIT.name(), iconPath + "edit.png");
 		iconResource.addResource(IconTypeAWMS.CONFIRM.name(), iconPath + "confirm.png");
 		iconResource.addResource(IconTypeAWMS.CANCEL.name(), iconPath + "cancel.png");
+		iconResource.addResource(IconTypeAWMS.USER.name(), iconPath + "user.png");
 		
 		return iconResource;
 	}
@@ -66,10 +67,10 @@ public class ResourceUtil {
 	private static ImageResource initImageResource() {
 		ImageResource imageResource = new ImageResource(Configuration.SUPERVISOR_LOGGER);
 		
-		imageResource.addResource(ImageType.VERTICAL_BAR.name(), imagePath + "blue_vertical_bar.png");
-		imageResource.addResource(ImageType.HORIZONTAL_BAR.name(), imagePath + "blue_horizontal_bar.png");
+		imageResource.addResource(ImageTypeAWMS.VERTICAL_BAR.name(), imagePath + "blue_vertical_bar.png");
+		imageResource.addResource(ImageTypeAWMS.HORIZONTAL_BAR.name(), imagePath + "blue_horizontal_bar.png");
+		imageResource.addResource(ImageTypeAWMS.WELCOME.name(), imagePath + "welcome.png");
 		
-		imageResource.getResource(ImageType.VERTICAL_BAR.name());
 		
 		return imageResource;
 	}

@@ -80,6 +80,8 @@ public class MainGUI extends ContentPane implements Navigable, Observer {
 	 * Security status observable
 	 */
 	SecurityStatus securityStatus;
+	
+	WelcomePanel welcomePanel;
 
 	/**
 	 * Constructor
@@ -99,6 +101,9 @@ public class MainGUI extends ContentPane implements Navigable, Observer {
 		dbConnectionStatus.addObserver(this);
 		securityStatus.addObserver(this);
 		update(null, null);
+		
+		changePanel(welcomePanel);
+		setTitleName("WELCOME");
 	}
 
 	/**
@@ -122,6 +127,8 @@ public class MainGUI extends ContentPane implements Navigable, Observer {
 		lblTitle.setText("A-WMS");
 		titlePanel.setOpaque(false);
 		titlePanel.add(lblTitle);
+		
+		welcomePanel = new WelcomePanel();
 	}
 
 	/**
@@ -197,6 +204,8 @@ public class MainGUI extends ContentPane implements Navigable, Observer {
 		} else {
 			lblUsers.setError();
 			lblUsers.setText("No user logged");
+			changePanel(welcomePanel);
+			setTitleName("WELCOME");
 		}
 
 		if(securityStatus.getUser()==null)

@@ -76,7 +76,7 @@ public class WMS {
 			
 			invokeGUI();
 			
-			SecurityConfig.getSecurityManager().openLoginScreen(SecurityLevel.OPERATOR);
+//			SecurityConfig.getSecurityManager().openLoginScreen(SecurityLevel.OPERATOR);
 			
 			startBackgroudTasks();
 			

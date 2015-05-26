@@ -30,7 +30,7 @@ public class NavigationPanel extends JPanel {
 	/**
 	 * Home button
 	 */
-	public JButton btnHome;	
+	public JButton btnLogin;	
 
 	/**
 	 * Orders list button
@@ -86,8 +86,8 @@ public class NavigationPanel extends JPanel {
 	private void initComponents() {
 		List<JButton> navigationButtonsList = new ArrayList<>();
 
-		btnHome = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.HOME.name());
-		navigationButtonsList.add(btnHome);
+		btnLogin = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.USER.name());
+		navigationButtonsList.add(btnLogin);
 
 		btnInputOrders = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.INPUT_ORDER.name());
 		navigationButtonsList.add(btnInputOrders);
@@ -123,7 +123,6 @@ public class NavigationPanel extends JPanel {
 		
 		this.level = level;
 
-		btnHome.setVisible(false);
 		btnInputOrders.setVisible(false);
 		btnOutputOrders.setVisible(false);
 		btnVerifyList.setVisible(false);
@@ -131,18 +130,14 @@ public class NavigationPanel extends JPanel {
 		
 		switch (level) {
 		case NO_LEVEL:
-			btnHome.setVisible(true);
 			break;
 		case OPERATOR:
-			btnHome.setVisible(true);
 			btnJobsList.setVisible(true);
 			break;
 		case SUPERVISOR:
-			btnHome.setVisible(true);
 			btnVerifyList.setVisible(true);
 			break;
 		case ADMIN:
-			btnHome.setVisible(true);
 			btnInputOrders.setVisible(true);
 			btnOutputOrders.setVisible(true);
 			btnVerifyList.setVisible(true);
