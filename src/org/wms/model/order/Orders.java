@@ -155,7 +155,7 @@ public class Orders extends Observable {
 		do {
 			newOrderId = LOWER_RANGE + 
                     (long)(random.nextDouble()*(UPPER_RANGE - LOWER_RANGE));
-		} while (!(orders.containsKey(newOrderId)));
+		} while (orders.containsKey(newOrderId));
 		return newOrderId;
 	}
 }

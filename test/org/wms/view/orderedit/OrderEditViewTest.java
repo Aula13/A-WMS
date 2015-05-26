@@ -25,8 +25,8 @@ public class OrderEditViewTest {
 	@Test
 	public void test() {
 		
-		view = new OrderEditView();
-		view.setVisible(true);
+		//view = new OrderEditView();
+		//view.setVisible(true);
 	}
 
 

@@ -20,12 +20,7 @@ public class MaterialListTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		try {
-			return order.getMaterials().size();
-		} catch (Exception e) {
-			return 0;
-		}
-		
+		return order.getMaterials().size();
 	}
 
 	@Override
