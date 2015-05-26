@@ -5,12 +5,14 @@ import it.rmautomazioni.view.factories.FactoryReferences;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -18,6 +20,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.wms.config.IconTypeAWMS;
 import org.wms.model.order.Order;
 import org.wms.model.order.Priority;
 
@@ -25,7 +28,6 @@ public class OrderEditView extends JDialog {
 	
 	private Order order;
 	
-	private MaterialListView materialListView;
 	
 	private JPanel containerPanel;
 	
@@ -44,17 +46,17 @@ public class OrderEditView extends JDialog {
 	private MaterialListView materialsTablePanel;
 	
 	/**
-	 * Contains the confirm/abort buttons
+	 * Contains the confirm/cancel buttons
 	 */
 	private JPanel confirmationPanel;
 	private JButton confirmButton;
-	private JButton abortButton;
+	private JButton cancelButton;
 
 	/**
 	 * @param order to modify
 	 * @throws ParseException 
 	 */
-	public OrderEditView(Order order) {
+	public OrderEditView(Order order) throws ParseException {
 		super();
 		initComponents();
 		this.order = order;
@@ -67,89 +69,108 @@ public class OrderEditView extends JDialog {
 		initUI();
 	}
 	
-	public OrderEditView() {
-		super();
-		initComponents();
-		order = new Order();
-		idField.setText("0"); //TODO generare in automatico l'id
-		dateField.setValue(new Date());
-		
-		initUI();
-	}
-	
 	private void initComponents() {
-		fieldsPanel = FactoryReferences.appStyle.getPanelClass();
-		idField = FactoryReferences.fields.getParameterTextField();
-		priorityField = new JComboBox<Priority>();
-		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		dateField = new JFormattedTextField(dateFormat);
-		dateField.setEditable(false);
-		
-		materialsTablePanel = new MaterialListView(order);
-		
-		confirmationPanel = FactoryReferences.appStyle.getPanelClass();
-		confirmButton = FactoryReferences.buttons.getButtonWithIcon("confirm");
-		abortButton = FactoryReferences.buttons.getButtonWithIcon("abort");
-		testfunc();
+		initFieldsPanel();
+		initMaterialPanel();
+		initConfrimationPanel();
+		initContainerPanel();
+		initActions();
 	}
 	
+
 	private void initUI() {
 		setModal(true);
 		setSize(500, 500);
 		setLocationRelativeTo(null);
-		
+	}
+	
+	private void initContainerPanel(){
 		containerPanel = FactoryReferences.appStyle.getPanelClass();
 		containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
 		add(containerPanel);
-		
-		fieldsPanel.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.5;
-		c.gridx = 0;
-		c.gridy = 0;
-		fieldsPanel.add(FactoryReferences.fields.getParameterLabel("ID"), c);
-		c.weightx = 0.5;
-		c.gridx = 1;
-		c.gridy = 0;
-		fieldsPanel.add(idField, c);
-		c.weightx = 0.5;
-		c.gridx = 2;
-		c.gridy = 0;
-		fieldsPanel.add(FactoryReferences.fields.getParameterLabel("Priorità"), c);
-		c.weightx = 0.5;
-		c.gridx = 3;
-		c.gridy = 0;
-		fieldsPanel.add(priorityField, c);
-		c.weightx = 0.5;
-		c.gridx = 0; 
-		c.gridy = 1;
-		fieldsPanel.add(FactoryReferences.fields.getParameterLabel("Data"), c);
-		c.weightx = 0.5;
-		c.gridx = 1;
-		c.gridy = 1;
-		fieldsPanel.add(dateField, c);
-		
-		
 		containerPanel.add(fieldsPanel);
-		
 		containerPanel.add(materialsTablePanel);
-		
-		confirmationPanel.add(confirmButton);
-		confirmationPanel.add(abortButton);
 		containerPanel.add(confirmationPanel);
-		testfunc();
+	}
+
+	private void initFieldsPanel(){
+		fieldsPanel = FactoryReferences.appStyle.getPanelClass();
+		fieldsPanel.setBackground(Color.BLUE);
+		fieldsPanel.setLayout(new GridBagLayout());
+		
+		idField = FactoryReferences.fields.getParameterTextField();
+		
+		priorityField = new JComboBox<Priority>();
+		priorityField.setModel(new DefaultComboBoxModel<Priority>(Priority.values()));
+
+		
+		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		
+		dateField = new JFormattedTextField(dateFormat);
+		dateField.setEditable(false);
+
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.weightx = 0.5;
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		
+		fieldsPanel.add(FactoryReferences.fields.getParameterLabel("ID"), constraints);
+		constraints.gridx += 1;
+		fieldsPanel.add(idField, constraints);
+
+		constraints.gridx += 1;
+		fieldsPanel.add(FactoryReferences.fields.getParameterLabel("Priorità"), constraints);
+		
+		constraints.gridx += 1;
+		fieldsPanel.add(priorityField, constraints);
+		
+		constraints.gridx = 0; 
+		constraints.gridy = 1;
+		fieldsPanel.add(FactoryReferences.fields.getParameterLabel("Data"), constraints);
+		
+		constraints.gridx += 1;
+		fieldsPanel.add(dateField, constraints);
 	}
 	
-	private void testfunc(){
-		fieldsPanel.setBackground(Color.RED);
-		fieldsPanel.setOpaque(true);
+	private void initMaterialPanel(){
+		materialsTablePanel = new MaterialListView(order);
 		materialsTablePanel.setBackground(Color.BLUE);
-		materialsTablePanel.setOpaque(true);
-		confirmationPanel.setBackground(Color.GREEN);
-		confirmationPanel.setOpaque(true);
-		setBackground(Color.RED);
-		//setOpacity(1.0f);
 	}
+	
+	private void initConfrimationPanel(){
+		confirmationPanel = FactoryReferences.appStyle.getPanelClass();
+		confirmationPanel.setBackground(Color.BLUE);
+		confirmationPanel.setLayout(new GridLayout(1,1));
+		
+		confirmButton = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.CONFIRM.name());
+		cancelButton = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.CANCEL.name());
+		
+		confirmationPanel.add(confirmButton);
+		confirmationPanel.add(cancelButton);
+	}
+
+	/**
+	 * create action listeners for buttons
+	 */
+	private void initActions() {
+		confirmButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO implementare bottone conferma
+			}
+		});
+		
+		cancelButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);						
+			}
+		});
+	}
+	
+	 
 	
 }

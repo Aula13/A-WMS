@@ -51,20 +51,13 @@ public class Order {
 	}
 
 	public Order(long id, Date emissionDate, OrderType orderType, Priority priority) {
-		super();
-		this.id = id;
-		this.emissionDate = emissionDate;
-		this.type = orderType;
+		this(id, emissionDate, orderType);
 		this.priority = priority;
 	}
 
 	public Order(long id, Date emissionDate, OrderType orderType, Priority priority,
 			Set<OrderRow> rows) {
-		super();
-		this.id = id;
-		this.emissionDate = emissionDate;
-		this.type = orderType;
-		this.priority = priority;
+		this(id, emissionDate, orderType, priority);
 		this.rows = rows;
 	}
 

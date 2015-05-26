@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.hibernate.Session;
@@ -143,5 +144,18 @@ public class Orders extends Observable {
 	
 	public List<Material> getUnmodificableMaterialList() {
 		return Collections.unmodifiableList(new ArrayList<>(materials.values()));
+	}
+	
+	public Long newOrderId(){
+		Long newOrderId;
+		Random random = new Random();
+		long LOWER_RANGE = 0001000;
+		long UPPER_RANGE = 9999999;
+		
+		do {
+			newOrderId = LOWER_RANGE + 
+                    (long)(random.nextDouble()*(UPPER_RANGE - LOWER_RANGE));
+		} while (!(orders.containsKey(newOrderId)));
+		return newOrderId;
 	}
 }

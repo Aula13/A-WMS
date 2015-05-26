@@ -3,6 +3,9 @@ package org.wms.controller.order;
 import it.rmautomazioni.controller.listener.AbstractJButtonActionListener;
 import it.rmautomazioni.view.common.MessageBox;
 
+import java.text.ParseException;
+import java.util.Date;
+
 import org.wms.controller.common.AbstractTableSelectionListener;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderType;
@@ -31,8 +34,8 @@ public class OrdersViewController {
 			
 			@Override
 			public void actionTriggered() {
-				OrderEditView editOrderDialog = new OrderEditView();
-				editOrderDialog.setVisible(true);
+				Order order = new Order(ordersModel.newOrderId(), new Date(), orderType);
+				launchOrderEditView(order);
 			}
 		};
 		
@@ -48,9 +51,8 @@ public class OrdersViewController {
 				int rowIndex = view.getOrdersTable().getSelectedRow();
 				
 				Order order = ordersModel.getUnmodificableOrderList(orderType).get(rowIndex);
-				
-				OrderEditView editOrderDialog = new OrderEditView(order);
-				editOrderDialog.setVisible(true);
+				launchOrderEditView(order);
+
 			}
 		};
 		
@@ -89,6 +91,17 @@ public class OrdersViewController {
 		
 	}
 	
+	
+	private void launchOrderEditView(Order order){
+		
+		try {
+			OrderEditView editOrderDialog = new OrderEditView(order);
+			editOrderDialog.setVisible(true);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	
 	
