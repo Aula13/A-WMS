@@ -1,14 +1,14 @@
 package org.wms.controller.orderedit;
 
-import java.util.List;
-
 import javax.swing.table.AbstractTableModel;
 
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderRow;
 
 public class MaterialListTableModel extends AbstractTableModel {
-	
+
+	private static final long serialVersionUID = 7985896633962121613L;
+
 	private Order order;
 	
 	private String[] headers = {"Code", "Quantity"};

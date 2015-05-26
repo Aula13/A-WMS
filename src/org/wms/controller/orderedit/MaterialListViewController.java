@@ -1,5 +1,8 @@
 package org.wms.controller.orderedit;
 
+import it.rmautomazioni.controller.listener.AbstractJButtonActionListener;
+import it.rmautomazioni.view.common.MessageBox;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,6 +10,7 @@ import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
+import org.wms.controller.common.AbstractTableSelectionListener;
 import org.wms.model.order.Material;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderRow;
@@ -26,7 +30,22 @@ public class MaterialListViewController {
 		this.view = view;
 		this.order = order;
 		this.availableMaterials = availableMaterials;
-
+		
+		view.getBtnRemoveMaterial().setVisible(false);
+		
+		view.getTblMaterials().addMouseListener(new AbstractTableSelectionListener() {
+			
+			@Override
+			public void validSelectionTrigger(int rowIndex, boolean requireMenu) {
+				view.getBtnRemoveMaterial().setVisible(true);
+			}
+			
+			@Override
+			public void invalidSelectionTriggered() {
+				view.getBtnRemoveMaterial().setVisible(false);
+			}
+		});
+		
 		view.getCmbCellEditor().addCellEditorListener(new CellEditorListener() {
 
 			@Override
@@ -64,6 +83,35 @@ public class MaterialListViewController {
 
 			}
 		});
+		
+		new AbstractJButtonActionListener(view.getBtnAddMaterial()) {
+			
+			@Override
+			public void actionTriggered() {
+				order.getMaterials().add(new OrderRow(order, availableMaterials.get(0), 0));
+				
+				view.getTblMaterialsModel().fireTableDataChanged();
+			}
+		};
+		
+		new AbstractJButtonActionListener(view.getBtnRemoveMaterial()) {
+			
+			@Override
+			public void actionTriggered() {
+				int index = view.getTblMaterials().getSelectedRow();
+				
+				if(index==-1) {
+					MessageBox.errorBox("No material selected", "Error");
+					return;
+				}
+				
+				OrderRow orderRow = order.getMaterials().get(index);
+				if(MessageBox.questionBox("Are you sure to delete material " + orderRow.getMaterial().getCode() + "?", "Confirm")==0)
+					order.getMaterials().remove(index);
+				
+				view.getTblMaterialsModel().fireTableDataChanged();
+			}
+		};
 	}
 }
 
