@@ -79,6 +79,13 @@ public class OrdersView extends JPanel implements Observer {
 	
 	private void updateValue() {
 		tableModel.fireTableDataChanged();
+		if(ordersTable.getSelectedRow()!=-1) {
+			btnEditOrder.setVisible(true);
+			btnDeleteOrder.setVisible(true);
+		} else {
+			btnEditOrder.setVisible(false);
+			btnDeleteOrder.setVisible(false);
+		}
 	}
 	
 	@Override
