@@ -40,7 +40,7 @@ public class MaterialListTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		OrderRow row = (OrderRow) order.getMaterials().toArray()[rowIndex];
+		OrderRow row = (OrderRow) order.getMaterials().toArray()[rowIndex]; 
 		
 		switch (columnIndex) {
 		case 0:

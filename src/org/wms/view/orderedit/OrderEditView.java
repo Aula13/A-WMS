@@ -141,7 +141,7 @@ public class OrderEditView extends JDialog {
 	
 	private void initMaterialPanel(){
 		materialsTablePanel = new MaterialListView(order, availableMaterials);
-		new MaterialListViewController(materialsTablePanel, order);
+		new MaterialListViewController(materialsTablePanel, order, availableMaterials);
 		materialsTablePanel.setBackground(Color.BLUE);
 	}
 	

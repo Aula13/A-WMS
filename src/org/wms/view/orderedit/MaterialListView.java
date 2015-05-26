@@ -20,6 +20,8 @@ public class MaterialListView extends JPanel {
 	private Order order;
 	
 	private JTable tblMaterials;
+	private ComboBoxCellEditor cmbCellEditor;
+	private SpinnerCellEditor spnCellEditor;
 	
 	private MaterialListTableModel tblMaterialsModel;
 
@@ -37,10 +39,10 @@ public class MaterialListView extends JPanel {
 		tblMaterialsModel = new MaterialListTableModel(order);
 		tblMaterials = FactoryReferences.appStyle.getTableClass(tblMaterialsModel);
 		
-		ComboBoxCellEditor cmbCellEditor = new ComboBoxCellEditor(new JComboBox<>(availableMaterials.stream().
+		cmbCellEditor = new ComboBoxCellEditor(new JComboBox<>(availableMaterials.stream().
 				map(material -> material.getCode()).toArray()));
 		tblMaterials.getColumnModel().getColumn(0).setCellEditor(cmbCellEditor);		
-		SpinnerCellEditor spnCellEditor = new SpinnerCellEditor();
+		spnCellEditor = new SpinnerCellEditor();
 		tblMaterials.getColumnModel().getColumn(1).setCellEditor(spnCellEditor);		
 		
 		tblMaterials.setRowHeight(40);
@@ -53,5 +55,21 @@ public class MaterialListView extends JPanel {
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		add(scrollPane);
+	}
+	
+	public JTable getTblMaterials() {
+		return tblMaterials;
+	}
+	
+	public ComboBoxCellEditor getCmbCellEditor() {
+		return cmbCellEditor;
+	}
+	
+	public SpinnerCellEditor getSpnCellEditor() {
+		return spnCellEditor;
+	}
+	
+	public MaterialListTableModel getTblMaterialsModel() {
+		return tblMaterialsModel;
 	}
 }

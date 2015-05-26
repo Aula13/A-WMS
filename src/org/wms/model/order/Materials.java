@@ -42,6 +42,10 @@ public class Materials extends Observable {
 		return true;
 	}
 	
+	public Optional<Material> get(Long materialId) {
+		return MaterialDao.get(materialId);
+	}
+	
 	public List<Material> getUnmodificableMaterialList() {
 		Optional<List<Material>> opt = MaterialDao.selectAll();
 		List<Material> materials = opt.isPresent()? opt.get() : new ArrayList<>();
