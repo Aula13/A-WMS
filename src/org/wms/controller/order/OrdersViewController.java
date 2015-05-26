@@ -7,6 +7,8 @@ import java.text.ParseException;
 import java.util.Date;
 
 import org.wms.controller.common.AbstractTableSelectionListener;
+import org.wms.model.common.ModelReference;
+import org.wms.model.order.Materials;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderType;
 import org.wms.model.order.Orders;
@@ -18,13 +20,17 @@ public class OrdersViewController {
 	private OrdersView view;
 	
 	private Orders ordersModel;
+
+	private Materials materialsModel;
 	
 	private OrderType orderType;
 
-	public OrdersViewController(OrdersView view, Orders ordersModel) {
+	public OrdersViewController(OrdersView view, Orders ordersModel, Materials materialsModel) {
 		super();
 		this.view = view;
 		this.ordersModel = ordersModel;
+		this.materialsModel = materialsModel;
+		
 		orderType = view.getOrdersType();
 		
 		view.getBtnDeleteOrder().setVisible(false);
@@ -95,7 +101,7 @@ public class OrdersViewController {
 	private void launchOrderEditView(Order order){
 		
 		try {
-			OrderEditView editOrderDialog = new OrderEditView(order);
+			OrderEditView editOrderDialog = new OrderEditView(order, materialsModel.getUnmodificableMaterialList());
 			editOrderDialog.setVisible(true);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

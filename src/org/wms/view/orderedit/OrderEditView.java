@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -21,6 +22,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.wms.config.IconTypeAWMS;
+import org.wms.controller.orderedit.MaterialListViewController;
+import org.wms.model.order.Material;
 import org.wms.model.order.Order;
 import org.wms.model.order.Priority;
 
@@ -52,14 +55,16 @@ public class OrderEditView extends JDialog {
 	private JButton confirmButton;
 	private JButton cancelButton;
 
+	private List<Material> availableMaterials;
+	
 	/**
 	 * @param order to modify
 	 * @throws ParseException 
 	 */
-	public OrderEditView(Order order) throws ParseException {
+	public OrderEditView(Order order, List<Material> availableMaterials) throws ParseException {
 		super();
 		this.order = order;
-		
+		this.availableMaterials = availableMaterials;
 		initComponents();
 		
 		idField.setText(Long.toString(order.getId()));
@@ -135,7 +140,8 @@ public class OrderEditView extends JDialog {
 	}
 	
 	private void initMaterialPanel(){
-		materialsTablePanel = new MaterialListView(order);
+		materialsTablePanel = new MaterialListView(order, availableMaterials);
+		new MaterialListViewController(materialsTablePanel, order);
 		materialsTablePanel.setBackground(Color.BLUE);
 	}
 	

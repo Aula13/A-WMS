@@ -39,14 +39,14 @@ public class MainGUIController {
 		gui.getLblUsers().setComponentPopupMenu(loginMenu);
 		
 		inputOrdersView = new OrdersView(ModelReference.ordersModel, OrderType.INPUT);
-		new OrdersViewController(inputOrdersView, ModelReference.ordersModel);
+		new OrdersViewController(inputOrdersView, ModelReference.ordersModel, ModelReference.materialsModel);
 		new ChangePageListener(
 				gui.navPanel.btnInputOrders, 
 				inputOrdersView, 
 				gui);
 		
 		outputOrdersView = new OrdersView(ModelReference.ordersModel, OrderType.OUTPUT);
-		new OrdersViewController(outputOrdersView, ModelReference.ordersModel);
+		new OrdersViewController(outputOrdersView, ModelReference.ordersModel, ModelReference.materialsModel);
 		new ChangePageListener(
 				gui.navPanel.btnOutputOrders, 
 				outputOrdersView, 

@@ -32,6 +32,11 @@ public class MaterialListTableModel extends AbstractTableModel {
 	public String getColumnName(int column) {
 		return headers[column];
 	}
+	
+	@Override
+	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		return true;
+	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
@@ -39,7 +44,7 @@ public class MaterialListTableModel extends AbstractTableModel {
 		
 		switch (columnIndex) {
 		case 0:
-			return row.getMaterial();
+			return row.getMaterial().getCode();
 		case 1:
 			return row.getQuantity();
 		default:
