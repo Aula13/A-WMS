@@ -52,6 +52,8 @@ public class ResourceUtil {
 		iconResource.addResource(IconTypeAWMS.PLUS.name(), iconPath + "plus.png");
 		iconResource.addResource(IconTypeAWMS.MINUS.name(), iconPath + "minus.png");
 		iconResource.addResource(IconTypeAWMS.EDIT.name(), iconPath + "edit.png");
+		iconResource.addResource(IconTypeAWMS.CONFIRM.name(), iconPath + "confirm.png");
+		iconResource.addResource(IconTypeAWMS.CANCEL.name(), iconPath + "cancel.png");
 		
 		return iconResource;
 	}

@@ -8,5 +8,8 @@ public enum IconTypeAWMS {
 	
 	PLUS,
 	MINUS,
-	EDIT
+	EDIT,
+	
+	CONFIRM,
+	CANCEL
 }
