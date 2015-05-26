@@ -20,13 +20,7 @@ public class MaterialListTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		//TODO rimuovere try catch
-		try {
-			return order.getMaterials().size();
-		} catch (Exception e) {
-			return 0;
-		}
-		
+		return order.getMaterials().size();		
 	}
 
 	@Override
@@ -41,7 +35,7 @@ public class MaterialListTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		OrderRow row = (OrderRow) order.getMaterials().toArray()[columnIndex];
+		OrderRow row = (OrderRow) order.getMaterials().toArray()[rowIndex];
 		
 		switch (columnIndex) {
 		case 0:

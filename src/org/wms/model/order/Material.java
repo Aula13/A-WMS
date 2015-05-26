@@ -1,7 +1,7 @@
 package org.wms.model.order;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +18,8 @@ public class Material {
 	@Column(name="material_id")
 	private long code;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="material")
-	private Set<OrderRow> orders = new HashSet<>();
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="material")
+	private List<OrderRow> orders = new ArrayList<>();
 	
 	public Material() {
 	}

@@ -37,12 +37,12 @@ public class ModelReference {
 		
 		ordersModel = new Orders(orders, materials);
 		
-		Material material = new Material(1234);
-		ordersModel.addMaterial(material);
-		
-		Order test = new Order(10223455, new Date(System.currentTimeMillis()), OrderType.INPUT);
-		test.getMaterials().add(new OrderRow(test, material, 1));
-		
-		ordersModel.addOrder(test);
+//		Material material = new Material(1234);
+//		ordersModel.addMaterial(material);
+//		
+//		Order test = new Order(10223455, new Date(System.currentTimeMillis()), OrderType.INPUT);
+//		test.getMaterials().add(new OrderRow(test, material, 1));
+//		
+//		ordersModel.addOrder(test);
 	}
 }

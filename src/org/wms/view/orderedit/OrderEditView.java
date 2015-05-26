@@ -58,8 +58,9 @@ public class OrderEditView extends JDialog {
 	 */
 	public OrderEditView(Order order) throws ParseException {
 		super();
-		initComponents();
 		this.order = order;
+		
+		initComponents();
 		
 		idField.setText(Long.toString(order.getId()));
 		idField.setEditable(false);

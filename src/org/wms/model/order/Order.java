@@ -1,7 +1,8 @@
 package org.wms.model.order;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -25,8 +26,8 @@ public class Order {
 	@Column(name="prioriry", nullable=false)
 	private Priority priority = Priority.LOW;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="order")
-	private Set<OrderRow> rows = new HashSet<>();
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="order")
+	private List<OrderRow> rows = new ArrayList<>();
 	
 	@Column(name="order_type", nullable=false)
 	private OrderType type; 
@@ -56,7 +57,7 @@ public class Order {
 	}
 
 	public Order(long id, Date emissionDate, OrderType orderType, Priority priority,
-			Set<OrderRow> rows) {
+			List<OrderRow> rows) {
 		this(id, emissionDate, orderType, priority);
 		this.rows = rows;
 	}
@@ -77,7 +78,7 @@ public class Order {
 		return priority;
 	}
 
-	public Set<OrderRow> getMaterials() {
+	public List<OrderRow> getMaterials() {
 		return rows;
 	}
 
