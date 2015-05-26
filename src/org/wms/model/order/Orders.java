@@ -6,41 +6,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.hibernate.Session;
 import org.wms.config.HibernateUtil;
+import org.wms.model.dao.OrderDao;
 
 public class Orders extends Observable {
-
-	private Map<Long, Order> orders = new HashMap<>();
-	
-	private Map<Long, Material> materials = new HashMap<>();
-
-	public Orders(List<Order> orders, List<Material> materials) {
-		super();
-		for (Order ord : orders)
-			this.orders.put(ord.getId(), ord);
-		for (Material mat : materials)
-			this.materials.put(mat.getCode(), mat);
-	}	
 	
 	public synchronized boolean addOrder(Order order) {
-		if(orders.containsKey(order.getId()))
+		if(!OrderDao.create(order))
 			return false;
-		
-		Session session = HibernateUtil.getSession();
-		session.beginTransaction();
-		session.save(order);
-		
-		for (OrderRow material : order.getMaterials()) {
-			session.save(material);
-		}
-		
-		session.getTransaction().commit();
-		
-		orders.put(order.getId(), order);
 		
 		setChanged();
 		notifyObservers();
@@ -49,14 +27,8 @@ public class Orders extends Observable {
 	}
 	
 	public synchronized boolean deleteOrder(Order order) {
-		if(!orders.containsKey(order.getId()))
+		if(!OrderDao.delete(order.getId()))
 			return false;
-		Session session = HibernateUtil.getSession();
-		session.beginTransaction();
-		session.delete(order);
-		session.getTransaction().commit();
-		
-		orders.remove(order.getId());
 		
 		setChanged();
 		notifyObservers();
@@ -65,17 +37,8 @@ public class Orders extends Observable {
 	}
 	
 	public synchronized boolean updateOrder(Order order) {
-		if(!orders.containsKey(order.getId()))
+		if(!OrderDao.update(order))
 			return false;
-		
-		Session session = HibernateUtil.getSession();
-		session.beginTransaction();
-		session.update(order);
-		session.getTransaction().commit();
-		
-		for (OrderRow material : order.getMaterials()) {
-			session.saveOrUpdate(material);
-		}
 		
 		setChanged();
 		notifyObservers();
@@ -84,78 +47,31 @@ public class Orders extends Observable {
 	}
 	
 	public List<Order> getUnmodificableOrderList() {
-		return Collections.unmodifiableList(new ArrayList<>(orders.values()));
+		Optional<List<Order>> opt = OrderDao.selectAll();
+		List<Order> orders = opt.isPresent()? opt.get() : new ArrayList<>();
+		return Collections.unmodifiableList(orders);
 	}
 	
 	public List<Order> getUnmodificableOrderList(OrderType orderType) {
-		List<Order> orderList = (new ArrayList<>(orders.values())).stream()
+		Optional<List<Order>> opt = OrderDao.selectAll();
+		List<Order> orders = opt.isPresent()? opt.get() : new ArrayList<>();
+		List<Order> filteredOrders = orders.stream()
 				.filter(order -> order.getType()==orderType)
 				.collect(Collectors.toList());
-		return orderList;
-	}
-	
-	public synchronized boolean addMaterial(Material material) {
-		if(materials.containsKey(material.getCode()))
-			return false;
-		
-		Session session = HibernateUtil.getSession();
-		session.beginTransaction();
-		session.save(material);
-		session.getTransaction().commit();
-		
-		materials.put(material.getCode(), material);
-		
-		setChanged();
-		notifyObservers();
-		
-		return true;
-	}
-	
-	public synchronized boolean deleteMaterial(Material material) {
-		if(!materials.containsKey(material.getCode()))
-			return false;
-		Session session = HibernateUtil.getSession();
-		session.beginTransaction();
-		session.delete(material);
-		session.getTransaction().commit();
-		
-		materials.remove(material.getCode());
-		
-		setChanged();
-		notifyObservers();
-		
-		return true;
-	}
-	
-	public synchronized boolean updateMaterial(Material material) {
-		if(!materials.containsKey(material.getCode()))
-			return false;
-		
-		Session session = HibernateUtil.getSession();
-		session.beginTransaction();
-		session.update(material);
-		session.getTransaction().commit();
-		
-		setChanged();
-		notifyObservers();
-		
-		return true;
-	}
-	
-	public List<Material> getUnmodificableMaterialList() {
-		return Collections.unmodifiableList(new ArrayList<>(materials.values()));
+		return filteredOrders;
 	}
 	
 	public Long newOrderId(){
-		Long newOrderId;
-		Random random = new Random();
-		long LOWER_RANGE = 0001000;
-		long UPPER_RANGE = 9999999;
-		
-		do {
-			newOrderId = LOWER_RANGE + 
-                    (long)(random.nextDouble()*(UPPER_RANGE - LOWER_RANGE));
-		} while (orders.containsKey(newOrderId));
-		return newOrderId;
+//		Long newOrderId;
+//		Random random = new Random();
+//		long LOWER_RANGE = 0001000;
+//		long UPPER_RANGE = 9999999;
+//		
+//		do {
+//			newOrderId = LOWER_RANGE + 
+//                    (long)(random.nextDouble()*(UPPER_RANGE - LOWER_RANGE));
+//		} while (orders.containsKey(newOrderId));
+//		return newOrderId;
+		return 00000001l;
 	}
 }

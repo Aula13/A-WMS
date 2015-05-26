@@ -47,12 +47,17 @@ public class OrderDao {
 		return true;
 	}
 	
-	public static Optional<Order> select(Long orderId) {
-		return null;
-	}
+//	public static Optional<Order> select(Long orderId) {
+//		Session session = HibernateUtil.getSession();
+//		session.se
+//		return null;
+//	}
 	
 	public static Optional<List<Order>> selectAll() {
-		return null;
-	}
-	
+		Session session = HibernateUtil.getSession();
+		session.beginTransaction();
+		List<Order> orders = session.createCriteria(Order.class).list();
+		session.getTransaction().commit();
+		return Optional.of(orders);
+	}	
 }
