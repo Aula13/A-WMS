@@ -1,5 +1,7 @@
 package org.wms.controller.order;
 
+import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
 
 import org.wms.model.order.Order;
@@ -16,6 +18,8 @@ public class OrdersTableModel extends AbstractTableModel {
 	
 	private OrderType orderType;
 	
+	List<Order> orders;
+	
 	public OrdersTableModel(Orders ordersModel, OrderType orderType) {
 		super();
 		this.ordersModel = ordersModel;
@@ -24,7 +28,8 @@ public class OrdersTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return ordersModel.getUnmodificableOrderList(orderType).size();
+		orders = ordersModel.getUnmodificableOrderList(orderType);
+		return orders.size();
 	}
 
 	@Override
@@ -39,7 +44,7 @@ public class OrdersTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		Order order = ordersModel.getUnmodificableOrderList(orderType).get(rowIndex);
+		Order order = orders.get(rowIndex);
 		
 		switch (columnIndex) {
 		case 0:

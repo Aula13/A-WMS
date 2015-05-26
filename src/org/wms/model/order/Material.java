@@ -19,7 +19,7 @@ public class Material {
 	@Column(name="material_id")
 	private long code;
 	
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="material", cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="material", cascade=CascadeType.REMOVE)
 	private List<OrderRow> orders = new ArrayList<>();
 	
 	public Material() {

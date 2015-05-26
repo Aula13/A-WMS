@@ -1,5 +1,7 @@
 package org.wms.model.dao;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,9 +27,12 @@ public class OrderDao {
 			for (OrderRow orderRow : order.getMaterials())
 				session.save(orderRow);
 			
-			session.getTransaction().commit();			
+			session.getTransaction().commit();	
+			
+			HibernateUtil.closeSession();
 			return true;
 		} catch (Exception e) {
+			HibernateUtil.closeSession();
 			logger.error(formatLogMessage("Error during create order " + order.getId() + "; Exception: " + e));
 		}
 		return false;
@@ -35,10 +40,9 @@ public class OrderDao {
 
 	public static boolean update(Order order) {
 		try {
+			//If some orderRows item was deleted, delete it also from the db
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();		
-			
-			//If some orderRows item was deleted, delete it also from the db
 			Criteria criteria = session.createCriteria(OrderRow.class);
 			criteria.add(Restrictions.eq("order", order));
 			List<OrderRow> orderRows = criteria.list();
@@ -47,6 +51,7 @@ public class OrderDao {
 					session.delete(orderRow);
 			}
 			session.getTransaction().commit();
+			HibernateUtil.closeSession();
 			
 			//Save or update other orderRow
 			session = HibernateUtil.getSession();
@@ -54,14 +59,18 @@ public class OrderDao {
 			for (OrderRow orderRow : order.getMaterials())
 				session.saveOrUpdate(orderRow);
 			session.getTransaction().commit();
+			HibernateUtil.closeSession();
 			
 			session = HibernateUtil.getSession();
 			session.beginTransaction();	
 			session.saveOrUpdate(order);
 			session.getTransaction().commit();
 			
+			HibernateUtil.closeSession();
+			
 			return true;
 		} catch (Exception e) {
+			HibernateUtil.closeSession();
 			logger.error(formatLogMessage("Error during get update order " + order.getId() + "; Exception: " + e));
 		}
 		return false;
@@ -72,46 +81,56 @@ public class OrderDao {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
 			
-			for (OrderRow orderRow : order.getMaterials())
-				session.delete(orderRow);
+//			for (OrderRow orderRow : order.getMaterials())
+//				session.delete(orderRow);
 			
 			session.delete(order);		
 			session.getTransaction().commit();
 			
+			HibernateUtil.closeSession();
+			
 			return true;
 		} catch (Exception e) {
+			HibernateUtil.closeSession();
 			logger.error(formatLogMessage("Error during delete order by id " + order.getId() + "; Exception: "+ e));
 		}
 		return false;
 	}
 
 	public static Optional<Order> get(Long orderId) {
-		Order order = null;
-
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
-			order = (Order) session.get(Order.class, orderId);
+			Order order = (Order) session.get(Order.class, orderId);
 			session.getTransaction().commit();
+			HibernateUtil.closeSession();
+			
+			return Optional.of(order);
+			
 		} catch (Exception e) {
+			HibernateUtil.closeSession();
 			logger.error(formatLogMessage("Error during get order by id " + e.getMessage()));
 		}
-		return Optional.ofNullable(order);
+		
+		return Optional.empty();
 	}
 
 	public static Optional<List<Order>> selectAll() {
-		List<Order> orders = null;
-		
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
-			orders = session.createCriteria(Order.class).list();
+			List<Order> orders = session.createCriteria(Order.class)
+					.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY) //Filter hibernate join duplicated results
+					.list();
 			session.getTransaction().commit();
+			HibernateUtil.closeSession();
+			return Optional.of(orders);
 		} catch (Exception e) {
+			HibernateUtil.closeSession();
 			logger.error(formatLogMessage("Error during get all order " + e));
 		}
 		
-		return Optional.ofNullable(orders);
+		return Optional.empty();
 	}		
 	
 	private static String formatLogMessage(String message) {

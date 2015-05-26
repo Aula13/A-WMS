@@ -88,6 +88,11 @@ public class MaterialListViewController {
 			
 			@Override
 			public void actionTriggered() {
+				if(availableMaterials.size()==0) {
+					MessageBox.errorBox("No materials available!", "Error");
+					return;
+				}
+				
 				order.getMaterials().add(new OrderRow(order, availableMaterials.get(0), 0));
 				
 				view.getTblMaterialsModel().fireTableDataChanged();

@@ -27,7 +27,7 @@ public class Order {
 	@Column(name="prioriry", nullable=false)
 	private Priority priority = Priority.LOW;
 	
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="order", cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="order", cascade=CascadeType.REMOVE)
 	private List<OrderRow> rows = new ArrayList<>();
 	
 	@Column(name="order_type", nullable=false)

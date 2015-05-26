@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.wms.config.Configuration;
 import org.wms.config.HibernateUtil;
@@ -19,8 +20,10 @@ public class MaterialDao {
 			session.beginTransaction();
 			session.save(material);
 			session.getTransaction().commit();
+			HibernateUtil.closeSession();
 			return true;
 		} catch (Exception e) {
+			HibernateUtil.closeSession();
 			logger.error(formatLogMessage("Error during create material " + material.getCode() + "; Exception: " + e));
 		}
 		return false;
@@ -32,8 +35,10 @@ public class MaterialDao {
 			session.beginTransaction();
 			session.saveOrUpdate(material);		
 			session.getTransaction().commit();
+			HibernateUtil.closeSession();
 			return false;
 		} catch (Exception e) {
+			HibernateUtil.closeSession();
 			logger.error(formatLogMessage("Error during get update material " + material.getCode() + "; Exception: " + e));
 		}
 		return true;
@@ -45,40 +50,48 @@ public class MaterialDao {
 			session.beginTransaction();
 			session.delete(new Material(materialId));		
 			session.getTransaction().commit();
+			HibernateUtil.closeSession();
 			return true;
 		} catch (Exception e) {
+			HibernateUtil.closeSession();
 			logger.error(formatLogMessage("Error during delete material by id " + materialId + "; Exception: "+ e));
 		}
 		return false;
 	}
 
 	public static Optional<Material> get(Long materialId) {
-		Material material = null;
-
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
-			material = (Material) session.get(Material.class, materialId);
+			Material material = (Material) session.get(Material.class, materialId);
 			session.getTransaction().commit();
+			HibernateUtil.closeSession();
+			
+			return Optional.of(material);
 		} catch (Exception e) {
+			HibernateUtil.closeSession();
 			logger.error(formatLogMessage("Error during get material by id " + e));
 		}
-		return Optional.ofNullable(material);
+		return Optional.empty();
 	}
 
 	public static Optional<List<Material>> selectAll() {
-		List<Material> materials = null;
-		
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
-			materials = session.createCriteria(Material.class).list();
+			List<Material> materials = session.createCriteria(Material.class)
+					.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY) //Filter hibernate join duplicated results
+					.list();
 			session.getTransaction().commit();
+			HibernateUtil.closeSession();
+			
+			return Optional.of(materials);
 		} catch (Exception e) {
+			HibernateUtil.closeSession();
 			logger.error(formatLogMessage("Error during get all material " + e));
 		}
 		
-		return Optional.ofNullable(materials);
+		return Optional.empty();
 	}	
 
 	private static String formatLogMessage(String message) {

@@ -58,7 +58,7 @@ public class Orders extends Observable {
 		List<Order> filteredOrders = orders.stream()
 				.filter(order -> order.getType()==orderType)
 				.collect(Collectors.toList());
-		return filteredOrders;
+		return Collections.unmodifiableList(filteredOrders);
 	}
 	
 	public Long newOrderId(){

@@ -78,6 +78,10 @@ public class HibernateUtil {
 	 * Close current session
 	 */
 	public static void closeSession() {
+		sessionFactory.getCurrentSession().close();
+	}
+	
+	public static void closeSessionFactory() {
 		sessionFactory.close();
 	}
 	
