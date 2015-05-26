@@ -31,7 +31,6 @@ public class OrderEditView extends JDialog {
 	
 	private Order order;
 	
-	
 	private JPanel containerPanel;
 	
 	/**
@@ -126,14 +125,14 @@ public class OrderEditView extends JDialog {
 		fieldsPanel.add(idField, constraints);
 
 		constraints.gridx += 1;
-		fieldsPanel.add(FactoryReferences.fields.getParameterLabel("Priorità"), constraints);
+		fieldsPanel.add(FactoryReferences.fields.getParameterLabel("Priority"), constraints);
 		
 		constraints.gridx += 1;
 		fieldsPanel.add(priorityField, constraints);
 		
 		constraints.gridx = 0; 
 		constraints.gridy = 1;
-		fieldsPanel.add(FactoryReferences.fields.getParameterLabel("Data"), constraints);
+		fieldsPanel.add(FactoryReferences.fields.getParameterLabel("Date"), constraints);
 		
 		constraints.gridx += 1;
 		fieldsPanel.add(dateField, constraints);
