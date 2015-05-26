@@ -9,3 +9,5 @@
 /*.log
 /log
 /db
+
+.app.lock
