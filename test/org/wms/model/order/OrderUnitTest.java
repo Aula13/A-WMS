@@ -4,11 +4,11 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertSame;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public class OrderUnitTest {
 	/**
 	 * The order's materials set
 	 */
-	private Set<OrderRow> orderMaterials;
+	private List<OrderRow> orderMaterials;
 	
 	/**
 	 * Initialize the parameter to be passed to the order's constructors
@@ -51,7 +51,7 @@ public class OrderUnitTest {
 		orderId = 0;
 		orderEmissionDate = new Date();
 		orderPriority = Priority.HIGH;
-		orderMaterials = new HashSet<>();
+		orderMaterials = new ArrayList<>();
 		
 	}
 
@@ -60,7 +60,7 @@ public class OrderUnitTest {
 	 */
 	@Test
 	public void constructorTest() {
-		orderTest = new Order(orderId, orderEmissionDate);
+		orderTest = new Order(orderId, orderEmissionDate, OrderType.INPUT);
 		
 		assertThat(orderTest.getId(), is(equalTo(orderId)));
 		assertThat(orderTest.getEmissionDate(), is(equalTo(orderEmissionDate)));
@@ -75,7 +75,7 @@ public class OrderUnitTest {
 	 */
 	@Test
 	public void priorityConstructorTest() {
-		orderTest = new Order(orderId, orderEmissionDate, orderPriority);
+		orderTest = new Order(orderId, orderEmissionDate, OrderType.INPUT ,orderPriority);
 		
 		assertThat(orderTest.getId(), is(equalTo(orderId)));
 		assertThat(orderTest.getEmissionDate(), is(equalTo(orderEmissionDate)));
@@ -90,7 +90,7 @@ public class OrderUnitTest {
 	 */
 	@Test
 	public void materialsConstructorTest() {
-		orderTest = new Order(orderId, orderEmissionDate, orderPriority, orderMaterials);
+		orderTest = new Order(orderId, orderEmissionDate, OrderType.INPUT ,orderPriority, orderMaterials);
 		
 		assertThat(orderTest.getId(), is(equalTo(orderId)));
 		assertThat(orderTest.getEmissionDate(), is(equalTo(orderEmissionDate)));

@@ -46,7 +46,7 @@ public class OrderRowUnitTest {
 	@Before
 	public void preareForTest(){
 		orderId = 1000;
-		order = new Order(orderId, new Date());
+		order = new Order(orderId, new Date(), OrderType.INPUT ,Priority.LOW);
 		material = new Material();
 		quantity = 10;
 	}
