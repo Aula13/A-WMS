@@ -177,7 +177,7 @@ public class OrderRow implements Serializable {
 			return false;
 		if(material==null)
 			return false;
-		if(quantity==0) //TODO: also less than 0
+		if(quantity<=0)
 			return false;
 		return true;
 	}

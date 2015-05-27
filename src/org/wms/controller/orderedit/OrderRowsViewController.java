@@ -3,6 +3,7 @@ package org.wms.controller.orderedit;
 import it.rmautomazioni.controller.listener.AbstractJButtonActionListener;
 import it.rmautomazioni.view.common.MessageBox;
 
+import java.io.EOFException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,12 +64,12 @@ public class OrderRowsViewController {
 			
 			@Override
 			public void validSelectionTrigger(boolean doubleClick, int rowIndex, boolean requireMenu) {
-				tblMaterialsValidSelectionAction();
+				tblOrderRowsValidSelectionAction(rowIndex);
 			}
 			
 			@Override
 			public void invalidSelectionTriggered() {
-				tblMaterialsInvalidSelectionAction();
+				tblOrderRowsInvalidSelectionAction();
 			}
 		});
 		
@@ -76,7 +77,7 @@ public class OrderRowsViewController {
 
 			@Override
 			public void editingStopped(ChangeEvent e) {
-				tblMaterialsComboEditStopAction(e);
+				tblOrderRowsComboEditStopAction(e);
 			}
 
 			@Override
@@ -89,7 +90,7 @@ public class OrderRowsViewController {
 
 			@Override
 			public void editingStopped(ChangeEvent e) {
-				tblMaterialsSpinnerEditStopAction(e);
+				tblOrderRowsSpinnerEditStopAction(e);
 			}
 
 			@Override
@@ -102,7 +103,7 @@ public class OrderRowsViewController {
 			
 			@Override
 			public void actionTriggered() {
-				btnAddMaterialAction();
+				btnAddOrderRowAction();
 			}
 		};
 		
@@ -110,7 +111,7 @@ public class OrderRowsViewController {
 			
 			@Override
 			public void actionTriggered() {
-				btnRemoveMaterialAction();
+				btnRemoveOrderRowAction();
 			}
 		};
 	}
@@ -119,15 +120,16 @@ public class OrderRowsViewController {
 	 * Show remove material button
 	 * if the order row selected is editable
 	 */
-	private void tblMaterialsValidSelectionAction() {
-		//TODO: show this button only if the order row is editable
-		view.getBtnRemoveOrderRow().setVisible(true);
+	private void tblOrderRowsValidSelectionAction(int indexRow) {
+		OrderRow orderRow = order.getUnmodificableMaterials().get(indexRow);
+		if(orderRow.isEditable())
+			view.getBtnRemoveOrderRow().setVisible(true);
 	}
 	
 	/**
 	 * Hide remove material button
 	 */
-	private void tblMaterialsInvalidSelectionAction() {
+	private void tblOrderRowsInvalidSelectionAction() {
 		view.getBtnRemoveOrderRow().setVisible(false);
 	}
 	
@@ -136,7 +138,7 @@ public class OrderRowsViewController {
 	 *  
 	 * @param e change event from combobox cell editor
 	 */
-	private void tblMaterialsComboEditStopAction(ChangeEvent e) {
+	private void tblOrderRowsComboEditStopAction(ChangeEvent e) {
 		int editIndex = view.getTblOrderRows().getSelectedRow();
 		OrderRow orderRow = order.getUnmodificableMaterials().get(editIndex);
 
@@ -154,7 +156,7 @@ public class OrderRowsViewController {
 	 * 
 	 * @param e change event from spinner cell editor
 	 */
-	private void tblMaterialsSpinnerEditStopAction(ChangeEvent e) {
+	private void tblOrderRowsSpinnerEditStopAction(ChangeEvent e) {
 		int editIndex = view.getTblOrderRows().getSelectedRow();
 		OrderRow orderRow = order.getUnmodificableMaterials().get(editIndex);
 		Integer quantity = (Integer) ((SpinnerCellEditor) e.getSource()).getCellEditorValue();
@@ -171,7 +173,7 @@ public class OrderRowsViewController {
 	 * Finally fire update order materials table
 	 * 
 	 */
-	private void btnAddMaterialAction() {
+	private void btnAddOrderRowAction() {
 		if(availableMaterials.size()==0) {
 			MessageBox.errorBox("No materials available!", "Error");
 			return;
@@ -202,7 +204,7 @@ public class OrderRowsViewController {
 	 * Finally fire update order materials table
 	 * 
 	 */	
-	private void btnRemoveMaterialAction() {
+	private void btnRemoveOrderRowAction() {
 		int index = view.getTblOrderRows().getSelectedRow();
 		
 		if(index==-1) {

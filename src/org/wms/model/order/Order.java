@@ -95,11 +95,16 @@ public class Order {
 	}
 	
 	/**
-	 * @param set order id
+	 * Set order id
+	 * if the order is new (id==0)
+	 * @param order id
+	 * @return true=id updated
 	 */
-	public void setId(long id) {
-		//TODO: check if the order is new
+	public boolean setId(long id) {
+		if(id!=0l)
+			return false;
 		this.id = id;
+		return true;
 	}
 	
 	/**
@@ -127,12 +132,17 @@ public class Order {
 	
 	/**
 	 * Set the emission date
-	 * 
+	 * if the order is editable
 	 * @param emissionDate 
+	 * @return true=emission date updated
+	 * 
+	 * @see org.wms.model.order.Order#isEditable()
 	 */
-	public void setEmissionDate(Date emissionDate) {
-		//TODO: check if the order is editable
+	public boolean setEmissionDate(Date emissionDate) {
+		if(!isEditable())
+			return false;
 		this.emissionDate = emissionDate;
+		return true;
 	}
 	
 	/**

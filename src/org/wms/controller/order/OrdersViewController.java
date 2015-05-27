@@ -151,8 +151,6 @@ public class OrdersViewController {
 	 * if it's possible
 	 */
 	private void btnDeleteOrderAction() {
-		//TODO: Check if a order is delete able
-		
 		if(view.getOrdersTable().getSelectedRow()==-1) {
 			MessageBox.errorBox("No order selected", "Error");
 			return;
@@ -161,6 +159,11 @@ public class OrdersViewController {
 		int rowIndex = view.getOrdersTable().getSelectedRow();
 		
 		Order order = ordersModel.getUnmodificableOrderList(orderType).get(rowIndex);
+		
+		if(!order.isEditable()) {
+			MessageBox.errorBox("The order is not editable", "Error");
+			return;
+		}
 		
 		if(MessageBox.questionBox("Are you sure to delete the order " + order.getId(), "Confirm")==0)
 			if(!ordersModel.deleteOrder(order))
