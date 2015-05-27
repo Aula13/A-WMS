@@ -30,7 +30,7 @@ public abstract class AbstractTableSelectionListener implements MouseListener {
 		boolean requireMenu = e.getButton()==MouseEvent.BUTTON2;
 		
 		if(valid)
-			validSelectionTrigger(rowIndex, requireMenu);
+			validSelectionTrigger(e.getClickCount()==2,rowIndex, requireMenu);
 		else
 			invalidSelectionTriggered();
 	}
@@ -55,7 +55,7 @@ public abstract class AbstractTableSelectionListener implements MouseListener {
 		
 	}
 	
-	public abstract void validSelectionTrigger(int rowIndex, boolean requireMenu);
+	public abstract void validSelectionTrigger(boolean doubleClick, int rowIndex, boolean requireMenu);
 	
 	public abstract void invalidSelectionTriggered();
 	

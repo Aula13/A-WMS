@@ -36,7 +36,7 @@ public class MaterialListViewController {
 		view.getTblMaterials().addMouseListener(new AbstractTableSelectionListener() {
 			
 			@Override
-			public void validSelectionTrigger(int rowIndex, boolean requireMenu) {
+			public void validSelectionTrigger(boolean doubleClick, int rowIndex, boolean requireMenu) {
 				view.getBtnRemoveMaterial().setVisible(true);
 			}
 			

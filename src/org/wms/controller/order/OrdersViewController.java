@@ -85,7 +85,12 @@ public class OrdersViewController {
 		view.getOrdersTable().addMouseListener(new AbstractTableSelectionListener() {
 			
 			@Override
-			public void validSelectionTrigger(int rowIndex, boolean requireMenu) {
+			public void validSelectionTrigger(boolean doubleClick, int rowIndex, boolean requireMenu) {
+				if(doubleClick) {
+					Order order = ordersModel.getUnmodificableOrderList(orderType).get(rowIndex);
+					launchOrderEditView(order, false); 
+				}
+				
 				view.getBtnDeleteOrder().setVisible(true);
 				view.getBtnEditOrder().setVisible(true);
 			}
