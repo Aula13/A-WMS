@@ -82,7 +82,7 @@ public class OrderEditView extends JDialog {
 
 	private void initUI() {
 		setModal(true);
-		setSize(500, 500);
+		setSize(700, 500);
 		setLocationRelativeTo(null);
 	}
 	

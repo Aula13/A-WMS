@@ -27,7 +27,7 @@ public class Materials extends Observable {
 		try {
 			semaphore.acquire();
 			
-			if(!MaterialDao.get(material.getId()).isPresent()) {
+			if(!MaterialDao.get(material.getCode()).isPresent()) {
 				result = MaterialDao.create(material);	
 				
 				semaphore.release();
@@ -51,7 +51,7 @@ public class Materials extends Observable {
 		try {
 			semaphore.acquire();
 			
-			if(MaterialDao.get(material.getId()).isPresent()) {
+			if(MaterialDao.get(material.getCode()).isPresent()) {
 				result = MaterialDao.delete(material);	
 				
 				semaphore.release();
@@ -75,7 +75,7 @@ public class Materials extends Observable {
 		try {
 			semaphore.acquire();
 			
-			if(MaterialDao.get(material.getId()).isPresent()) {
+			if(MaterialDao.get(material.getCode()).isPresent()) {
 				result = MaterialDao.update(material);		
 				
 				semaphore.release();

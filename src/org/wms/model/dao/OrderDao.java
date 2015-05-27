@@ -24,7 +24,7 @@ public class OrderDao {
 			session.beginTransaction();
 			session.save(order);
 			
-			for (OrderRow orderRow : order.getMaterials())
+			for (OrderRow orderRow : order.getUnmodificableMaterials())
 				session.save(orderRow);
 			
 			session.getTransaction().commit();	
@@ -47,7 +47,7 @@ public class OrderDao {
 			criteria.add(Restrictions.eq("order", order));
 			List<OrderRow> orderRows = criteria.list();
 			for (OrderRow orderRow : orderRows) {
-				if(!order.getMaterials().contains(orderRow))
+				if(!order.getUnmodificableMaterials().contains(orderRow))
 					session.delete(orderRow);
 			}
 			session.getTransaction().commit();
@@ -56,7 +56,7 @@ public class OrderDao {
 			//Save or update other orderRow
 			session = HibernateUtil.getSession();
 			session.beginTransaction();	
-			for (OrderRow orderRow : order.getMaterials())
+			for (OrderRow orderRow : order.getUnmodificableMaterials())
 				session.saveOrUpdate(orderRow);
 			session.getTransaction().commit();
 			HibernateUtil.closeSession();

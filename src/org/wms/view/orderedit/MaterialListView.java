@@ -24,7 +24,7 @@ public class MaterialListView extends JPanel {
 	private Order order;
 	
 	private JTable tblMaterials;
-	private ComboBoxCellEditor cmbCellEditor;
+	private ComboBoxCellEditorCustom cmbCellEditor;
 	private SpinnerCellEditor spnCellEditor;
 	
 	private MaterialListTableModel tblMaterialsModel;
@@ -46,8 +46,8 @@ public class MaterialListView extends JPanel {
 		tblMaterialsModel = new MaterialListTableModel(order);
 		tblMaterials = FactoryReferences.appStyle.getTableClass(tblMaterialsModel);
 		
-		cmbCellEditor = new ComboBoxCellEditor(new JComboBox<>(availableMaterials.stream().
-				map(material -> material.getId()).toArray()));
+		cmbCellEditor = new ComboBoxCellEditorCustom(new JComboBox<>(availableMaterials.stream().
+				map(material -> material.getCode()).toArray()));
 		tblMaterials.getColumnModel().getColumn(0).setCellEditor(cmbCellEditor);		
 		spnCellEditor = new SpinnerCellEditor();
 		tblMaterials.getColumnModel().getColumn(1).setCellEditor(spnCellEditor);		

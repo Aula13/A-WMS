@@ -4,6 +4,8 @@ import it.rmautomazioni.view.factories.FactoryReferences;
 import it.rmautomazioni.view.factories.JSpinnerType;
 
 import java.awt.Component;
+import java.awt.event.MouseEvent;
+import java.util.EventObject;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.DefaultCellEditor;
@@ -31,5 +33,10 @@ public class SpinnerCellEditor extends AbstractCellEditor implements TableCellEd
 		return spinnerCell.getValue();
 	}
 	
-	
+	@Override
+	public boolean isCellEditable(EventObject e) {
+		if(e instanceof MouseEvent)
+			return ((MouseEvent) e).getClickCount()==2;
+		return false;
+	}
 }

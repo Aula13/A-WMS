@@ -17,7 +17,7 @@ import org.hibernate.annotations.OnDelete;
 @Entity
 @Table(name="wms_order_row")
 public class OrderRow implements Serializable {
-	
+
 	private static final long serialVersionUID = -4341205797647447187L;
 
 	@Id
@@ -35,6 +35,12 @@ public class OrderRow implements Serializable {
 	
 	@Column(name="quantity")
 	private int quantity;
+	
+	@Column(name="allocated")
+	private boolean allocated = false;
+	
+	@Column(name="completed")
+	private boolean completed = false;
 
 	public OrderRow() {
 	}
@@ -50,8 +56,11 @@ public class OrderRow implements Serializable {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public boolean setQuantity(int quantity) {
+		if(quantity<0)
+			return false;
 		this.quantity = quantity;
+		return true;
 	}
 
 	public Order getOrder() {
@@ -64,6 +73,36 @@ public class OrderRow implements Serializable {
 	
 	public void setMaterial(Material material) {
 		this.material = material;
+	}
+	
+	public boolean isAllocated() {
+		return allocated;
+	}
+	
+	public void setAllocated() {
+		this.allocated = true;
+	}
+
+	public boolean isCompleted() {
+		return completed;
+	}
+	
+	public void setCompleted() {
+		this.completed = true;
+	}
+	
+	public boolean isEditable() {
+		return !(allocated || completed);
+	}
+	
+	public boolean isDataComplete() {
+		if(order==null)
+			return false;
+		if(material==null)
+			return false;
+		if(quantity==0)
+			return false;
+		return true;
 	}
 	
 	@Override

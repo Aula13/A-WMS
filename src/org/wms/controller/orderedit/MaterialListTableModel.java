@@ -11,7 +11,7 @@ public class MaterialListTableModel extends AbstractTableModel {
 
 	private Order order;
 	
-	private String[] headers = {"Code", "Quantity"};
+	private String[] headers = {"Code", "Quantity", "Allocated", "Completed"};
 	
 	public MaterialListTableModel(Order order) {
 		super();
@@ -20,7 +20,7 @@ public class MaterialListTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return order.getMaterials().size();		
+		return order.getUnmodificableMaterials().size();		
 	}
 
 	@Override
@@ -35,18 +35,26 @@ public class MaterialListTableModel extends AbstractTableModel {
 	
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		return true;
+		if(columnIndex<2) {
+			OrderRow row = (OrderRow) order.getUnmodificableMaterials().toArray()[rowIndex];
+			return row.isEditable();
+		}
+		return false;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		OrderRow row = (OrderRow) order.getMaterials().toArray()[rowIndex]; 
+		OrderRow row = (OrderRow) order.getUnmodificableMaterials().toArray()[rowIndex]; 
 		
 		switch (columnIndex) {
 		case 0:
-			return row.getMaterial().getId();
+			return row.getMaterial().getCode();
 		case 1:
 			return row.getQuantity();
+		case 2:
+			return row.isAllocated();
+		case 3:
+			return row.isCompleted();
 		default:
 			break;
 		}

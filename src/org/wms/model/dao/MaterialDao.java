@@ -24,7 +24,7 @@ public class MaterialDao {
 			return true;
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
-			logger.error(formatLogMessage("Error during create material " + material.getId() + "; Exception: " + e));
+			logger.error(formatLogMessage("Error during create material " + material.getCode() + "; Exception: " + e));
 		}
 		return false;
 	}
@@ -39,7 +39,7 @@ public class MaterialDao {
 			return false;
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
-			logger.error(formatLogMessage("Error during get update material " + material.getId() + "; Exception: " + e));
+			logger.error(formatLogMessage("Error during get update material " + material.getCode() + "; Exception: " + e));
 		}
 		return true;
 	}
@@ -54,7 +54,7 @@ public class MaterialDao {
 			return true;
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
-			logger.error(formatLogMessage("Error during delete material by id " + material.getId() + "; Exception: "+ e));
+			logger.error(formatLogMessage("Error during delete material by id " + material.getCode() + "; Exception: "+ e));
 		}
 		return false;
 	}

@@ -66,7 +66,7 @@ public class OrderUnitTest {
 		assertThat(orderTest.getEmissionDate(), is(equalTo(orderEmissionDate)));
 		
 		assertThat(orderTest.getPriority(), is(equalTo(Priority.LOW)));
-		assertThat(orderTest.getMaterials(), is(notNullValue()));
+		assertThat(orderTest.getUnmodificableMaterials(), is(notNullValue()));
 		checkOrderInit();
 	}
 	
@@ -81,7 +81,7 @@ public class OrderUnitTest {
 		assertThat(orderTest.getEmissionDate(), is(equalTo(orderEmissionDate)));
 		assertThat(orderTest.getPriority(), is(equalTo(orderPriority)));
 		
-		assertThat(orderTest.getMaterials(), is(notNullValue()));
+		assertThat(orderTest.getUnmodificableMaterials(), is(notNullValue()));
 		checkOrderInit();
 	}
 	
@@ -95,7 +95,7 @@ public class OrderUnitTest {
 		assertThat(orderTest.getId(), is(equalTo(orderId)));
 		assertThat(orderTest.getEmissionDate(), is(equalTo(orderEmissionDate)));
 		assertThat(orderTest.getPriority(), is(equalTo(orderPriority)));
-		assertSame(orderTest.getMaterials(), orderMaterials);
+		assertSame(orderTest.getUnmodificableMaterials(), orderMaterials);
 		checkOrderInit();
 	}
 	

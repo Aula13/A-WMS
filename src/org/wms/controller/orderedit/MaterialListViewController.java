@@ -51,13 +51,13 @@ public class MaterialListViewController {
 			@Override
 			public void editingStopped(ChangeEvent e) {
 				int editIndex = view.getTblMaterials().getSelectedRow();
-				OrderRow orderRow = order.getMaterials().get(editIndex);
+				OrderRow orderRow = order.getUnmodificableMaterials().get(editIndex);
 
 				Long materialId = (Long) ((ComboBoxCellEditor) e.getSource()).getCellEditorValue();
 
-				if(availableMaterials.stream().anyMatch(material -> material.getId()==materialId))
+				if(availableMaterials.stream().anyMatch(material -> material.getCode()==materialId))
 					orderRow.setMaterial(availableMaterials.stream()
-							.filter(m->m.getId()==materialId)
+							.filter(m->m.getCode()==materialId)
 							.collect(Collectors.toList())
 							.get(0));
 			}
@@ -73,7 +73,7 @@ public class MaterialListViewController {
 			@Override
 			public void editingStopped(ChangeEvent e) {
 				int editIndex = view.getTblMaterials().getSelectedRow();
-				OrderRow orderRow = order.getMaterials().get(editIndex);
+				OrderRow orderRow = order.getUnmodificableMaterials().get(editIndex);
 				Integer quantity = (Integer) ((SpinnerCellEditor) e.getSource()).getCellEditorValue();
 				orderRow.setQuantity(quantity.intValue());
 			}
@@ -93,7 +93,15 @@ public class MaterialListViewController {
 					return;
 				}
 				
-				order.getMaterials().add(new OrderRow(order, availableMaterials.get(0), 0));
+				if(!order.isEditable()) {
+					MessageBox.errorBox("This order is not editable!", "Error");
+					return;
+				}
+				
+				if(order.addMaterial(new OrderRow(order, availableMaterials.get(0), 0))) {
+					MessageBox.errorBox("The order row is not valid!", "Error");
+					return;
+				}
 				
 				view.getTblMaterialsModel().fireTableDataChanged();
 			}
@@ -110,9 +118,15 @@ public class MaterialListViewController {
 					return;
 				}
 				
-				OrderRow orderRow = order.getMaterials().get(index);
-				if(MessageBox.questionBox("Are you sure to delete material " + orderRow.getMaterial().getId() + "?", "Confirm")==0)
-					order.getMaterials().remove(index);
+				if(!order.isEditable()) {
+					MessageBox.errorBox("This order is not editable!", "Error");
+					return;
+				}
+				
+				OrderRow orderRow = order.getUnmodificableMaterials().get(index);
+				
+				if(MessageBox.questionBox("Are you sure to delete material " + orderRow.getMaterial().getCode() + "?", "Confirm")==0)
+					order.removeMaterial(orderRow);
 				
 				view.getTblMaterialsModel().fireTableDataChanged();
 			}
