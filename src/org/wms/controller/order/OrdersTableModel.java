@@ -23,22 +23,22 @@ public class OrdersTableModel extends AbstractTableModel {
 	/**
 	 * Reference to ordersModel to fetch orders
 	 */
-	private Orders ordersModel;
+	protected Orders ordersModel;
 	
 	/**
 	 * Columns name
 	 */
-	private String[] headers = {"Code", "Emission date", "Priority", "Order status", "Complete %", "Allocation %"};
+	protected String[] headers = {"Code", "Emission date", "Priority", "Order status", "Complete %", "Allocation %"};
 	
 	/**
 	 * Type of order to show 
 	 */
-	private OrderType orderType;
+	protected OrderType orderType;
 	
 	/**
 	 * cache of the orders list to reduce the #call to ordersModel
 	 */
-	List<Order> orders;
+	protected List<Order> orders;
 	
 	/**
 	 * Constructor
@@ -82,7 +82,9 @@ public class OrdersTableModel extends AbstractTableModel {
 	 */
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		Order order = orders.get(rowIndex);
+		Order order = orders!=null? 
+				orders.get(rowIndex) : 
+				(Order) ordersModel.getUnmodificableOrderList(orderType).toArray()[rowIndex];
 		
 		switch (columnIndex) {
 		case 0:
