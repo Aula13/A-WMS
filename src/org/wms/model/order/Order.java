@@ -78,12 +78,19 @@ public class Order {
 		return id;
 	}
 	
+	public void setId(long id) {
+		this.id = id;
+	}
+	
 	/**
 	 * check if all the data are provided for the order
 	 * 
 	 * @return true = the data are complete 
 	 */
 	public boolean isDataComplete() {
+		if(getId()==0l)
+			return false;
+		
 		if(getEmissionDate()==null)
 			return false;
 		return true;
@@ -93,12 +100,20 @@ public class Order {
 		return emissionDate;
 	}
 	
+	public void setEmissionDate(Date emissionDate) {
+		this.emissionDate = emissionDate;
+	}
+	
 	public OrderType getType() {
 		return type;
 	}
 
 	public Priority getPriority() {
 		return priority;
+	}
+	
+	public void setPriority(Priority priority) {
+		this.priority = priority;
 	}
 
 	public List<OrderRow> getMaterials() {

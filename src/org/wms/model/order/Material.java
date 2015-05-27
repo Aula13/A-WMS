@@ -30,7 +30,7 @@ public class Material {
 		this.code = code;
 	}
 	
-	public long getCode() {
+	public long getId() {
 		return code;
 	}
 }

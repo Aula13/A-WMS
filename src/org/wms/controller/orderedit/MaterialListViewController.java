@@ -55,9 +55,9 @@ public class MaterialListViewController {
 
 				Long materialId = (Long) ((ComboBoxCellEditor) e.getSource()).getCellEditorValue();
 
-				if(availableMaterials.stream().anyMatch(material -> material.getCode()==materialId))
+				if(availableMaterials.stream().anyMatch(material -> material.getId()==materialId))
 					orderRow.setMaterial(availableMaterials.stream()
-							.filter(m->m.getCode()==materialId)
+							.filter(m->m.getId()==materialId)
 							.collect(Collectors.toList())
 							.get(0));
 			}
@@ -111,7 +111,7 @@ public class MaterialListViewController {
 				}
 				
 				OrderRow orderRow = order.getMaterials().get(index);
-				if(MessageBox.questionBox("Are you sure to delete material " + orderRow.getMaterial().getCode() + "?", "Confirm")==0)
+				if(MessageBox.questionBox("Are you sure to delete material " + orderRow.getMaterial().getId() + "?", "Confirm")==0)
 					order.getMaterials().remove(index);
 				
 				view.getTblMaterialsModel().fireTableDataChanged();

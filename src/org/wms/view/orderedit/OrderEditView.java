@@ -6,10 +6,9 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -27,6 +26,8 @@ import org.wms.model.order.Material;
 import org.wms.model.order.Order;
 import org.wms.model.order.Priority;
 
+import com.toedter.calendar.JDateChooser;
+
 public class OrderEditView extends JDialog {
 	
 	private Order order;
@@ -40,7 +41,7 @@ public class OrderEditView extends JDialog {
 	private JTextField idField;
 	private JComboBox<Priority> priorityField;
 	private SimpleDateFormat dateFormat;
-	private JFormattedTextField dateField;
+	private JDateChooser dateField;
 	
 	/**
 	 * Contains the materials/quantity table and the right sidebar with the edit buttons
@@ -56,28 +57,25 @@ public class OrderEditView extends JDialog {
 
 	private List<Material> availableMaterials;
 	
+	private boolean isNew;
 	/**
 	 * @param order to modify
 	 * @throws ParseException 
 	 */
-	public OrderEditView(Order order, List<Material> availableMaterials) throws ParseException {
+	public OrderEditView(Order order, List<Material> availableMaterials, boolean isNew) {
 		super();
 		this.order = order;
 		this.availableMaterials = availableMaterials;
-		initComponents();
-		
-		idField.setText(Long.toString(order.getId()));
-		idField.setEditable(false);
-		priorityField.setSelectedItem(order.getPriority());
-		dateField.setValue(order.getEmissionDate());
-		
+		this.isNew = isNew;
+		initComponents();		
 		initUI();
+		initFieldsValue();
 	}
 	
 	private void initComponents() {
 		initFieldsPanel();
 		initMaterialPanel();
-		initConfrimationPanel();
+		initConfirmationPanel();
 		initContainerPanel();
 	}
 	
@@ -108,10 +106,12 @@ public class OrderEditView extends JDialog {
 		priorityField.setModel(new DefaultComboBoxModel<Priority>(Priority.values()));
 
 		
-		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//		
+		dateField = new JDateChooser();
 		
-		dateField = new JFormattedTextField(dateFormat);
-		dateField.setEditable(false);
+//		dateField = new JFormattedTextField(dateFormat);
+//		dateField.setEditable(false);
 
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -143,7 +143,7 @@ public class OrderEditView extends JDialog {
 		materialsTablePanel.setBackground(Color.BLUE);
 	}
 	
-	private void initConfrimationPanel(){
+	private void initConfirmationPanel(){
 		confirmationPanel = FactoryReferences.appStyle.getPanelClass();
 		confirmationPanel.setBackground(Color.BLUE);
 		confirmationPanel.setLayout(new GridLayout(1,1));
@@ -155,11 +155,39 @@ public class OrderEditView extends JDialog {
 		confirmationPanel.add(cancelButton);
 	}
 
+	private void initFieldsValue() {
+		if(isNew) {
+			idField.setText("");
+			idField.setEditable(true);
+			dateField.setDate(new Date(System.currentTimeMillis()));
+			dateField.setEnabled(true);
+		} else {
+			idField.setText(Long.toString(order.getId()));
+			idField.setEditable(false);
+			dateField.setDate(order.getEmissionDate());
+			dateField.setEnabled(false);
+		}	
+		
+		priorityField.setSelectedItem(order.getPriority());
+	}
+	
 	public JButton getConfirmButton() {
 		return confirmButton;
 	}
 	
 	public JButton getCancelButton() {
 		return cancelButton;
+	}
+	
+	public long getSelectedId() {
+		return Long.parseLong(idField.getText());
+	}
+	
+	public Date getSelectedEmissionDate() {
+		return dateField.getDate();
+	}
+	
+	public Priority getSelectedPriority() {
+		return priorityField.getItemAt(priorityField.getSelectedIndex());	
 	}
 }

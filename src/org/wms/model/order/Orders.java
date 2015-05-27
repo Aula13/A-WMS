@@ -8,70 +8,133 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Optional;
 import java.util.Random;
+import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
+import org.wms.config.Configuration;
 import org.wms.config.HibernateUtil;
 import org.wms.model.dao.OrderDao;
 
 public class Orders extends Observable {
 	
-	public synchronized boolean addOrder(Order order) {
-		if(!OrderDao.create(order))
-			return false;
+	private Logger logger = Logger.getLogger(Configuration.SUPERVISOR_LOGGER);
+	
+	private Semaphore semaphore = new Semaphore(1);
+	
+	public boolean addOrder(Order order) {
 		
-		setChanged();
-		notifyObservers();
+		boolean result = false;
 		
-		return true;
+		try {
+			semaphore.acquire();
+			
+			if(!OrderDao.get(order.getId()).isPresent()) {
+				result = OrderDao.create(order);
+			
+				semaphore.release();
+				
+				setChanged();
+				notifyObservers();
+			}
+			
+		} catch (InterruptedException e) {
+			logger.error(formatLogMessage("Error during semaphore acquire " + e));
+		}
+		
+		semaphore.release();
+		return result;
 	}
 	
-	public synchronized boolean deleteOrder(Order order) {
-		if(!OrderDao.delete(order))
-			return false;
+	public boolean deleteOrder(Order order) {
 		
-		setChanged();
-		notifyObservers();
+		boolean result = false;
 		
-		return true;
+		try {
+			semaphore.acquire();
+			
+			if(OrderDao.get(order.getId()).isPresent()) {
+				result = OrderDao.delete(order);
+			
+				semaphore.release();
+				
+				setChanged();
+				notifyObservers();
+			}
+			
+		} catch (InterruptedException e) {
+			logger.error(formatLogMessage("Error during semaphore acquire " + e));
+		}
+		
+		semaphore.release();
+		return result;
 	}
 	
-	public synchronized boolean updateOrder(Order order) {
-		if(!OrderDao.update(order))
-			return false;
+	public boolean updateOrder(Order order) {
 		
-		setChanged();
-		notifyObservers();
+		boolean result = false;
 		
-		return true;
+		try {
+			semaphore.acquire();
+			
+			if(OrderDao.get(order.getId()).isPresent()) {
+				result = OrderDao.update(order);
+				
+				semaphore.release();
+			
+				setChanged();
+				notifyObservers();
+			}
+			
+		} catch (InterruptedException e) {
+			logger.error(formatLogMessage("Error during semaphore acquire " + e));
+		}
+		
+		semaphore.release();
+		return result;
 	}
 	
 	public List<Order> getUnmodificableOrderList() {
+		
+		try {
+			semaphore.acquire();
+		} catch (InterruptedException e) {
+			logger.error(formatLogMessage("Error during semaphore acquire " + e));
+			semaphore.release();
+			return new ArrayList<>();
+		}
+		
 		Optional<List<Order>> opt = OrderDao.selectAll();
 		List<Order> orders = opt.isPresent()? opt.get() : new ArrayList<>();
+		
+		semaphore.release();
+		
 		return Collections.unmodifiableList(orders);
 	}
 	
 	public List<Order> getUnmodificableOrderList(OrderType orderType) {
+		
+		try {
+			semaphore.acquire();
+		} catch (InterruptedException e) {
+			logger.error(formatLogMessage("Error during semaphore acquire " + e));
+			semaphore.release();
+			return new ArrayList<>();
+		}
+		
 		Optional<List<Order>> opt = OrderDao.selectAll();
 		List<Order> orders = opt.isPresent()? opt.get() : new ArrayList<>();
 		List<Order> filteredOrders = orders.stream()
 				.filter(order -> order.getType()==orderType)
 				.collect(Collectors.toList());
+		
+		semaphore.release();
+		
 		return Collections.unmodifiableList(filteredOrders);
 	}
 	
-	public Long newOrderId(){
-//		Long newOrderId;
-//		Random random = new Random();
-//		long LOWER_RANGE = 0001000;
-//		long UPPER_RANGE = 9999999;
-//		
-//		do {
-//			newOrderId = LOWER_RANGE + 
-//                    (long)(random.nextDouble()*(UPPER_RANGE - LOWER_RANGE));
-//		} while (orders.containsKey(newOrderId));
-//		return newOrderId;
-		return 00000001l;
+	private String formatLogMessage(String message) {
+		return this.getClass().getSimpleName() + " - " + message;
 	}
 }

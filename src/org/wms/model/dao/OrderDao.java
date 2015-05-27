@@ -97,7 +97,7 @@ public class OrderDao {
 		return false;
 	}
 
-	public static Optional<Order> get(Long orderId) {
+	public static Optional<Order> get(long orderId) {
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
@@ -105,11 +105,14 @@ public class OrderDao {
 			session.getTransaction().commit();
 			HibernateUtil.closeSession();
 			
-			return Optional.of(order);
+			if(order!=null)
+				return Optional.of(order);
+			else
+				return Optional.empty();
 			
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
-			logger.error(formatLogMessage("Error during get order by id " + e.getMessage()));
+			logger.error(formatLogMessage("Error during get order by id " + orderId + "; Exception: "+ e));
 		}
 		
 		return Optional.empty();

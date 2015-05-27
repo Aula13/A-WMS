@@ -41,7 +41,7 @@ public class OrdersViewController {
 			
 			@Override
 			public void actionTriggered() {
-				Order order = new Order(ordersModel.newOrderId(), new Date(), orderType);
+				Order order = new Order(0l, new Date(), orderType);
 				launchOrderEditView(order, true);
 			}
 		};
@@ -101,17 +101,8 @@ public class OrdersViewController {
 	
 	
 	private void launchOrderEditView(Order order, boolean isNew){
-		
-		try {
-			OrderEditView editOrderDialog = new OrderEditView(order, materialsModel.getUnmodificableMaterialList());
-			new OrderEditViewController(editOrderDialog, order, ordersModel, isNew);
-			editOrderDialog.setVisible(true);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	
-	
+		OrderEditView editOrderDialog = new OrderEditView(order, materialsModel.getUnmodificableMaterialList(), isNew);
+		new OrderEditViewController(editOrderDialog, order, ordersModel, isNew);
+		editOrderDialog.setVisible(true);
+	}	
 }

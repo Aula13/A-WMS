@@ -47,7 +47,7 @@ public class MaterialListView extends JPanel {
 		tblMaterials = FactoryReferences.appStyle.getTableClass(tblMaterialsModel);
 		
 		cmbCellEditor = new ComboBoxCellEditor(new JComboBox<>(availableMaterials.stream().
-				map(material -> material.getCode()).toArray()));
+				map(material -> material.getId()).toArray()));
 		tblMaterials.getColumnModel().getColumn(0).setCellEditor(cmbCellEditor);		
 		spnCellEditor = new SpinnerCellEditor();
 		tblMaterials.getColumnModel().getColumn(1).setCellEditor(spnCellEditor);		

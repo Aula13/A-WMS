@@ -44,7 +44,7 @@ public class MaterialListTableModel extends AbstractTableModel {
 		
 		switch (columnIndex) {
 		case 0:
-			return row.getMaterial().getCode();
+			return row.getMaterial().getId();
 		case 1:
 			return row.getQuantity();
 		default:

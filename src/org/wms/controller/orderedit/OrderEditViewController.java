@@ -34,15 +34,21 @@ public class OrderEditViewController {
 			public void actionTriggered() {
 				boolean result;
 				
-				if(!order.isDataComplete()) {
-					MessageBox.errorBox("Incomplete data!", "Error");
-					return;
-				}
-				
-				if(isNew)
+				if(isNew) {
+					order.setId(view.getSelectedId());
+					order.setEmissionDate(view.getSelectedEmissionDate());
+					order.setPriority(view.getSelectedPriority());
+					
+					if(!order.isDataComplete()) {
+						MessageBox.errorBox("Incomplete data!", "Error");
+						return;
+					}
+					
 					result = ordersModel.addOrder(order);
-				else
+				} else {
+					order.setPriority(view.getSelectedPriority());
 					result = ordersModel.updateOrder(order);
+				}
 				
 				if(result)
 					view.setVisible(false);
