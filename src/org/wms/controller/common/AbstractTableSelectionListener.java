@@ -46,13 +46,15 @@ public abstract class AbstractTableSelectionListener implements MouseListener {
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(!isJTable(e.getComponent()))
+		if(!isJTable(e.getComponent())) {
+			invalidSelectionTriggered();
 			return;
+		}
 		JTable table = getTable(e.getComponent());
 		
 		boolean valid = table.getSelectedRow()!=-1;
 		int rowIndex = table.getSelectedRow();
-		boolean requireMenu = e.getButton()==MouseEvent.BUTTON2;
+		boolean requireMenu = e.isPopupTrigger();
 		
 		if(valid)
 			validSelectionTrigger(e.getClickCount()==2,rowIndex, requireMenu);
