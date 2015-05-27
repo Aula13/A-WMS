@@ -28,25 +28,25 @@ public class NavigationPanel extends JPanel {
 	private JPanel navBar;
 
 	/**
-	 * Home button
+	 * Login button
 	 */
-	public JButton btnLogin;	
+	private JButton btnLogin;	
 
 	/**
 	 * Orders list button
 	 */
-	public JButton btnInputOrders;
-	public JButton btnOutputOrders;
+	private JButton btnInputOrders;
+	private JButton btnOutputOrders;
 
 	/**
 	 * Verify list button
 	 */
-	public JButton btnVerifyList;
+	private JButton btnVerifyList;
 
 	/**
 	 * Jobs list button
 	 */
-	public JButton btnJobsList;
+	private JButton btnJobsList;
 	
 	/**
 	 * current security level
@@ -146,5 +146,26 @@ public class NavigationPanel extends JPanel {
 		default:
 			break;
 		}
+	}
+	
+	/**
+	 * @return reference to login page button
+	 */
+	public JButton getBtnLogin() {
+		return btnLogin;
+	}
+	
+	/**
+	 * @return reference to input orders page button
+	 */
+	public JButton getBtnInputOrders() {
+		return btnInputOrders;
+	}
+	
+	/**
+	 * @return reference to output orders page button
+	 */
+	public JButton getBtnOutputOrders() {
+		return btnOutputOrders;
 	}
 }

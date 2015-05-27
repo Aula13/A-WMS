@@ -38,7 +38,7 @@ public class HibernateUtilIntegTest {
 	 */
 	@Test
 	public void testCloseSession() {
-		HibernateUtil.closeSession();
+		HibernateUtil.closeSessionFactory();
 		assertTrue(HibernateUtil.getSessionFactory().isClosed());
 	}
 

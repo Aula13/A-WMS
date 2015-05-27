@@ -7,10 +7,11 @@ import it.rmautomazioni.security.SecurityLevel;
 import org.wms.config.SecurityConfig;
 import org.wms.controller.order.OrdersViewController;
 import org.wms.model.common.ModelReference;
+import org.wms.model.order.Materials;
 import org.wms.model.order.OrderType;
+import org.wms.model.order.Orders;
 import org.wms.view.common.LoginPopupMenu;
 import org.wms.view.common.MainGUI;
-import org.wms.view.common.WelcomePanel;
 import org.wms.view.order.OrdersView;
 
 /**
@@ -35,14 +36,14 @@ public class MainGUIController {
 	protected final OrdersView inputOrdersView;
 	protected final OrdersView outputOrdersView;
 
-	public MainGUIController(MainGUI gui) {
+	public MainGUIController(MainGUI gui, Orders ordersModel, Materials materialsModel) {
 		super();
 		this.gui = gui;
 		loginMenu = new LoginPopupMenu();
 		
 		gui.getLblUsers().setComponentPopupMenu(loginMenu);
 		
-		new AbstractJButtonActionListener(gui.navPanel.btnLogin) {
+		new AbstractJButtonActionListener(gui.getNavPanel().getBtnLogin()) {
 			
 			@Override
 			public void actionTriggered() {
@@ -50,17 +51,17 @@ public class MainGUIController {
 			}
 		};
 		
-		inputOrdersView = new OrdersView(ModelReference.ordersModel, OrderType.INPUT);
-		new OrdersViewController(inputOrdersView, ModelReference.ordersModel, ModelReference.materialsModel);
+		inputOrdersView = new OrdersView(ordersModel, OrderType.INPUT);
+		new OrdersViewController(inputOrdersView, ordersModel, materialsModel);
 		new ChangePageListener(
-				gui.navPanel.btnInputOrders, 
+				gui.getNavPanel().getBtnInputOrders(), 
 				inputOrdersView, 
 				gui);
 		
-		outputOrdersView = new OrdersView(ModelReference.ordersModel, OrderType.OUTPUT);
-		new OrdersViewController(outputOrdersView, ModelReference.ordersModel, ModelReference.materialsModel);
+		outputOrdersView = new OrdersView(ordersModel, OrderType.OUTPUT);
+		new OrdersViewController(outputOrdersView, ordersModel, materialsModel);
 		new ChangePageListener(
-				gui.navPanel.btnOutputOrders, 
+				gui.getNavPanel().getBtnOutputOrders(), 
 				outputOrdersView, 
 				gui);
 	}

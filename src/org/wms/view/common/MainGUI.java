@@ -53,12 +53,12 @@ public class MainGUI extends ContentPane implements Navigable, Observer {
 	/**
 	 * Navigation panel
 	 */
-	public NavigationPanel navPanel;
+	private NavigationPanel navPanel;
 
 	/**
 	 * Panel title, with background image
 	 */
-	ImagePanel titlePanel;
+	private ImagePanel titlePanel;
 
 	
 	/**
@@ -74,14 +74,14 @@ public class MainGUI extends ContentPane implements Navigable, Observer {
 	/**
 	 * Connection status observable
 	 */
-	ConnectionStatus dbConnectionStatus;
+	private ConnectionStatus dbConnectionStatus;
 	
 	/**
 	 * Security status observable
 	 */
-	SecurityStatus securityStatus;
+	private SecurityStatus securityStatus;
 	
-	WelcomePanel welcomePanel;
+	private WelcomePanel welcomePanel;
 
 	/**
 	 * Constructor
@@ -225,15 +225,31 @@ public class MainGUI extends ContentPane implements Navigable, Observer {
 		//		}
 	}
 
+	/**
+	 * @return reference to dbConnections label in status bar
+	 */
 	public StatusBarLabel getLblDbConn() {
 		return lblDbConn;
 	}
 
+	/**
+	 * @return reference to user label in status bar
+	 */
 	public StatusBarLabel getLblUsers() {
 		return lblUsers;
 	}
 
+	/**
+	 * @return reference to the title label
+	 */
 	public JLabel getLblTitle() {
 		return lblTitle;
+	}
+	
+	/**
+	 * @return reference to navBarPanel
+	 */
+	public NavigationPanel getNavPanel() {
+		return navPanel;
 	}
 }
