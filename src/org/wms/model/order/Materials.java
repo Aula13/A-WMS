@@ -14,12 +14,33 @@ import org.wms.config.HibernateUtil;
 import org.wms.model.dao.MaterialDao;
 import org.wms.model.dao.OrderDao;
 
+/**
+ * Materials model
+ * This model provide high level CRUD for materials
+ * 
+ * This model is sinchronized though a semaphore(1)
+ * 
+ * This model provide observable methods
+ * for get signal about materials list modifications
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class Materials extends Observable {
 	
 	private Logger logger = Logger.getLogger(Configuration.SUPERVISOR_LOGGER);
 	
+	/**
+	 * Sinchronization semaphore
+	 */
 	private Semaphore semaphore = new Semaphore(1);
 	
+	/**
+	 * Add a new material
+	 * 
+	 * @param material material to add
+	 * @return true=material created succefully
+	 */
 	public boolean addMaterial(Material material) {
 		
 		boolean result = false;
@@ -44,6 +65,12 @@ public class Materials extends Observable {
 		return result;
 	}
 	
+	/**
+	 * Delete a material
+	 * 
+	 * @param material material to delele
+	 * @return true=material deleted succefully
+	 */
 	public boolean deleteMaterial(Material material) {
 		
 		boolean result = false;
@@ -68,6 +95,12 @@ public class Materials extends Observable {
 		return result;
 	}
 	
+	/**
+	 * Update a material
+	 * 
+	 * @param material material to update
+	 * @return true=material updated
+	 */
 	public boolean updateMaterial(Material material) {
 		
 		boolean result = false;
@@ -92,6 +125,12 @@ public class Materials extends Observable {
 		return result;
 	}
 	
+	/**
+	 * Get a material
+	 * 
+	 * @param materialId materialId to fetch
+	 * @return optionally the material
+	 */
 	public Optional<Material> get(Long materialId) {
 		
 		Optional<Material> result = Optional.empty();
@@ -109,6 +148,11 @@ public class Materials extends Observable {
 		return result;
 	}
 	
+	/**
+	 * Provide an unmodificable list of materials
+	 * 
+	 * @return list of the materials
+	 */
 	public List<Material> getUnmodificableMaterialList() {
 		
 		try {
@@ -127,6 +171,13 @@ public class Materials extends Observable {
 		return Collections.unmodifiableList(materials);
 	}
 	
+	/**
+	 * Add some general information to a specific
+	 * log message like class name or moreover
+	 * 
+	 * @param message to log
+	 * @return formatted message
+	 */
 	private String formatLogMessage(String message) {
 		return this.getClass().getSimpleName() + " - " + message;
 	}

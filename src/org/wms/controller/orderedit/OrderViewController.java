@@ -8,19 +8,39 @@ import java.awt.event.ActionListener;
 
 import org.wms.model.order.Order;
 import org.wms.model.order.Orders;
-import org.wms.view.orderedit.OrderEditView;
+import org.wms.view.orderedit.OrderView;
 
-public class OrderEditViewController {
+/**
+ * Controller for order edit view
+ * 
+ * manage all the view actions and connections between OrderEditView and Order model
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
+public class OrderViewController {
 
-	private OrderEditView view;
+	/**
+	 * Reference to the order edit view
+	 */
+	private OrderView view;
 	
+	/**
+	 * Reference to the order model
+	 */
 	private Order order;
 	
+	/**
+	 * Reference to the orders model
+	 */
 	private Orders ordersModel;
 	
+	/**
+	 * Flag to store if it's a new order
+	 */
 	private boolean isNew;
 
-	public OrderEditViewController(OrderEditView view, Order order,
+	public OrderViewController(OrderView view, Order order,
 			Orders ordersModel, boolean isNew) {
 		super();
 		this.view = view;
@@ -45,6 +65,15 @@ public class OrderEditViewController {
 		};
 	}	
 	
+	/**
+	 * On user confirm
+	 * If it's new create a new order
+	 * otherwise update the existent order
+	 * show an error if the data are incomplete
+	 * show an error if problems appear during save process
+	 * 
+	 * if all it's ok dispose the edit view
+	 */
 	private void btnConfirmButtonAction() {
 		boolean result;
 		
@@ -70,6 +99,10 @@ public class OrderEditViewController {
 			MessageBox.errorBox("An appear during order saving", "Error");
 	}
 	
+	/**
+	 * Cancel edit
+	 * dispose order edit view
+	 */
 	private void btnCancelButtonAction() {
 		view.setVisible(false);
 	}

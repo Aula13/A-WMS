@@ -12,7 +12,7 @@ import org.wms.config.ResourceUtil;
 
 public class OrderEditViewTest {
 
-	private OrderEditView view;
+	private OrderView view;
 	
 	@Before
 	public void initFactories(){

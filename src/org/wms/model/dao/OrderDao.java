@@ -14,10 +14,30 @@ import org.wms.config.HibernateUtil;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderRow;
 
+/**
+ * Order Database Access Object
+ * 
+ * Store CRUD method to the database, 
+ * manage open/close connection hibernate method
+ * 
+ * Moreover manage errors from the database
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class OrderDao {
 
 	private static Logger logger = Logger.getLogger(Configuration.SUPERVISOR_LOGGER); 
 
+	/**
+	 * 
+	 * Create an order on the database
+	 * This method create also the materials
+	 * list (order row) stored inside the order
+	 * 
+	 * @param order order to create
+	 * @return true=order created succefully
+	 */	
 	public static boolean create(Order order) {
 		try {
 			Session session = HibernateUtil.getSession();
@@ -38,6 +58,13 @@ public class OrderDao {
 		return false;
 	}
 
+	/**
+	 * 
+	 * Update an order on the database
+	 * 
+	 * @param order order to update
+	 * @return true=order updated succefully
+	 */	
 	public static boolean update(Order order) {
 		try {
 			//If some orderRows item was deleted, delete it also from the db
@@ -76,6 +103,13 @@ public class OrderDao {
 		return false;
 	}
 
+	/**
+	 * 
+	 * Delete an order on the database
+	 * 
+	 * @param order order to delete
+	 * @return true=order deleted succefully
+	 */	
 	public static boolean delete(Order order) {
 		try {
 			Session session = HibernateUtil.getSession();
@@ -97,6 +131,13 @@ public class OrderDao {
 		return false;
 	}
 
+	/**
+	 * 
+	 * Get a specific order on the database
+	 * 
+	 * @param orderId orderId to fetch
+	 * @return optionally the order searched
+	 */
 	public static Optional<Order> get(long orderId) {
 		try {
 			Session session = HibernateUtil.getSession();
@@ -118,6 +159,11 @@ public class OrderDao {
 		return Optional.empty();
 	}
 
+	/**
+	 * Return all the orders stored on the database
+	 * 
+	 * @return optionally the list of orders
+	 */
 	public static Optional<List<Order>> selectAll() {
 		try {
 			Session session = HibernateUtil.getSession();
@@ -136,6 +182,13 @@ public class OrderDao {
 		return Optional.empty();
 	}		
 	
+	/**
+	 * Add some general information to a specific
+	 * log message like class name or moreover
+	 * 
+	 * @param message to log
+	 * @return formatted message
+	 */
 	private static String formatLogMessage(String message) {
 		return OrderDao.class.getSimpleName() + " - " + message;
 	}

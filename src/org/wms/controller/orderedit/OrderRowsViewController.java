@@ -14,26 +14,52 @@ import org.wms.controller.common.AbstractTableSelectionListener;
 import org.wms.model.order.Material;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderRow;
-import org.wms.view.orderedit.MaterialListView;
+import org.wms.view.orderedit.OrderRowsView;
 import org.wms.view.orderedit.SpinnerCellEditor;
 
-public class MaterialListViewController {
+/**
+ * Controller for material list view
+ * 
+ * manage all the view actions and connections between MaterialListView and Order model
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
+public class OrderRowsViewController {
 
-	private MaterialListView view;
+	/**
+	 * reference to the material list view
+	 */
+	private OrderRowsView view;
 
+	/**
+	 * reference to the order
+	 */
 	private Order order;
 
+	/**
+	 * List of available materials
+	 * to check valid materials
+	 * and force user selection
+	 */
 	private List<Material> availableMaterials;
 
-	public MaterialListViewController(MaterialListView view, Order order, List<Material> availableMaterials) {
+	/**
+	 * Constructor
+	 * 
+	 * @param view reference to the material list view
+	 * @param order reference to the order model
+	 * @param availableMaterials list of available material (valid selection)
+	 */
+	public OrderRowsViewController(OrderRowsView view, Order order, List<Material> availableMaterials) {
 		super();
 		this.view = view;
 		this.order = order;
 		this.availableMaterials = availableMaterials;
 		
-		view.getBtnRemoveMaterial().setVisible(false);
+		view.getBtnRemoveOrderRow().setVisible(false);
 		
-		view.getTblMaterials().addMouseListener(new AbstractTableSelectionListener() {
+		view.getTblOrderRows().addMouseListener(new AbstractTableSelectionListener() {
 			
 			@Override
 			public void validSelectionTrigger(boolean doubleClick, int rowIndex, boolean requireMenu) {
@@ -46,7 +72,7 @@ public class MaterialListViewController {
 			}
 		});
 		
-		view.getCmbCellEditor().addCellEditorListener(new CellEditorListener() {
+		view.getCmbMaterialCodeCellEditor().addCellEditorListener(new CellEditorListener() {
 
 			@Override
 			public void editingStopped(ChangeEvent e) {
@@ -59,7 +85,7 @@ public class MaterialListViewController {
 			}
 		});
 
-		view.getSpnCellEditor().addCellEditorListener(new CellEditorListener() {
+		view.getSpnOrderRowQuantityCellEditor().addCellEditorListener(new CellEditorListener() {
 
 			@Override
 			public void editingStopped(ChangeEvent e) {
@@ -72,7 +98,7 @@ public class MaterialListViewController {
 			}
 		});
 		
-		new AbstractJButtonActionListener(view.getBtnAddMaterial()) {
+		new AbstractJButtonActionListener(view.getBtnAddOrderRow()) {
 			
 			@Override
 			public void actionTriggered() {
@@ -80,7 +106,7 @@ public class MaterialListViewController {
 			}
 		};
 		
-		new AbstractJButtonActionListener(view.getBtnRemoveMaterial()) {
+		new AbstractJButtonActionListener(view.getBtnRemoveOrderRow()) {
 			
 			@Override
 			public void actionTriggered() {
@@ -89,16 +115,29 @@ public class MaterialListViewController {
 		};
 	}
 	
+	/**
+	 * Show remove material button
+	 * if the order row selected is editable
+	 */
 	private void tblMaterialsValidSelectionAction() {
-		view.getBtnRemoveMaterial().setVisible(true);
+		//TODO: show this button only if the order row is editable
+		view.getBtnRemoveOrderRow().setVisible(true);
 	}
 	
+	/**
+	 * Hide remove material button
+	 */
 	private void tblMaterialsInvalidSelectionAction() {
-		view.getBtnRemoveMaterial().setVisible(false);
+		view.getBtnRemoveOrderRow().setVisible(false);
 	}
 	
+	/**
+	 * Update material reference after user edit
+	 *  
+	 * @param e change event from combobox cell editor
+	 */
 	private void tblMaterialsComboEditStopAction(ChangeEvent e) {
-		int editIndex = view.getTblMaterials().getSelectedRow();
+		int editIndex = view.getTblOrderRows().getSelectedRow();
 		OrderRow orderRow = order.getUnmodificableMaterials().get(editIndex);
 
 		Long materialId = (Long) ((ComboBoxCellEditor) e.getSource()).getCellEditorValue();
@@ -110,13 +149,28 @@ public class MaterialListViewController {
 					.get(0));
 	}
 	
+	/**
+	 * Update material quantity after cell editor
+	 * 
+	 * @param e change event from spinner cell editor
+	 */
 	private void tblMaterialsSpinnerEditStopAction(ChangeEvent e) {
-		int editIndex = view.getTblMaterials().getSelectedRow();
+		int editIndex = view.getTblOrderRows().getSelectedRow();
 		OrderRow orderRow = order.getUnmodificableMaterials().get(editIndex);
 		Integer quantity = (Integer) ((SpinnerCellEditor) e.getSource()).getCellEditorValue();
 		orderRow.setQuantity(quantity.intValue());
 	}
 	
+	/**
+	 * Show error if # of available material is 0
+	 * 
+	 * Show error if order is not editable
+	 * 
+	 * If no error, add new material to order
+	 * 
+	 * Finally fire update order materials table
+	 * 
+	 */
 	private void btnAddMaterialAction() {
 		if(availableMaterials.size()==0) {
 			MessageBox.errorBox("No materials available!", "Error");
@@ -133,11 +187,23 @@ public class MaterialListViewController {
 			return;
 		}
 		
-		view.getTblMaterialsModel().fireTableDataChanged();
+		view.getTblOrderRowsModel().fireTableDataChanged();
 	}
-	
+
+	/**
+	 * Show error if no material is selected
+	 * 
+	 * Show error if order is not editable
+	 * 
+	 * Require confirmation to the user
+	 * 
+	 * Remove the material selected
+	 * 
+	 * Finally fire update order materials table
+	 * 
+	 */	
 	private void btnRemoveMaterialAction() {
-		int index = view.getTblMaterials().getSelectedRow();
+		int index = view.getTblOrderRows().getSelectedRow();
 		
 		if(index==-1) {
 			MessageBox.errorBox("No material selected", "Error");
@@ -154,7 +220,7 @@ public class MaterialListViewController {
 		if(MessageBox.questionBox("Are you sure to delete material " + orderRow.getMaterial().getCode() + "?", "Confirm")==0)
 			order.removeMaterial(orderRow);
 		
-		view.getTblMaterialsModel().fireTableDataChanged();
+		view.getTblOrderRowsModel().fireTableDataChanged();
 	}
 }
 

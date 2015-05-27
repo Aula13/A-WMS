@@ -15,6 +15,12 @@ import javax.swing.JPanel;
 import org.wms.config.ImageTypeAWMS;
 import org.wms.config.ResourceUtil;
 
+/**
+ * Welcome pane when no user is logged in the system
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class WelcomePanel extends JPanel {
 	
 	private JLabel lblWelcome;
@@ -28,6 +34,10 @@ public class WelcomePanel extends JPanel {
 		initUI();
 	}
 	
+	/**
+	 * Init graphic components
+	 * to be placed in the gui
+	 */
 	private void initComponents() {
 		lblWelcome = new JLabel("Welcome to AWMS system!");
 		lblWelcome.setFont(new Font("Arial", Font.BOLD, 40));
@@ -44,6 +54,9 @@ public class WelcomePanel extends JPanel {
 		imgWelcome = new MultiStateComponent(ResourceUtil.imageResource.getResource(ImageTypeAWMS.WELCOME.name()));
 	}
 	
+	/**
+	 * Place each component
+	 */
 	private void initUI() {
 		setLayout(new GridBagLayout());
 		setBackground(RMColour.RM_DARK_GRAY);

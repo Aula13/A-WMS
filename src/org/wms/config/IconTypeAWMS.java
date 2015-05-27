@@ -1,5 +1,13 @@
 package org.wms.config;
 
+/**
+ * 
+ * This enum store the possible icon
+ * loaded in IconResource class
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public enum IconTypeAWMS {
 	HOME,
 	

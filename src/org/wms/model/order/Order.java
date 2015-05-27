@@ -15,6 +15,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * Order model
+ * Include the business logic
+ * Include hibernate annotations for persistence
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 @Entity
 @Table(name="wms_order")
 public class Order {
@@ -29,6 +37,9 @@ public class Order {
 	@Column(name="prioriry", nullable=false)
 	private Priority priority = Priority.LOW;
 	
+	/**
+	 * List of the OrderRow that this order contains
+	 */
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="order", cascade=CascadeType.REMOVE)
 	private List<OrderRow> rows = new ArrayList<>();
 	
@@ -76,16 +87,25 @@ public class Order {
 		this.rows = rows;
 	}
 
+	/**
+	 * @return order id
+	 */
 	public long getId() {
 		return id;
 	}
 	
+	/**
+	 * @param set order id
+	 */
 	public void setId(long id) {
+		//TODO: check if the order is new
 		this.id = id;
 	}
 	
 	/**
 	 * check if all the data are provided for the order
+	 * getId isn't 0
+	 * emission date is valid
 	 * 
 	 * @return true = the data are complete 
 	 */
@@ -98,22 +118,46 @@ public class Order {
 		return true;
 	}
 
+	/**
+	 * @return emission date
+	 */
 	public Date getEmissionDate() {
 		return emissionDate;
 	}
 	
+	/**
+	 * Set the emission date
+	 * 
+	 * @param emissionDate 
+	 */
 	public void setEmissionDate(Date emissionDate) {
+		//TODO: check if the order is editable
 		this.emissionDate = emissionDate;
 	}
 	
+	/**
+	 * @return get order type
+	 */
 	public OrderType getType() {
 		return type;
 	}
 
+	/**
+	 * @return get order priority
+	 */
 	public Priority getPriority() {
 		return priority;
 	}
 	
+	/**
+	 * Set order priority
+	 * if the order is editable
+	 * 
+	 * @param priority 
+	 * @return true=priority changed, false = order not editable
+	 * 
+	 * @see org.wms.model.Order#isEditable()
+	 */
 	public boolean setPriority(Priority priority) {
 		if(!isEditable())
 			return false;
@@ -121,10 +165,24 @@ public class Order {
 		return true;
 	}
 
+	/**
+	 * @return unmodificable list of orderrow
+	 */
 	public List<OrderRow> getUnmodificableMaterials() {
 		return Collections.unmodifiableList(rows);
 	}
 	
+	/**
+	 * Add a material to the order
+	 * if the order is editable
+	 * and if the orderrow data is complete
+	 * 
+	 * @param orderRow
+	 * @return true=material is added
+	 * 
+	 * @see org.wms.model.OrderRow#isDataComplete()
+	 * @see org.wms.model.Order#isEditable()
+	 */
 	public boolean addMaterial(OrderRow orderRow) {
 		if(!isEditable() || !orderRow.isDataComplete())
 			return false;
@@ -134,6 +192,15 @@ public class Order {
 		return false;
 	}
 	
+	/**
+	 * Remove a material to the order
+	 * if the order is editable
+	 * 
+	 * @param orderRow
+	 * @return true=material is removed
+	 * 
+	 * @see org.wms.model.Order#isEditable()
+	 */
 	public boolean removeMaterial(OrderRow orderRow) {
 		if(!isEditable())
 			return false;
@@ -143,26 +210,54 @@ public class Order {
 		return true;
 	}
 
+	/**
+	 * @return order status
+	 */
 	public OrderStatus getOrderStatus() {
 		return orderStatus;
 	}
 
+	/**
+	 * @return order complete percentual
+	 */
 	public float getCompletePercentual() {
 		return completePercentual;
 	}
 
+	/**
+	 * @return order allocation percentual
+	 */
 	public float getAllocationPercentual() {
 		return allocationPercentual;
 	}
 
+	/**
+	 * @return done date
+	 */
 	public Date getDoneDate() {
 		return doneDate;
 	}
 	
+	/**
+	 * Set a material as allocated
+	 * 
+	 * after material is marked as allocated,
+	 * allocated percentual of the order will be updated
+	 * 
+	 * @param material allocated
+	 */
 	public void setMaterialAsAllocated(Material material) {
 		setMaterialAsAllocated(material.getCode());
 	}
 	
+	/**
+	 * Set a material orderrow as allocated
+	 * 
+	 * after material is marked as allocated,
+	 * allocated percentual of the order will be updated
+	 * 
+	 * @param materialId of the orderrow allocated
+	 */
 	public void setMaterialAsAllocated(long materialId) {
 		Optional<OrderRow> rowToAllocate = rows.stream()
 			.filter(row -> row.getMaterial().getCode()==materialId)
@@ -174,10 +269,26 @@ public class Order {
 		}
 	}
 	
+	/**
+	 * Set a material orderrow as completed
+	 * 
+	 * after material is marked as completed,
+	 * completed percentual of the order will be updated
+	 * 
+	 * @param material completed
+	 */
 	public void setMaterialAsCompleted(Material material) {
 		setMaterialAsCompleted(material.getCode());
 	}
 	
+	/**
+	 * Set a material orderrow as completed
+	 * 
+	 * after material is marked as completed,
+	 * completed percentual of the order will be updated
+	 * 
+	 * @param materialId of the orderrow completed
+	 */
 	public void setMaterialAsCompleted(long materialId) {
 		Optional<OrderRow> rowToComplete = rows.stream()
 			.filter(row -> row.getMaterial().getCode()==materialId)
@@ -189,6 +300,10 @@ public class Order {
 		}
 	}
 	
+	/**
+	 * update the allocated percentual
+	 * of the order
+	 */
 	public void updateAllocatedPercentual() {
 		if(rows.size()==0) {
 			allocationPercentual=0.0f;
@@ -201,6 +316,10 @@ public class Order {
 		allocationPercentual = (((float) allocatedOrderRowSize)/rows.size())*100;
 	}
 	
+	/**
+	 * update the completed percentual
+	 * of the order
+	 */
 	public void updateCompletedPercentual() {
 		if(rows.size()==0) {
 			completePercentual=0.0f;
@@ -213,6 +332,12 @@ public class Order {
 		completePercentual = (((float) compleOrderRowRowSize)/rows.size())*100;
 	}
 	
+	/**
+	 * Check if the allocation percentual
+	 * or the completed percentual aren't 100%
+	 * 
+	 * @return true = order is editable
+	 */
 	public boolean isEditable() {
 		return allocationPercentual<100.0f && completePercentual<100.0f;
 	}

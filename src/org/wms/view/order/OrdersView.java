@@ -18,6 +18,19 @@ import org.wms.controller.order.OrdersTableModel;
 import org.wms.model.order.OrderType;
 import org.wms.model.order.Orders;
 
+/**
+ * Order view show a table with the orders list
+ * For each order the most important information are showed
+ * 
+ * Moreover a command bar it's placed for add/edit/delete an order
+ * 
+ * This view observe the ordersModel for updates
+ * 
+ * This view can be configured for input or output order type
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class OrdersView extends JPanel implements Observer {
 
 	private Orders ordersModel;
@@ -35,6 +48,8 @@ public class OrdersView extends JPanel implements Observer {
 	private JButton btnDeleteOrder;
 	
 	/**
+	 * Constructor
+	 * 
 	 * @param ordersModel reference to the orders model
 	 * @param inputType true if the view is for input orders
 	 */
@@ -47,6 +62,10 @@ public class OrdersView extends JPanel implements Observer {
 		updateValue();
 	}
 	
+	/**
+	 * Init graphic components
+	 * to be placed in the gui
+	 */
 	private void initComponent() {
 		tableModel = new OrdersTableModel(ordersModel, ordersType);
 		ordersTable = FactoryReferences.appStyle.getTableClass(tableModel);
@@ -57,6 +76,9 @@ public class OrdersView extends JPanel implements Observer {
 		
 	}
 	
+	/**
+	 * Place each component in the gui
+	 */
 	private void initUI() {
 		setName(ordersType.name() + " ORDERS");
 		
@@ -77,6 +99,11 @@ public class OrdersView extends JPanel implements Observer {
 		
 	}
 	
+	/**
+	 * Update the table
+	 * if a row is selected, show edit/delete buttons
+	 * otherwise they hide them
+	 */
 	private void updateValue() {
 		tableModel.fireTableDataChanged();
 		if(ordersTable.getSelectedRow()!=-1) {
@@ -88,27 +115,48 @@ public class OrdersView extends JPanel implements Observer {
 		}
 	}
 	
+	/** 
+	 * Call update view
+	 * 
+	 * @see org.wms.view.order.OrdersView#updateValue()
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		updateValue();
 	}
 	
+	/**
+	 * @return get reference to add order button
+	 */
 	public JButton getBtnAddOrder() {
 		return btnAddOrder;
 	}
 	
+	/**
+	 * @return get reference to edit order button
+	 */
 	public JButton getBtnEditOrder() {
 		return btnEditOrder;
 	}
 	
+	/**
+	 * @return get reference to delete order button
+	 */
 	public JButton getBtnDeleteOrder() {
 		return btnDeleteOrder;
 	}
 	
+	/**
+	 * @return get order type configured
+	 */
 	public OrderType getOrdersType() {
 		return ordersType;
 	}
 	
+	/**
+	 * @return get reference to orders table
+	 */
 	public JTable getOrdersTable() {
 		return ordersTable;
 	}

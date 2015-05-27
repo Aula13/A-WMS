@@ -10,10 +10,28 @@ import org.wms.config.Configuration;
 import org.wms.config.HibernateUtil;
 import org.wms.model.order.Material;
 
+/**
+ * Material Database Access Object
+ * 
+ * Store CRUD method to the database, 
+ * manage open/close connection hibernate method
+ * 
+ * Moreover manage errors from the database
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class MaterialDao {
 
 	private static Logger logger = Logger.getLogger(Configuration.SUPERVISOR_LOGGER); 
 
+	/**
+	 * 
+	 * Create a material on the database
+	 * 
+	 * @param material material to create
+	 * @return true=material created succefully
+	 */
 	public static boolean create(Material material) {
 		try {
 			Session session = HibernateUtil.getSession();
@@ -29,6 +47,13 @@ public class MaterialDao {
 		return false;
 	}
 
+	/**
+	 * 
+	 * Update a material on the database
+	 * 
+	 * @param material material to update
+	 * @return true=material updated succefully
+	 */
 	public static boolean update(Material material) {
 		try {
 			Session session = HibernateUtil.getSession();
@@ -44,6 +69,13 @@ public class MaterialDao {
 		return true;
 	}
 
+	/**
+	 * 
+	 * Delete a material on the database
+	 * 
+	 * @param material material to delete
+	 * @return true=material deleted succefully
+	 */
 	public static boolean delete(Material material) {
 		try {
 			Session session = HibernateUtil.getSession();
@@ -59,6 +91,13 @@ public class MaterialDao {
 		return false;
 	}
 
+	/**
+	 * 
+	 * Get a specific material on the database
+	 * 
+	 * @param materialId materialId to fetch
+	 * @return optionally the material searched
+	 */
 	public static Optional<Material> get(Long materialId) {
 		try {
 			Session session = HibernateUtil.getSession();
@@ -78,6 +117,12 @@ public class MaterialDao {
 		return Optional.empty();
 	}
 
+
+	/**
+	 * Return all the materials stored on the database
+	 * 
+	 * @return optionally the list of materials
+	 */
 	public static Optional<List<Material>> selectAll() {
 		try {
 			Session session = HibernateUtil.getSession();
@@ -97,6 +142,13 @@ public class MaterialDao {
 		return Optional.empty();
 	}	
 
+	/**
+	 * Add some general information to a specific
+	 * log message like class name or moreover
+	 * 
+	 * @param message to log
+	 * @return formatted message
+	 */
 	private static String formatLogMessage(String message) {
 		return MaterialDao.class.getSimpleName() + " - " + message;
 	}

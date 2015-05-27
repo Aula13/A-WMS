@@ -21,14 +21,22 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.wms.config.IconTypeAWMS;
-import org.wms.controller.orderedit.MaterialListViewController;
+import org.wms.controller.orderedit.OrderRowsViewController;
 import org.wms.model.order.Material;
 import org.wms.model.order.Order;
 import org.wms.model.order.Priority;
 
 import com.toedter.calendar.JDateChooser;
 
-public class OrderEditView extends JDialog {
+/**
+ * Order view shows details about an order
+ * 
+ * this view allow also order editing
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
+public class OrderView extends JDialog {
 	
 	private Order order;
 	
@@ -46,7 +54,7 @@ public class OrderEditView extends JDialog {
 	/**
 	 * Contains the materials/quantity table and the right sidebar with the edit buttons
 	 */
-	private MaterialListView materialsTablePanel;
+	private OrderRowsView orderRowsPanel;
 	
 	/**
 	 * Contains the confirm/cancel buttons
@@ -55,14 +63,25 @@ public class OrderEditView extends JDialog {
 	private JButton confirmButton;
 	private JButton cancelButton;
 
+	/**
+	 * List of available materials
+	 * for new order row materials proposal
+	 */
 	private List<Material> availableMaterials;
 	
 	private boolean isNew;
 	/**
-	 * @param order to modify
+	 * Constructor
+	 * 
+	 * create the component
+	 * and place it the view
+	 * 
+	 * init components value
+	 * 
+	 * @param order to show/edit
 	 * @throws ParseException 
 	 */
-	public OrderEditView(Order order, List<Material> availableMaterials, boolean isNew) {
+	public OrderView(Order order, List<Material> availableMaterials, boolean isNew) {
 		super();
 		this.order = order;
 		this.availableMaterials = availableMaterials;
@@ -72,29 +91,42 @@ public class OrderEditView extends JDialog {
 		initFieldsValue();
 	}
 	
+	/**
+	 * Init components to be placed in the view
+	 */
 	private void initComponents() {
 		initFieldsPanel();
-		initMaterialPanel();
+		initOrderRowsPanel();
 		initConfirmationPanel();
 		initContainerPanel();
 	}
 	
 
+	/**
+	 * Set view appearance
+	 */
 	private void initUI() {
 		setModal(true);
 		setSize(700, 500);
 		setLocationRelativeTo(null);
 	}
 	
+	/**
+	 * Init container panel
+	 */
 	private void initContainerPanel(){
 		containerPanel = FactoryReferences.appStyle.getPanelClass();
 		containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
 		add(containerPanel);
 		containerPanel.add(fieldsPanel);
-		containerPanel.add(materialsTablePanel);
+		containerPanel.add(orderRowsPanel);
 		containerPanel.add(confirmationPanel);
 	}
 
+	/**
+	 * Init field panel
+	 * show most important order information
+	 */
 	private void initFieldsPanel(){
 		fieldsPanel = FactoryReferences.appStyle.getPanelClass();
 		fieldsPanel.setBackground(Color.BLUE);
@@ -105,13 +137,7 @@ public class OrderEditView extends JDialog {
 		priorityField = new JComboBox<Priority>();
 		priorityField.setModel(new DefaultComboBoxModel<Priority>(Priority.values()));
 
-		
-//		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//		
 		dateField = new JDateChooser();
-		
-//		dateField = new JFormattedTextField(dateFormat);
-//		dateField.setEditable(false);
 
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -137,12 +163,18 @@ public class OrderEditView extends JDialog {
 		fieldsPanel.add(dateField, constraints);
 	}
 	
-	private void initMaterialPanel(){
-		materialsTablePanel = new MaterialListView(order, availableMaterials);
-		new MaterialListViewController(materialsTablePanel, order, availableMaterials);
-		materialsTablePanel.setBackground(Color.BLUE);
+	/**
+	 * Init order rows panel
+	 */
+	private void initOrderRowsPanel(){
+		orderRowsPanel = new OrderRowsView(order, availableMaterials);
+		new OrderRowsViewController(orderRowsPanel, order, availableMaterials);
+		orderRowsPanel.setBackground(Color.BLUE);
 	}
 	
+	/**
+	 * Init panel with confirm/cancel buttons
+	 */
 	private void initConfirmationPanel(){
 		confirmationPanel = FactoryReferences.appStyle.getPanelClass();
 		confirmationPanel.setBackground(Color.BLUE);
@@ -155,6 +187,9 @@ public class OrderEditView extends JDialog {
 		confirmationPanel.add(cancelButton);
 	}
 
+	/**
+	 * Setup fields values
+	 */
 	private void initFieldsValue() {
 		if(isNew) {
 			idField.setText("");
@@ -171,22 +206,37 @@ public class OrderEditView extends JDialog {
 		priorityField.setSelectedItem(order.getPriority());
 	}
 	
+	/**
+	 * @return reference to confirm button
+	 */
 	public JButton getConfirmButton() {
 		return confirmButton;
 	}
 	
+	/**
+	 * @return reference to cancel button
+	 */
 	public JButton getCancelButton() {
 		return cancelButton;
 	}
 	
+	/**
+	 * @return id selected by the user
+	 */
 	public long getSelectedId() {
 		return Long.parseLong(idField.getText());
 	}
 	
+	/**
+	 * @return emission date selected by the user
+	 */
 	public Date getSelectedEmissionDate() {
 		return dateField.getDate();
 	}
 	
+	/**
+	 * @return priority selected by the user
+	 */
 	public Priority getSelectedPriority() {
 		return priorityField.getItemAt(priorityField.getSelectedIndex());	
 	}
