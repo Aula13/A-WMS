@@ -41,8 +41,7 @@ public class OrdersViewController {
 			
 			@Override
 			public void actionTriggered() {
-				Order order = new Order(0l, new Date(), orderType);
-				launchOrderEditView(order, true);
+				btnAddOrderAction();
 			}
 		};
 		
@@ -50,16 +49,7 @@ public class OrdersViewController {
 			
 			@Override
 			public void actionTriggered() {
-				if(view.getOrdersTable().getSelectedRow()==-1) {
-					MessageBox.errorBox("No order selected", "Error");
-					return;
-				}
-				
-				int rowIndex = view.getOrdersTable().getSelectedRow();
-				
-				Order order = ordersModel.getUnmodificableOrderList(orderType).get(rowIndex);
-				launchOrderEditView(order, false);
-
+				btnEditOrderAction();
 			}
 		};
 		
@@ -67,18 +57,7 @@ public class OrdersViewController {
 			
 			@Override
 			public void actionTriggered() {
-				if(view.getOrdersTable().getSelectedRow()==-1) {
-					MessageBox.errorBox("No order selected", "Error");
-					return;
-				}
-				
-				int rowIndex = view.getOrdersTable().getSelectedRow();
-				
-				Order order = ordersModel.getUnmodificableOrderList(orderType).get(rowIndex);
-				
-				if(MessageBox.questionBox("Are you sure to delete the order " + order.getId(), "Confirm")==0)
-					if(!ordersModel.deleteOrder(order))
-						MessageBox.errorBox("Error during order deleting operation", "Error");
+				btnDeleteOrderAction();
 			}
 		};
 		
@@ -86,19 +65,12 @@ public class OrdersViewController {
 			
 			@Override
 			public void validSelectionTrigger(boolean doubleClick, int rowIndex, boolean requireMenu) {
-				if(doubleClick) {
-					Order order = ordersModel.getUnmodificableOrderList(orderType).get(rowIndex);
-					launchOrderEditView(order, false); 
-				}
-				
-				view.getBtnDeleteOrder().setVisible(true);
-				view.getBtnEditOrder().setVisible(true);
+				tblOrdersValidSelectionAction(doubleClick, rowIndex);
 			}
 			
 			@Override
 			public void invalidSelectionTriggered() {
-				view.getBtnDeleteOrder().setVisible(false);
-				view.getBtnEditOrder().setVisible(false);
+				tblOrdersInvalidSelectionAction();
 			}
 		});
 		
@@ -109,5 +81,52 @@ public class OrdersViewController {
 		OrderEditView editOrderDialog = new OrderEditView(order, materialsModel.getUnmodificableMaterialList(), isNew);
 		new OrderEditViewController(editOrderDialog, order, ordersModel, isNew);
 		editOrderDialog.setVisible(true);
-	}	
+	}
+	
+	private void btnAddOrderAction() {
+		Order order = new Order(0l, new Date(), orderType);
+		launchOrderEditView(order, true);
+	}
+	
+	private void btnEditOrderAction() {
+		if(view.getOrdersTable().getSelectedRow()==-1) {
+			MessageBox.errorBox("No order selected", "Error");
+			return;
+		}
+		
+		int rowIndex = view.getOrdersTable().getSelectedRow();
+		
+		Order order = ordersModel.getUnmodificableOrderList(orderType).get(rowIndex);
+		launchOrderEditView(order, false);
+	}
+	
+	private void btnDeleteOrderAction() {
+		if(view.getOrdersTable().getSelectedRow()==-1) {
+			MessageBox.errorBox("No order selected", "Error");
+			return;
+		}
+		
+		int rowIndex = view.getOrdersTable().getSelectedRow();
+		
+		Order order = ordersModel.getUnmodificableOrderList(orderType).get(rowIndex);
+		
+		if(MessageBox.questionBox("Are you sure to delete the order " + order.getId(), "Confirm")==0)
+			if(!ordersModel.deleteOrder(order))
+				MessageBox.errorBox("Error during order deleting operation", "Error");
+	}
+	
+	private void tblOrdersValidSelectionAction(boolean doubleClick, int rowIndex) {
+		if(doubleClick) {
+			Order order = ordersModel.getUnmodificableOrderList(orderType).get(rowIndex);
+			launchOrderEditView(order, false); 
+		}
+		
+		view.getBtnDeleteOrder().setVisible(true);
+		view.getBtnEditOrder().setVisible(true);
+	}
+	
+	private void tblOrdersInvalidSelectionAction() {
+		view.getBtnDeleteOrder().setVisible(false);
+		view.getBtnEditOrder().setVisible(false);
+	}
 }

@@ -32,29 +32,7 @@ public class OrderEditViewController {
 			
 			@Override
 			public void actionTriggered() {
-				boolean result;
-				
-				if(isNew) {
-					order.setId(view.getSelectedId());
-					order.setEmissionDate(view.getSelectedEmissionDate());
-					order.setPriority(view.getSelectedPriority());
-					
-					if(!order.isDataComplete()) {
-						MessageBox.errorBox("Incomplete data!", "Error");
-						return;
-					}
-					
-					result = ordersModel.addOrder(order);
-				} else {
-					order.setPriority(view.getSelectedPriority());
-					result = ordersModel.updateOrder(order);
-				}
-				
-				if(result)
-					view.setVisible(false);
-				else
-					MessageBox.errorBox("An appear during order saving", "Error");
-				
+				btnConfirmButtonAction();			
 			}
 		};
 		
@@ -62,8 +40,37 @@ public class OrderEditViewController {
 			
 			@Override
 			public void actionTriggered() {
-				view.setVisible(false);
+				btnCancelButtonAction();
 			}
 		};
 	}	
+	
+	private void btnConfirmButtonAction() {
+		boolean result;
+		
+		if(isNew) {
+			order.setId(view.getSelectedId());
+			order.setEmissionDate(view.getSelectedEmissionDate());
+			order.setPriority(view.getSelectedPriority());
+			
+			if(!order.isDataComplete()) {
+				MessageBox.errorBox("Incomplete data!", "Error");
+				return;
+			}
+			
+			result = ordersModel.addOrder(order);
+		} else {
+			order.setPriority(view.getSelectedPriority());
+			result = ordersModel.updateOrder(order);
+		}
+		
+		if(result)
+			view.setVisible(false);
+		else
+			MessageBox.errorBox("An appear during order saving", "Error");
+	}
+	
+	private void btnCancelButtonAction() {
+		view.setVisible(false);
+	}
 }
