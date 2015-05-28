@@ -31,19 +31,19 @@ public class OrderRowsViewController {
 	/**
 	 * reference to the material list view
 	 */
-	private OrderRowsView view;
+	protected OrderRowsView view;
 
 	/**
 	 * reference to the order
 	 */
-	private Order order;
+	protected Order order;
 
 	/**
 	 * List of available materials
 	 * to check valid materials
 	 * and force user selection
 	 */
-	private List<Material> availableMaterials;
+	protected List<Material> availableMaterials;
 
 	/**
 	 * Constructor
@@ -120,7 +120,7 @@ public class OrderRowsViewController {
 	 * Show remove material button
 	 * if the order row selected is editable
 	 */
-	private void tblOrderRowsValidSelectionAction(int indexRow) {
+	protected void tblOrderRowsValidSelectionAction(int indexRow) {
 		OrderRow orderRow = order.getUnmodificableMaterials().get(indexRow);
 		if(orderRow.isEditable())
 			view.getBtnRemoveOrderRow().setVisible(true);
@@ -129,7 +129,7 @@ public class OrderRowsViewController {
 	/**
 	 * Hide remove material button
 	 */
-	private void tblOrderRowsInvalidSelectionAction() {
+	protected void tblOrderRowsInvalidSelectionAction() {
 		view.getBtnRemoveOrderRow().setVisible(false);
 	}
 	
@@ -138,7 +138,7 @@ public class OrderRowsViewController {
 	 *  
 	 * @param e change event from combobox cell editor
 	 */
-	private void tblOrderRowsComboEditStopAction(ChangeEvent e) {
+	protected void tblOrderRowsComboEditStopAction(ChangeEvent e) {
 		int editIndex = view.getTblOrderRows().getSelectedRow();
 		OrderRow orderRow = order.getUnmodificableMaterials().get(editIndex);
 
@@ -156,7 +156,7 @@ public class OrderRowsViewController {
 	 * 
 	 * @param e change event from spinner cell editor
 	 */
-	private void tblOrderRowsSpinnerEditStopAction(ChangeEvent e) {
+	protected void tblOrderRowsSpinnerEditStopAction(ChangeEvent e) {
 		int editIndex = view.getTblOrderRows().getSelectedRow();
 		OrderRow orderRow = order.getUnmodificableMaterials().get(editIndex);
 		Integer quantity = (Integer) ((SpinnerCellEditor) e.getSource()).getCellEditorValue();
@@ -173,7 +173,7 @@ public class OrderRowsViewController {
 	 * Finally fire update order materials table
 	 * 
 	 */
-	private void btnAddOrderRowAction() {
+	protected void btnAddOrderRowAction() {
 		if(availableMaterials.size()==0) {
 			MessageBox.errorBox("No materials available!", "Error");
 			return;
@@ -204,7 +204,7 @@ public class OrderRowsViewController {
 	 * Finally fire update order materials table
 	 * 
 	 */	
-	private void btnRemoveOrderRowAction() {
+	protected void btnRemoveOrderRowAction() {
 		int index = view.getTblOrderRows().getSelectedRow();
 		
 		if(index==-1) {
