@@ -111,5 +111,47 @@ public class OrderRowsTableModelUnitTest {
 		assertTrue(((String) tableModel.getValueAt(0, tableModel.getColumnCount()+1))
 				.compareTo("Unknow column: " + (tableModel.getColumnCount()+1))==0);
 	}
+	
+	/**
+	 * Test table cell should be not editable
+	 * because column index >2
+	 */
+	@Test
+	public void testIsCellEditableFalse() {
+		OrderRowsTableModel tableModel = new OrderRowsTableModel(mockOrder);
+		
+		assertFalse(tableModel.isCellEditable(0, 2));
+		assertFalse(tableModel.isCellEditable(0, 3));
+	}
+	
+	/**
+	 * Test table cell should be not editable
+	 * because column index <2 but
+	 * order row isn't editable
+	 */
+	@Test
+	public void testIsCellEditableOrderRowNotEditable() {
+		OrderRowsTableModel tableModel = new OrderRowsTableModel(mockOrder);
+		
+		doReturn(false).when(mockOrderRow).isEditable();
+		
+		assertFalse(tableModel.isCellEditable(0, 0));
+		assertFalse(tableModel.isCellEditable(0, 1));
+	}
+	
+	/**
+	 * Test table cell should be editable
+	 */
+	@Test
+	public void testIsCellEditable() {
+		OrderRowsTableModel tableModel = new OrderRowsTableModel(mockOrder);
+		
+		doReturn(true).when(mockOrderRow).isEditable();
+		
+		assertTrue(tableModel.isCellEditable(0, 0));
+		assertTrue(tableModel.isCellEditable(0, 1));
+	}
+	
+	
 
 }
