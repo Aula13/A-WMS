@@ -21,12 +21,12 @@ public class OrderRowsTableModel extends AbstractTableModel {
 	 * Order model
 	 * to fetch order row
 	 */
-	private Order order;
+	protected Order order;
 	
 	/**
 	 * Columns name
 	 */
-	private String[] headers = {"Code", "Quantity", "Allocated", "Completed"};
+	protected String[] headers = {"Code", "Quantity", "Allocated", "Completed"};
 	
 	/**
 	 * Costructor
