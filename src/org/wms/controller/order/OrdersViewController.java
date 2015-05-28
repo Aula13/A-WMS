@@ -29,24 +29,29 @@ public class OrdersViewController {
 	/**
 	 * Reference to the order view
 	 */
-	private OrdersView view;
+	protected OrdersView view;
 	
 	/**
 	 * Reference to the orders model
 	 */
-	private Orders ordersModel;
+	protected Orders ordersModel;
 
 	/**
 	 * Reference to the materials model
 	 * need for provide materials list
 	 * to the edit/show order view
 	 */
-	private Materials materialsModel;
+	protected Materials materialsModel;
 	
 	/**
 	 * Type of order to manage
 	 */
-	private OrderType orderType;
+	protected OrderType orderType;
+	
+	/**
+	 * Order details view JDialog reference
+	 */
+	protected OrderView editOrderDialog;
 	
 	/**
 	 * Constructor
@@ -114,8 +119,8 @@ public class OrdersViewController {
 	 * @param order order to edit/show
 	 * @param isNew true if the model is a new model, false if it's an existent model
 	 */
-	private void launchOrderEditView(Order order, boolean isNew){
-		OrderView editOrderDialog = new OrderView(order, materialsModel.getUnmodificableMaterialList(), isNew);
+	protected void launchOrderEditView(Order order, boolean isNew){
+		editOrderDialog = new OrderView(order, materialsModel.getUnmodificableMaterialList(), isNew);
 		new OrderViewController(editOrderDialog, order, ordersModel, isNew);
 		editOrderDialog.setVisible(true);
 	}
@@ -124,7 +129,7 @@ public class OrdersViewController {
 	 * This method call the order details view
 	 * to create a new order
 	 */
-	private void btnAddOrderAction() {
+	protected void btnAddOrderAction() {
 		Order order = new Order(0l, new Date(), orderType);
 		launchOrderEditView(order, true);
 	}
@@ -133,16 +138,17 @@ public class OrdersViewController {
 	 * This method call the order details view
 	 * to edit an existent order
 	 */
-	private void btnEditOrderAction() {
+	protected boolean btnEditOrderAction() {
 		if(view.getOrdersTable().getSelectedRow()==-1) {
 			MessageBox.errorBox("No order selected", "Error");
-			return;
+			return false;
 		}
 		
 		int rowIndex = view.getOrdersTable().getSelectedRow();
 		
 		Order order = ordersModel.getUnmodificableOrderList(orderType).get(rowIndex);
 		launchOrderEditView(order, false);
+		return true;
 	}
 	
 	/**
@@ -150,10 +156,10 @@ public class OrdersViewController {
 	 * selected in the table
 	 * if it's possible
 	 */
-	private void btnDeleteOrderAction() {
+	protected boolean btnDeleteOrderAction() {
 		if(view.getOrdersTable().getSelectedRow()==-1) {
 			MessageBox.errorBox("No order selected", "Error");
-			return;
+			return false;
 		}
 		
 		int rowIndex = view.getOrdersTable().getSelectedRow();
@@ -162,12 +168,24 @@ public class OrdersViewController {
 		
 		if(!order.isEditable()) {
 			MessageBox.errorBox("The order is not editable", "Error");
-			return;
+			return false;
 		}
 		
-		if(MessageBox.questionBox("Are you sure to delete the order " + order.getId(), "Confirm")==0)
-			if(!ordersModel.deleteOrder(order))
+		if(!order.canDelete()) {
+			MessageBox.errorBox("The order can't be deleted", "Error");
+			return false;
+		}
+		
+		if(MessageBox.questionBox("Are you sure to delete the order " + order.getId(), "Confirm")==0) {
+			if(!ordersModel.deleteOrder(order)) {
 				MessageBox.errorBox("Error during order deleting operation", "Error");
+				return false;
+			}
+			
+			return true;
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -180,20 +198,20 @@ public class OrdersViewController {
 	 * @param doubleClick if the user press mouse button twice
 	 * @param rowIndex index of the table selection
 	 */
-	private void tblOrdersValidSelectionAction(boolean doubleClick, int rowIndex) {
+	protected void tblOrdersValidSelectionAction(boolean doubleClick, int rowIndex) {
+		view.getBtnDeleteOrder().setVisible(true);
+		view.getBtnEditOrder().setVisible(true);
+		
 		if(doubleClick) {
 			Order order = ordersModel.getUnmodificableOrderList(orderType).get(rowIndex);
 			launchOrderEditView(order, false); 
 		}
-		
-		view.getBtnDeleteOrder().setVisible(true);
-		view.getBtnEditOrder().setVisible(true);
 	}
 	
 	/**
 	 * Hide edit and delete buttons
 	 */
-	private void tblOrdersInvalidSelectionAction() {
+	protected void tblOrdersInvalidSelectionAction() {
 		view.getBtnDeleteOrder().setVisible(false);
 		view.getBtnEditOrder().setVisible(false);
 	}

@@ -240,4 +240,11 @@ public class OrderView extends JDialog {
 	public Priority getSelectedPriority() {
 		return priorityField.getItemAt(priorityField.getSelectedIndex());	
 	}
+	
+	/**
+	 * @return true if the order showed is new
+	 */
+	public boolean isNew() {
+		return isNew;
+	}
 }

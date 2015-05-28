@@ -351,4 +351,17 @@ public class Order {
 	public boolean isEditable() {
 		return allocationPercentual<100.0f && completePercentual<100.0f;
 	}
+
+
+
+	/**
+	 * Can delete the order only
+	 * if allocation percentual is 0
+	 * and complete percentual is 0
+	 * 
+	 * @return true = a order can be deleted
+	 */
+	public boolean canDelete() {
+		return allocationPercentual<=0.0f || completePercentual<=0.0f;
+	}
 }
