@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.crypto.AEADBadTagException;
 import javax.swing.JButton;
 import javax.swing.JTable;
 
@@ -66,6 +67,9 @@ public class OrderRowsViewControllerUnitTest {
 		
 		mockCmbBoxCellEditor = mock(ComboBoxCellEditorCustom.class);
 		mockSpnCellEditor = mock(SpinnerCellEditor.class);
+		
+		doReturn(mockCmbBoxCellEditor).when(mockOrderRowsView).getCmbMaterialCodeCellEditor();
+		doReturn(mockSpnCellEditor).when(mockOrderRowsView).getSpnOrderRowQuantityCellEditor();
 	}
 
 	
@@ -75,7 +79,9 @@ public class OrderRowsViewControllerUnitTest {
 	@Test
 	public void testOrderRowsViewControllerConstructor() {
 		OrderRowsViewController controller = new OrderRowsViewController(mockOrderRowsView, mockOrder, availableMaterials);
-		
+		assertSame(mockOrderRowsView, controller.view);
+		assertSame(mockOrder, controller.order);
+		assertSame(availableMaterials, controller.availableMaterials);
 	}
 	
 	@Test
