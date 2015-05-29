@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.wms.model.order.Materials;
 import org.wms.model.order.OrderType;
 import org.wms.model.order.Orders;
+import org.wms.test.TestUtils;
 import org.wms.view.common.MainGUI;
 import org.wms.view.common.NavigationPanel;
 
@@ -44,6 +45,8 @@ public class MainGUIControllerUnitTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		TestUtils.mockMessageBox();
+		
 		mockGUI = mock(MainGUI.class);
 		mockNavPanel = mock(NavigationPanel.class);
 		

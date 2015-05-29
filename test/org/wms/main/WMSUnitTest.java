@@ -23,6 +23,7 @@ import org.wms.config.Utils;
 import org.wms.exception.AlreadyInstantiatedException;
 import org.wms.exception.ConfigFileLoadingException;
 import org.wms.exception.DBConnectionException;
+import org.wms.test.TestUtils;
 
 /**
  * WMS Unit test class
@@ -51,6 +52,8 @@ public class WMSUnitTest {
 	 */
 	@Before
 	public void initMocks(){
+		TestUtils.mockMessageBox();
+		
 		PowerMockito.mockStatic(LockFile.class);
 		PowerMockito.mockStatic(Configuration.class);
 		PowerMockito.mockStatic(HibernateUtil.class);

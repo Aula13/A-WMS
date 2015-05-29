@@ -3,6 +3,7 @@ package org.wms.controller.order;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
@@ -15,10 +16,13 @@ import javax.swing.SwingUtilities;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.wms.config.Utils;
 import org.wms.model.order.Materials;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderType;
 import org.wms.model.order.Orders;
+import org.wms.test.TestUtils;
+import org.wms.view.common.MessageBox;
 import org.wms.view.order.OrdersView;
 
 public class OrdersViewControllerUnitTest {
@@ -39,6 +43,8 @@ public class OrdersViewControllerUnitTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		TestUtils.mockMessageBox();
+		
 		mockView = mock(OrdersView.class);
 		
 		mockBtnAddOrder = new JButton();
@@ -74,7 +80,7 @@ public class OrdersViewControllerUnitTest {
 	 */
 	@Test
 	public void testOnStartEditDeleteButtonNotVisible() {
-		OrdersViewController controller = new OrdersViewController(mockView, mockOrdersModel, mockMaterialsModel);
+		new OrdersViewController(mockView, mockOrdersModel, mockMaterialsModel);
 		assertFalse(mockBtnEditOrder.isVisible());
 		assertFalse(mockBtnDeleteOrder.isVisible());
 	}
@@ -235,9 +241,10 @@ public class OrdersViewControllerUnitTest {
 	
 	/**
 	 * Test delete order should be possible
+	 * and user confirm the operation
 	 */
 	@Test
-	public void testBtnDeleteOrderAction() {
+	public void testBtnDeleteOrderActionConfirmed() {
 		OrdersViewController controller = new OrdersViewController(mockView, mockOrdersModel, mockMaterialsModel);
 		
 		doReturn(0).when(mockOrdersTable).getSelectedRow();
@@ -247,7 +254,29 @@ public class OrdersViewControllerUnitTest {
 		
 		doReturn(true).when(mockOrdersModel).deleteOrder(mockOrder);
 		
+		doReturn(0).when(TestUtils.mockMsgBox).questionBox(anyString(), anyString());
+		
 		assertTrue(controller.btnDeleteOrderAction());
+	}
+	
+	/**
+	 * Test delete order should be possible
+	 * and user abort the operation
+	 */
+	@Test
+	public void testBtnDeleteOrderActionAbort() {
+		OrdersViewController controller = new OrdersViewController(mockView, mockOrdersModel, mockMaterialsModel);
+		
+		doReturn(0).when(mockOrdersTable).getSelectedRow();
+		
+		doReturn(true).when(mockOrder).isEditable();
+		doReturn(true).when(mockOrder).canDelete();
+		
+		doReturn(true).when(mockOrdersModel).deleteOrder(mockOrder);
+		
+		doReturn(1).when(TestUtils.mockMsgBox).questionBox(anyString(), anyString());
+		
+		assertFalse(controller.btnDeleteOrderAction());
 	}
 
 	/**

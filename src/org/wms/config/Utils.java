@@ -4,6 +4,6 @@ import org.wms.view.common.MessageBox;
 
 public class Utils {
 	
-	public static final MessageBox msg = new MessageBox();
+	public static MessageBox msg = new MessageBox();
 	
 }

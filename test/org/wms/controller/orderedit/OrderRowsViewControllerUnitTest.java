@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.wms.model.order.Material;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderRow;
+import org.wms.test.TestUtils;
 import org.wms.view.orderedit.ComboBoxCellEditorCustom;
 import org.wms.view.orderedit.OrderRowsView;
 import org.wms.view.orderedit.SpinnerCellEditor;
@@ -39,6 +40,8 @@ public class OrderRowsViewControllerUnitTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		TestUtils.mockMessageBox();
+		
 		mockOrderRowsView = mock(OrderRowsView.class);
 		mockOrder = mock(Order.class);
 		mockMaterial = mock(Material.class);

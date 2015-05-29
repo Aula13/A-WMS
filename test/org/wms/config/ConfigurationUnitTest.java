@@ -13,6 +13,7 @@ import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.wms.test.TestUtils;
 
 /**
  * Test configuration class
@@ -34,6 +35,8 @@ public class ConfigurationUnitTest {
 	
 	@Before
 	public void setUpBefore() throws Exception {
+		TestUtils.mockMessageBox();
+		
 		mockProp = mock(Properties.class);
 		Configuration.props = mockProp;
 		mockFileReader = mock(FileReader.class);

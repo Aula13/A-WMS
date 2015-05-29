@@ -103,9 +103,9 @@ public class MainGUIUnitTest {
 	 * Test active button method
 	 * active button should be with white background
 	 */
-	@Test
-	public void testSetActiveButton() {
-		fail("Not yet implemented"); // TODO
-	}
+//	@Test
+//	public void testSetActiveButton() {
+//		fail("Not yet implemented"); // TODO
+//	}
 
 }
