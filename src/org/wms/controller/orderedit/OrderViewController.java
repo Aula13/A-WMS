@@ -1,11 +1,8 @@
 package org.wms.controller.orderedit;
 
 import it.rmautomazioni.controller.listener.AbstractJButtonActionListener;
-import it.rmautomazioni.view.common.MessageBox;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import org.wms.config.Utils;
 import org.wms.model.order.Order;
 import org.wms.model.order.Orders;
 import org.wms.view.orderedit.OrderView;
@@ -83,7 +80,7 @@ public class OrderViewController {
 			order.setPriority(view.getSelectedPriority());
 			
 			if(!order.isDataComplete()) {
-				MessageBox.errorBox("Incomplete data!", "Error");
+				Utils.msg.errorBox("Incomplete data!", "Error");
 				return;
 			}
 			
@@ -96,7 +93,7 @@ public class OrderViewController {
 		if(result)
 			view.setVisible(false);
 		else
-			MessageBox.errorBox("An appear during order saving", "Error");
+			Utils.msg.errorBox("An appear during order saving", "Error");
 	}
 	
 	/**

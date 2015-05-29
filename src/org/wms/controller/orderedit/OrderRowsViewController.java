@@ -1,9 +1,7 @@
 package org.wms.controller.orderedit;
 
 import it.rmautomazioni.controller.listener.AbstractJButtonActionListener;
-import it.rmautomazioni.view.common.MessageBox;
 
-import java.io.EOFException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,6 +9,7 @@ import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
+import org.wms.config.Utils;
 import org.wms.controller.common.AbstractTableSelectionListener;
 import org.wms.model.order.Material;
 import org.wms.model.order.Order;
@@ -175,17 +174,17 @@ public class OrderRowsViewController {
 	 */
 	protected void btnAddOrderRowAction() {
 		if(availableMaterials.size()==0) {
-			MessageBox.errorBox("No materials available!", "Error");
+			Utils.msg.errorBox("No materials available!", "Error");
 			return;
 		}
 		
 		if(!order.isEditable()) {
-			MessageBox.errorBox("This order is not editable!", "Error");
+			Utils.msg.errorBox("This order is not editable!", "Error");
 			return;
 		}
 		
 		if(order.addMaterial(new OrderRow(order, availableMaterials.get(0), 0))) {
-			MessageBox.errorBox("The order row is not valid!", "Error");
+			Utils.msg.errorBox("The order row is not valid!", "Error");
 			return;
 		}
 		
@@ -208,18 +207,18 @@ public class OrderRowsViewController {
 		int index = view.getTblOrderRows().getSelectedRow();
 		
 		if(index==-1) {
-			MessageBox.errorBox("No material selected", "Error");
+			Utils.msg.errorBox("No material selected", "Error");
 			return;
 		}
 		
 		if(!order.isEditable()) {
-			MessageBox.errorBox("This order is not editable!", "Error");
+			Utils.msg.errorBox("This order is not editable!", "Error");
 			return;
 		}
 		
 		OrderRow orderRow = order.getUnmodificableMaterials().get(index);
 		
-		if(MessageBox.questionBox("Are you sure to delete material " + orderRow.getMaterial().getCode() + "?", "Confirm")==0)
+		if(Utils.msg.questionBox("Are you sure to delete material " + orderRow.getMaterial().getCode() + "?", "Confirm")==0)
 			order.removeMaterial(orderRow);
 		
 		view.getTblOrderRowsModel().fireTableDataChanged();

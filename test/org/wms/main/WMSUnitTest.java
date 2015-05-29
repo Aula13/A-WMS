@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import it.rmautomazioni.database.common.DbConnectionConfiguration;
 import it.rmautomazioni.database.common.DbStatusChecker;
-import it.rmautomazioni.view.common.MessageBox;
 import it.rmautomazioni.view.factories.FactoryReferences;
 
 import org.apache.log4j.Logger;
@@ -20,6 +19,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.wms.config.Configuration;
 import org.wms.config.HibernateUtil;
+import org.wms.config.Utils;
 import org.wms.exception.AlreadyInstantiatedException;
 import org.wms.exception.ConfigFileLoadingException;
 import org.wms.exception.DBConnectionException;
@@ -33,7 +33,6 @@ import org.wms.exception.DBConnectionException;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({LockFile.class, 
 	Logger.class, 
-	MessageBox.class, 
 	Configuration.class,
 	HibernateUtil.class})
 @PowerMockIgnore("javax.management.*")
@@ -53,7 +52,6 @@ public class WMSUnitTest {
 	@Before
 	public void initMocks(){
 		PowerMockito.mockStatic(LockFile.class);
-		PowerMockito.mockStatic(MessageBox.class);
 		PowerMockito.mockStatic(Configuration.class);
 		PowerMockito.mockStatic(HibernateUtil.class);
 		dbStatusChecker = mock(DbStatusChecker.class);

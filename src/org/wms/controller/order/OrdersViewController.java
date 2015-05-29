@@ -1,14 +1,12 @@
 package org.wms.controller.order;
 
 import it.rmautomazioni.controller.listener.AbstractJButtonActionListener;
-import it.rmautomazioni.view.common.MessageBox;
 
-import java.text.ParseException;
 import java.util.Date;
 
+import org.wms.config.Utils;
 import org.wms.controller.common.AbstractTableSelectionListener;
 import org.wms.controller.orderedit.OrderViewController;
-import org.wms.model.common.ModelReference;
 import org.wms.model.order.Materials;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderType;
@@ -140,7 +138,7 @@ public class OrdersViewController {
 	 */
 	protected boolean btnEditOrderAction() {
 		if(view.getOrdersTable().getSelectedRow()==-1) {
-			MessageBox.errorBox("No order selected", "Error");
+			Utils.msg.errorBox("No order selected", "Error");
 			return false;
 		}
 		
@@ -158,7 +156,7 @@ public class OrdersViewController {
 	 */
 	protected boolean btnDeleteOrderAction() {
 		if(view.getOrdersTable().getSelectedRow()==-1) {
-			MessageBox.errorBox("No order selected", "Error");
+			Utils.msg.errorBox("No order selected", "Error");
 			return false;
 		}
 		
@@ -167,18 +165,18 @@ public class OrdersViewController {
 		Order order = ordersModel.getUnmodificableOrderList(orderType).get(rowIndex);
 		
 		if(!order.isEditable()) {
-			MessageBox.errorBox("The order is not editable", "Error");
+			Utils.msg.errorBox("The order is not editable", "Error");
 			return false;
 		}
 		
 		if(!order.canDelete()) {
-			MessageBox.errorBox("The order can't be deleted", "Error");
+			Utils.msg.errorBox("The order can't be deleted", "Error");
 			return false;
 		}
 		
-		if(MessageBox.questionBox("Are you sure to delete the order " + order.getId(), "Confirm")==0) {
+		if(Utils.msg.questionBox("Are you sure to delete the order " + order.getId(), "Confirm")==0) {
 			if(!ordersModel.deleteOrder(order)) {
-				MessageBox.errorBox("Error during order deleting operation", "Error");
+				Utils.msg.errorBox("Error during order deleting operation", "Error");
 				return false;
 			}
 			

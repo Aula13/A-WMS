@@ -1,7 +1,6 @@
 package org.wms.config;
 
 import it.rmautomazioni.database.common.DbConnectionConfiguration;
-import it.rmautomazioni.view.common.MessageBox;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -75,11 +74,11 @@ public class Configuration {
 			props.load(cfgFile);
 		} catch (FileNotFoundException e) {
 			logger.error("Configuration file not found " + e.getMessage());
-			MessageBox.errorBox("Configuration file not found " + e.getMessage(), "Error");
+			Utils.msg.errorBox("Configuration file not found " + e.getMessage(), "Error");
 			return false;
 		} catch (IOException e) {
 			logger.error("Configuration file not file " + e.getMessage());
-			MessageBox.errorBox("Configuration file error " + e.getMessage(), "Error");
+			Utils.msg.errorBox("Configuration file error " + e.getMessage(), "Error");
 			return false;
 		}
         	

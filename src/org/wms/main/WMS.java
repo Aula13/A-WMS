@@ -2,11 +2,8 @@ package org.wms.main;
 
 import it.rmautomazioni.database.common.DbConnectionProvider;
 import it.rmautomazioni.database.common.DbStatusChecker;
-import it.rmautomazioni.security.SecurityLevel;
-import it.rmautomazioni.view.common.MessageBox;
 import it.rmautomazioni.view.factories.FactoryReferences;
 import it.rmautomazioni.view.factories.jx.ConcreteJXAppStyleFactory;
-import it.rmautomazioni.view.factories.swing.ConcreteAppStyleFactory;
 import it.rmautomazioni.view.factories.swing.ConcreteButtonFactory;
 import it.rmautomazioni.view.factories.swing.ConcreteFieldFactory;
 import it.rmautomazioni.view.factories.swing.ConcretePanelFactory;
@@ -20,6 +17,7 @@ import org.wms.config.Configuration;
 import org.wms.config.HibernateUtil;
 import org.wms.config.ResourceUtil;
 import org.wms.config.SecurityConfig;
+import org.wms.config.Utils;
 import org.wms.controller.common.MainGUIController;
 import org.wms.exception.AlreadyInstantiatedException;
 import org.wms.exception.ConfigFileLoadingException;
@@ -83,7 +81,7 @@ public class WMS {
 		} catch (Exception e) {
 			stopBackgroudTasks();
 			logger.error(e.getMessage());
-			MessageBox.errorBox("Error", "Error during application initialization");
+			Utils.msg.errorBox("Error", "Error during application initialization");
 			throw e;
 		}
 	}
