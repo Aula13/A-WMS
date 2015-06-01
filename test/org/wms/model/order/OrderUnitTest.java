@@ -4,13 +4,18 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -21,91 +26,177 @@ import org.junit.Test;
  */
 public class OrderUnitTest {
 	
-	/**
-	 * The object under test
-	 */
-	private Order orderTest;
+	private static OrderRow mockOrderRow;
+	
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		mockOrderRow = mock(OrderRow.class);
+	}
 	
 	/**
-	 * The under test order's Identification number
+	 * Test empty constructor
 	 */
-	private long orderId;
-	/**
-	 * The order's emission date
-	 */
-	private Date orderEmissionDate;
-	/**
-	 * The order's priority
-	 */
-	private Priority orderPriority;
-	/**
-	 * The order's materials set
-	 */
-	private List<OrderRow> orderMaterials;
+	@Test
+	public void testOrderEmptyConstr() {
+		Order order = new Order();
+	}
 	
 	/**
-	 * Initialize the parameter to be passed to the order's constructors
+	 * Test initialization should be correctly
 	 */
-	@Before
-	public void preareForTest(){
-		orderId = 0;
-		orderEmissionDate = new Date();
-		orderPriority = Priority.HIGH;
-		orderMaterials = new ArrayList<>();
+	@Test
+	public void testOrderConstr2() {
+		Order order = new Order(10l);
+		assertTrue(order.id==10l);
+		assertTrue(order.orderStatus==OrderStatus.WAITING);
+		assertNotNull(order.emissionDate);
+		assertTrue(order.priority==Priority.LOW);
+	}
+	
+	/**
+	 * Test initialization should be correctly
+	 */
+	@Test
+	public void testOrderConstr3() {
+		Date date = new Date();
+		Order order = new Order(10l, date, OrderType.OUTPUT);
+		assertTrue(order.id==10l);
+		assertTrue(order.orderStatus==OrderStatus.WAITING);
+		assertSame(date, order.emissionDate);
+		assertTrue(order.priority==Priority.LOW);
+		assertTrue(order.type==OrderType.OUTPUT);
+	}
+	
+	/**
+	 * Test initialization should be correctly
+	 */
+	@Test
+	public void testOrderConstr4() {
+		Date date = new Date();
+		Order order = new Order(10l, date, OrderType.OUTPUT, Priority.MEDIUM);
+		assertTrue(order.id==10l);
+		assertTrue(order.orderStatus==OrderStatus.WAITING);
+		assertSame(date, order.emissionDate);
+		assertTrue(order.priority==Priority.MEDIUM);
+		assertTrue(order.type==OrderType.OUTPUT);
+	}
+	
+	/**
+	 * Test initialization should be correctly
+	 */
+	@Test
+	public void testOrderConstr5() {
+		Date date = new Date();
+		List<OrderRow> list = new ArrayList<>();
 		
+		Order order = new Order(10l, date, OrderType.OUTPUT, Priority.MEDIUM, list);
+		assertTrue(order.id==10l);
+		assertTrue(order.orderStatus==OrderStatus.WAITING);
+		assertSame(date, order.emissionDate);
+		assertTrue(order.priority==Priority.MEDIUM);
+		assertTrue(order.type==OrderType.OUTPUT);
+		assertSame(list, order.rows);
 	}
 
 	/**
-	 * Basic constructor test
+	 * Test id should be not assigned
+	 * because it's already assigned
 	 */
 	@Test
-	public void constructorTest() {
-		orderTest = new Order(orderId, orderEmissionDate, OrderType.INPUT);
-		
-		assertThat(orderTest.getId(), is(equalTo(orderId)));
-		assertThat(orderTest.getEmissionDate(), is(equalTo(orderEmissionDate)));
-		
-		assertThat(orderTest.getPriority(), is(equalTo(Priority.LOW)));
-		assertThat(orderTest.getUnmodificableMaterials(), is(notNullValue()));
-		checkOrderInit();
+	public void testSetIdFail() {
+		Order order = new Order(10l);
+		assertFalse(order.setId(15l));
 	}
 	
 	/**
-	 * test constructor with order's priority
+	 * Test id should be assigned
 	 */
 	@Test
-	public void priorityConstructorTest() {
-		orderTest = new Order(orderId, orderEmissionDate, OrderType.INPUT ,orderPriority);
-		
-		assertThat(orderTest.getId(), is(equalTo(orderId)));
-		assertThat(orderTest.getEmissionDate(), is(equalTo(orderEmissionDate)));
-		assertThat(orderTest.getPriority(), is(equalTo(orderPriority)));
-		
-		assertThat(orderTest.getUnmodificableMaterials(), is(notNullValue()));
-		checkOrderInit();
+	public void testSetId() {
+		Order order = new Order(0l);
+		assertTrue(order.setId(15l));
+	}
+
+	/**
+	 * Test data should be incomplete
+	 * because order id is not assigned
+	 */
+	@Test
+	public void testIsDataCompleteFailForId() {
+		Order order = new Order(0l);
+		assertFalse(order.isDataComplete());
 	}
 	
 	/**
-	 * test constructor with order's priority and material set
+	 * Test data should be incomplete
+	 * because emission date is not assigned
 	 */
 	@Test
-	public void materialsConstructorTest() {
-		orderTest = new Order(orderId, orderEmissionDate, OrderType.INPUT ,orderPriority, orderMaterials);
-		
-//		assertThat(orderTest.getId(), is(equalTo(orderId)));
-//		assertThat(orderTest.getEmissionDate(), is(equalTo(orderEmissionDate)));
-//		assertThat(orderTest.getPriority(), is(equalTo(orderPriority)));
-//		assertSame(orderTest.getUnmodificableMaterials(), orderMaterials);
-//		checkOrderInit();
+	public void testIsDataCompleteFailForEmissionDate() {
+		Order order = new Order(10l);
+		order.emissionDate = null;
+		assertFalse(order.isDataComplete());
 	}
 	
 	/**
-	 * check the order's standard initial values
+	 * Test data should be complete
 	 */
-	private void checkOrderInit(){
-		assertThat(orderTest.getCompletePercentual(), is(equalTo(0.0f)));
-		assertThat(orderTest.getAllocationPercentual(), is(equalTo(0.0f)));
-		assertThat(orderTest.getOrderStatus(), is(equalTo(OrderStatus.WAITING)));
-		assertThat(orderTest.getDoneDate(), is(equalTo(null)));
+	@Test
+	public void testIsDataComplete() {
+		Order order = new Order(10l);
+		assertTrue(order.isDataComplete());
+	}
+	
+	/**
+	 * Test emission date can't be changed
+	 * because the order is not editable
+	 */
+	@Test
+	public void testSetEmissionDateNotEditable() {
+		Order order = new Order(10l);
+		order.allocationPercentual=100.0f;
+		assertFalse(order.setEmissionDate(new Date()));
+	}
+	
+	/**
+	 * Test emission date should be updated
+	 */
+	@Test
+	public void testSetEmissionDate() {
+		Order order = new Order(10l);
+		Date emissionDate = new Date();
+		assertTrue(order.setEmissionDate(emissionDate));
+		assertSame(emissionDate, order.emissionDate);
+	}
+	
+	/**
+	 * Test order type getter
+	 */
+	@Test
+	public void testGetType() {
+		Order order = new Order();
+		order.type = OrderType.INPUT;
+		assertSame(OrderType.INPUT, order.getType());
+	}
+	
+	/**
+	 * Test priority can't be changed
+	 * because the order is not editable
+	 */
+	@Test
+	public void testSetPriorityNotEditable() {
+		Order order = new Order(10l);
+		order.allocationPercentual=100.0f;
+		assertFalse(order.setPriority(Priority.LOW));
+	}
+	
+	/**
+	 * Test priority should be updated
+	 */
+	@Test
+	public void testSetPriority() {
+		Order order = new Order(10l);
+		assertTrue(order.setPriority(Priority.MEDIUM));
+		assertSame(Priority.MEDIUM, order.priority);
 	}
 }

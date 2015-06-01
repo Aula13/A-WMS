@@ -29,28 +29,28 @@ public class Order {
 	
 	@Id
 	@Column(name="order_id")
-	private long id;
+	protected long id;
 	
 	@Column(name="emission_date", nullable=false)
-	private Date emissionDate;
+	protected Date emissionDate;
 	
 	@Column(name="prioriry", nullable=false)
-	private Priority priority = Priority.LOW;
+	protected Priority priority = Priority.LOW;
 	
 	/**
 	 * List of the OrderRow that this order contains
 	 */
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="order", cascade=CascadeType.REMOVE)
-	private List<OrderRow> rows = new ArrayList<>();
+	protected List<OrderRow> rows = new ArrayList<>();
 	
 	@Column(name="order_type", nullable=false)
-	private OrderType type; 
+	protected OrderType type; 
 	
-	private OrderStatus orderStatus = OrderStatus.WAITING;
+	protected OrderStatus orderStatus = OrderStatus.WAITING;
 	
-	private float completePercentual = 0.0f;
+	protected float completePercentual = 0.0f;
 	
-	private float allocationPercentual = 0.0f;
+	protected float allocationPercentual = 0.0f;
 	
 	@Column(name="done_date")
 	private Date doneDate;
@@ -101,7 +101,7 @@ public class Order {
 	 * @return true=id updated
 	 */
 	public boolean setId(long id) {
-		if(id!=0l)
+		if(this.id!=0l)
 			return false;
 		this.id = id;
 		return true;
