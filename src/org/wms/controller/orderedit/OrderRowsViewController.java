@@ -136,18 +136,22 @@ public class OrderRowsViewController {
 	 * Update material reference after user edit
 	 *  
 	 * @param e change event from combobox cell editor
+	 * @return true=updated - false=material not found
 	 */
-	protected void tblOrderRowsComboEditStopAction(ChangeEvent e) {
+	protected boolean tblOrderRowsComboEditStopAction(ChangeEvent e) {
 		int editIndex = view.getTblOrderRows().getSelectedRow();
 		OrderRow orderRow = order.getUnmodificableMaterials().get(editIndex);
 
 		Long materialId = (Long) ((ComboBoxCellEditor) e.getSource()).getCellEditorValue();
 
-		if(availableMaterials.stream().anyMatch(material -> material.getCode()==materialId))
+		if(availableMaterials.stream().anyMatch(material -> material.getCode()==materialId)) {
 			orderRow.setMaterial(availableMaterials.stream()
 					.filter(m->m.getCode()==materialId)
 					.collect(Collectors.toList())
 					.get(0));
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -172,23 +176,24 @@ public class OrderRowsViewController {
 	 * Finally fire update order materials table
 	 * 
 	 */
-	protected void btnAddOrderRowAction() {
+	protected boolean btnAddOrderRowAction() {
 		if(availableMaterials.size()==0) {
 			Utils.msg.errorBox("No materials available!", "Error");
-			return;
+			return false;
 		}
 		
 		if(!order.isEditable()) {
 			Utils.msg.errorBox("This order is not editable!", "Error");
-			return;
+			return false;
 		}
 		
-		if(order.addMaterial(new OrderRow(order, availableMaterials.get(0), 0))) {
+		if(!order.addMaterial(new OrderRow(order, availableMaterials.get(0), 0))) {
 			Utils.msg.errorBox("The order row is not valid!", "Error");
-			return;
+			return false;
 		}
 		
 		view.getTblOrderRowsModel().fireTableDataChanged();
+		return true;
 	}
 
 	/**
@@ -203,25 +208,29 @@ public class OrderRowsViewController {
 	 * Finally fire update order materials table
 	 * 
 	 */	
-	protected void btnRemoveOrderRowAction() {
+	protected boolean btnRemoveOrderRowAction() {
 		int index = view.getTblOrderRows().getSelectedRow();
 		
 		if(index==-1) {
 			Utils.msg.errorBox("No material selected", "Error");
-			return;
+			return false;
 		}
 		
 		if(!order.isEditable()) {
 			Utils.msg.errorBox("This order is not editable!", "Error");
-			return;
+			return false;
 		}
 		
 		OrderRow orderRow = order.getUnmodificableMaterials().get(index);
 		
-		if(Utils.msg.questionBox("Are you sure to delete material " + orderRow.getMaterial().getCode() + "?", "Confirm")==0)
-			order.removeMaterial(orderRow);
+		if(Utils.msg.questionBox("Are you sure to delete material " + orderRow.getMaterial().getCode() + "?", "Confirm")!=0)
+			return false;
+	
+		order.removeMaterial(orderRow);
 		
 		view.getTblOrderRowsModel().fireTableDataChanged();
+		
+		return true;
 	}
 }
 
