@@ -25,13 +25,13 @@ public class Material {
 
 	@Id
 	@Column(name="material_id")
-	private long code;
+	protected long code;
 	
 	/**
 	 * List of the OrderRow that contains this material
 	 */
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="material", cascade=CascadeType.REMOVE)
-	private List<OrderRow> orders = new ArrayList<>();
+	protected List<OrderRow> orders = new ArrayList<>();
 	
 	public Material() {
 	}
