@@ -20,22 +20,22 @@ public class OrderViewController {
 	/**
 	 * Reference to the order edit view
 	 */
-	private OrderView view;
+	protected OrderView view;
 	
 	/**
 	 * Reference to the order model
 	 */
-	private Order order;
+	protected Order order;
 	
 	/**
 	 * Reference to the orders model
 	 */
-	private Orders ordersModel;
+	protected Orders ordersModel;
 	
 	/**
 	 * Flag to store if it's a new order
 	 */
-	private boolean isNew;
+	protected boolean isNew;
 
 	public OrderViewController(OrderView view, Order order,
 			Orders ordersModel, boolean isNew) {
@@ -71,7 +71,7 @@ public class OrderViewController {
 	 * 
 	 * if all it's ok dispose the edit view
 	 */
-	private void btnConfirmButtonAction() {
+	protected boolean btnConfirmButtonAction() {
 		boolean result;
 		
 		if(isNew) {
@@ -81,7 +81,7 @@ public class OrderViewController {
 			
 			if(!order.isDataComplete()) {
 				Utils.msg.errorBox("Incomplete data!", "Error");
-				return;
+				return false;
 			}
 			
 			result = ordersModel.addOrder(order);
@@ -94,13 +94,15 @@ public class OrderViewController {
 			view.setVisible(false);
 		else
 			Utils.msg.errorBox("An appear during order saving", "Error");
+		
+		return result;
 	}
 	
 	/**
 	 * Cancel edit
 	 * dispose order edit view
 	 */
-	private void btnCancelButtonAction() {
+	protected void btnCancelButtonAction() {
 		view.setVisible(false);
 	}
 }
