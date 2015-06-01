@@ -31,24 +31,24 @@ public class OrderRow implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column(name="order_row_id")
-	private long id;
+	protected long id;
 	
 	/**
 	 * Order to this order row is referred
 	 */
 	@ManyToOne
 	@JoinColumn(name="order_id")
-	private Order order;
+	protected Order order;
 	
 	/**
 	 * Material to this order row is referred
 	 */
 	@ManyToOne
 	@JoinColumn(name="material_id")
-	private Material material;
+	protected Material material;
 	
 	@Column(name="quantity")
-	private int quantity;
+	protected int quantity;
 	
 	/**
 	 * Allocated means this order row
@@ -56,7 +56,7 @@ public class OrderRow implements Serializable {
 	 * and an operator is processing it
 	 */
 	@Column(name="allocated")
-	private boolean allocated = false;
+	protected boolean allocated = false;
 	
 	/**
 	 * Completed means this order row
@@ -64,7 +64,7 @@ public class OrderRow implements Serializable {
 	 * and an operator has process it
 	 */
 	@Column(name="completed")
-	private boolean completed = false;
+	protected boolean completed = false;
 
 	public OrderRow() {
 	}
@@ -116,8 +116,11 @@ public class OrderRow implements Serializable {
 	 * 
 	 * @param material
 	 */
-	public void setMaterial(Material material) {
+	public boolean setMaterial(Material material) {
+		if(!isEditable())
+			return false;
 		this.material = material;
+		return true;
 	}
 	
 	/**
