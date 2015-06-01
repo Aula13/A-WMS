@@ -213,17 +213,17 @@ public class OrderUnitTest {
 		assertFalse(order.addMaterial(mockOrderRow));
 	}
 	
-	/**
-	 * Test material should be not added
-	 * because the order row data is not 
-	 * complete
-	 */
-	@Test
-	public void testAddMaterialNotComplete() {
-		Order order = new Order(10l);
-		doReturn(false).when(mockOrderRow).isDataComplete();
-		assertFalse(order.addMaterial(mockOrderRow));
-	}
+//	/**
+//	 * Test material should be not added
+//	 * because the order row data is not 
+//	 * complete
+//	 */
+//	@Test
+//	public void testAddMaterialNotComplete() {
+//		Order order = new Order(10l);
+//		doReturn(false).when(mockOrderRow).isDataComplete();
+//		assertFalse(order.addMaterial(mockOrderRow));
+//	}
 	
 	/**
 	 * Test material should be not added

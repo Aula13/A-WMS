@@ -185,7 +185,6 @@ public class Order {
 	/**
 	 * Add a material to the order
 	 * if the order is editable
-	 * and if the orderrow data is complete
 	 * 
 	 * @param orderRow
 	 * @return true=material is added
@@ -194,7 +193,7 @@ public class Order {
 	 * @see org.wms.model.Order#isEditable()
 	 */
 	public boolean addMaterial(OrderRow orderRow) {
-		if(!isEditable() || !orderRow.isDataComplete())
+		if(!isEditable())
 			return false;
 		rows.add(orderRow);
 		updateAllocatedPercentual();
