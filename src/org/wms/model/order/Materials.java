@@ -30,7 +30,7 @@ public class Materials extends Observable {
 	/**
 	 * Sinchronization semaphore
 	 */
-	private Semaphore semaphore = new Semaphore(1);
+	protected Semaphore semaphore = new Semaphore(1);
 	
 	private final ICRUDLayer<Material> persistenceLayer;
 	
@@ -181,7 +181,7 @@ public class Materials extends Observable {
 	 * @param message to log
 	 * @return formatted message
 	 */
-	private String formatLogMessage(String message) {
+	protected String formatLogMessage(String message) {
 		return this.getClass().getSimpleName() + " - " + message;
 	}
 }
