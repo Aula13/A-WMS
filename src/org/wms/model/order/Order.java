@@ -53,7 +53,7 @@ public class Order {
 	protected float allocationPercentual = 0.0f;
 	
 	@Column(name="done_date")
-	private Date doneDate;
+	protected Date doneDate;
 	
 	public Order() {
 	}
@@ -199,7 +199,7 @@ public class Order {
 		rows.add(orderRow);
 		updateAllocatedPercentual();
 		updateCompletedPercentual();
-		return false;
+		return true;
 	}
 	
 	/**
@@ -214,6 +214,10 @@ public class Order {
 	public boolean removeMaterial(OrderRow orderRow) {
 		if(!isEditable())
 			return false;
+		
+		if(!rows.contains(orderRow))
+			return false;
+		
 		rows.remove(orderRow);
 		updateAllocatedPercentual();
 		updateCompletedPercentual();
@@ -256,8 +260,8 @@ public class Order {
 	 * 
 	 * @param material allocated
 	 */
-	public void setMaterialAsAllocated(Material material) {
-		setMaterialAsAllocated(material.getCode());
+	public boolean setMaterialAsAllocated(Material material) {
+		return setMaterialAsAllocated(material.getCode());
 	}
 	
 	/**
@@ -267,8 +271,9 @@ public class Order {
 	 * allocated percentual of the order will be updated
 	 * 
 	 * @param materialId of the orderrow allocated
+	 * @return true=material set as allocated
 	 */
-	public void setMaterialAsAllocated(long materialId) {
+	public boolean setMaterialAsAllocated(long materialId) {
 		Optional<OrderRow> rowToAllocate = rows.stream()
 			.filter(row -> row.getMaterial().getCode()==materialId)
 			.findFirst();
@@ -276,7 +281,10 @@ public class Order {
 		if(rowToAllocate.isPresent()) {
 			rowToAllocate.get().setAllocated();		
 			updateAllocatedPercentual();
-		}
+			return true;
+		} 
+		
+		return false;
 	}
 	
 	/**
@@ -287,8 +295,8 @@ public class Order {
 	 * 
 	 * @param material completed
 	 */
-	public void setMaterialAsCompleted(Material material) {
-		setMaterialAsCompleted(material.getCode());
+	public boolean setMaterialAsCompleted(Material material) {
+		return setMaterialAsCompleted(material.getCode());
 	}
 	
 	/**
@@ -299,7 +307,7 @@ public class Order {
 	 * 
 	 * @param materialId of the orderrow completed
 	 */
-	public void setMaterialAsCompleted(long materialId) {
+	public boolean setMaterialAsCompleted(long materialId) {
 		Optional<OrderRow> rowToComplete = rows.stream()
 			.filter(row -> row.getMaterial().getCode()==materialId)
 			.findFirst();
@@ -307,7 +315,10 @@ public class Order {
 		if(rowToComplete.isPresent()) {
 			rowToComplete.get().setCompleted();
 			updateCompletedPercentual();
+			return true;
 		}
+		
+		return false;
 	}
 	
 	/**
@@ -362,6 +373,6 @@ public class Order {
 	 * @return true = a order can be deleted
 	 */
 	public boolean canDelete() {
-		return allocationPercentual<=0.0f || completePercentual<=0.0f;
+		return allocationPercentual<=0.0f && completePercentual<=0.0f;
 	}
 }
