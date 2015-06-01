@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class MaterialTest {
+public class MaterialUnitTest {
 
 	private static Material m;
 	

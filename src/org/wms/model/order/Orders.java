@@ -39,6 +39,18 @@ public class Orders extends Observable {
 	 */
 	private Semaphore semaphore = new Semaphore(1);
 	
+	private ICRUDLayer<Order> persistentLayer;
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param persistentLayer class the provide method for persinstence
+	 */
+	public Orders(ICRUDLayer<Order> persistentLayer) {
+		super();
+		this.persistentLayer = persistentLayer;
+	}
+
 	/**
 	 * Add a new order
 	 * 
@@ -52,8 +64,8 @@ public class Orders extends Observable {
 		try {
 			semaphore.acquire();
 			
-			if(!OrderDao.get(order.getId()).isPresent()) {
-				result = OrderDao.create(order);
+			if(!persistentLayer.get(order.getId()).isPresent()) {
+				result = persistentLayer.create(order);
 			
 				semaphore.release();
 				
@@ -82,8 +94,8 @@ public class Orders extends Observable {
 		try {
 			semaphore.acquire();
 			
-			if(OrderDao.get(order.getId()).isPresent()) {
-				result = OrderDao.delete(order);
+			if(persistentLayer.get(order.getId()).isPresent()) {
+				result = persistentLayer.delete(order);
 			
 				semaphore.release();
 				
@@ -112,8 +124,8 @@ public class Orders extends Observable {
 		try {
 			semaphore.acquire();
 			
-			if(OrderDao.get(order.getId()).isPresent()) {
-				result = OrderDao.update(order);
+			if(persistentLayer.get(order.getId()).isPresent()) {
+				result = persistentLayer.update(order);
 				
 				semaphore.release();
 			
@@ -142,7 +154,7 @@ public class Orders extends Observable {
 		try {
 			semaphore.acquire();
 			
-			result = OrderDao.get(orderId);
+			result = persistentLayer.get(orderId);
 			
 		} catch (InterruptedException e) {
 			logger.error(formatLogMessage("Error during semaphore acquire " + e));
@@ -167,7 +179,7 @@ public class Orders extends Observable {
 			return new ArrayList<>();
 		}
 		
-		Optional<List<Order>> opt = OrderDao.selectAll();
+		Optional<List<Order>> opt = persistentLayer.selectAll();
 		List<Order> orders = opt.isPresent()? opt.get() : new ArrayList<>();
 		
 		semaphore.release();
@@ -191,7 +203,7 @@ public class Orders extends Observable {
 			return new ArrayList<>();
 		}
 		
-		Optional<List<Order>> opt = OrderDao.selectAll();
+		Optional<List<Order>> opt = persistentLayer.selectAll();
 		List<Order> orders = opt.isPresent()? opt.get() : new ArrayList<>();
 		List<Order> filteredOrders = orders.stream()
 				.filter(order -> order.getType()==orderType)

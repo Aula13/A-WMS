@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.wms.config.Configuration;
 import org.wms.config.HibernateUtil;
+import org.wms.model.order.ICRUDLayer;
 import org.wms.model.order.Material;
 
 /**
@@ -21,18 +22,14 @@ import org.wms.model.order.Material;
  * @author Stefano Pessina, Daniele Ciriello
  *
  */
-public class MaterialDao {
+public class MaterialDao implements ICRUDLayer<Material> {
 
 	private static Logger logger = Logger.getLogger(Configuration.SUPERVISOR_LOGGER); 
 
-	/**
-	 * 
-	 * Create a material on the database
-	 * 
-	 * @param material material to create
-	 * @return true=material created succefully
+	/* (non-Javadoc)
+	 * @see org.wms.model.order.IMaterialPersistenceLayer#create(org.wms.model.order.Material)
 	 */
-	public static boolean create(Material material) {
+	public boolean create(Material material) {
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
@@ -47,14 +44,10 @@ public class MaterialDao {
 		return false;
 	}
 
-	/**
-	 * 
-	 * Update a material on the database
-	 * 
-	 * @param material material to update
-	 * @return true=material updated succefully
+	/* (non-Javadoc)
+	 * @see org.wms.model.order.IMaterialPersistenceLayer#update(org.wms.model.order.Material)
 	 */
-	public static boolean update(Material material) {
+	public boolean update(Material material) {
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
@@ -69,14 +62,10 @@ public class MaterialDao {
 		return true;
 	}
 
-	/**
-	 * 
-	 * Delete a material on the database
-	 * 
-	 * @param material material to delete
-	 * @return true=material deleted succefully
+	/* (non-Javadoc)
+	 * @see org.wms.model.order.IMaterialPersistenceLayer#delete(org.wms.model.order.Material)
 	 */
-	public static boolean delete(Material material) {
+	public boolean delete(Material material) {
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
@@ -91,14 +80,11 @@ public class MaterialDao {
 		return false;
 	}
 
-	/**
-	 * 
-	 * Get a specific material on the database
-	 * 
-	 * @param materialId materialId to fetch
-	 * @return optionally the material searched
+	
+	/* (non-Javadoc)
+	 * @see org.wms.model.order.IMaterialPersistenceLayer#get(java.lang.Long)
 	 */
-	public static Optional<Material> get(Long materialId) {
+	public Optional<Material> get(Long materialId) {
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
@@ -118,12 +104,10 @@ public class MaterialDao {
 	}
 
 
-	/**
-	 * Return all the materials stored on the database
-	 * 
-	 * @return optionally the list of materials
+	/* (non-Javadoc)
+	 * @see org.wms.model.order.IMaterialPersistenceLayer#selectAll()
 	 */
-	public static Optional<List<Material>> selectAll() {
+	public Optional<List<Material>> selectAll() {
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
@@ -149,7 +133,7 @@ public class MaterialDao {
 	 * @param message to log
 	 * @return formatted message
 	 */
-	private static String formatLogMessage(String message) {
-		return MaterialDao.class.getSimpleName() + " - " + message;
+	private String formatLogMessage(String message) {
+		return this.getClass().getSimpleName() + " - " + message;
 	}
 }

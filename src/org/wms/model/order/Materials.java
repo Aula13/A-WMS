@@ -8,11 +8,8 @@ import java.util.Optional;
 import java.util.concurrent.Semaphore;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
 import org.wms.config.Configuration;
-import org.wms.config.HibernateUtil;
 import org.wms.model.dao.MaterialDao;
-import org.wms.model.dao.OrderDao;
 
 /**
  * Materials model
@@ -35,6 +32,12 @@ public class Materials extends Observable {
 	 */
 	private Semaphore semaphore = new Semaphore(1);
 	
+	private final ICRUDLayer<Material> persistenceLayer;
+	
+	public Materials(ICRUDLayer<Material> persistenceLayer) {
+		this.persistenceLayer = persistenceLayer;
+	}
+	
 	/**
 	 * Add a new material
 	 * 
@@ -48,8 +51,8 @@ public class Materials extends Observable {
 		try {
 			semaphore.acquire();
 			
-			if(!MaterialDao.get(material.getCode()).isPresent()) {
-				result = MaterialDao.create(material);	
+			if(!persistenceLayer.get(material.getCode()).isPresent()) {
+				result = persistenceLayer.create(material);	
 				
 				semaphore.release();
 				
@@ -78,8 +81,8 @@ public class Materials extends Observable {
 		try {
 			semaphore.acquire();
 			
-			if(MaterialDao.get(material.getCode()).isPresent()) {
-				result = MaterialDao.delete(material);	
+			if(persistenceLayer.get(material.getCode()).isPresent()) {
+				result = persistenceLayer.delete(material);	
 				
 				semaphore.release();
 				
@@ -108,8 +111,8 @@ public class Materials extends Observable {
 		try {
 			semaphore.acquire();
 			
-			if(MaterialDao.get(material.getCode()).isPresent()) {
-				result = MaterialDao.update(material);		
+			if(persistenceLayer.get(material.getCode()).isPresent()) {
+				result = persistenceLayer.update(material);		
 				
 				semaphore.release();
 				
@@ -138,7 +141,7 @@ public class Materials extends Observable {
 		try {
 			semaphore.acquire();
 			
-			result = MaterialDao.get(materialId);
+			result = persistenceLayer.get(materialId);
 			
 		} catch (InterruptedException e) {
 			logger.error(formatLogMessage("Error during semaphore acquire " + e));
@@ -163,7 +166,7 @@ public class Materials extends Observable {
 			return new ArrayList<>();
 		}
 		
-		Optional<List<Material>> opt = MaterialDao.selectAll();
+		Optional<List<Material>> opt = persistenceLayer.selectAll();
 		List<Material> materials = opt.isPresent()? opt.get() : new ArrayList<>();
 		
 		semaphore.release();

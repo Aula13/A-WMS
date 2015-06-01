@@ -1,5 +1,7 @@
 package org.wms.model.common;
 
+import org.wms.model.dao.MaterialDao;
+import org.wms.model.dao.OrderDao;
 import org.wms.model.order.Materials;
 import org.wms.model.order.Orders;
 
@@ -25,7 +27,7 @@ public class ModelReference {
 	 * Init models
 	 */
 	public static void initModel() {
-		ordersModel = new Orders();
-		materialsModel = new Materials();
+		ordersModel = new Orders(new OrderDao());
+		materialsModel = new Materials(new MaterialDao());
 	}
 }

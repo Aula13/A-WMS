@@ -1,7 +1,5 @@
 package org.wms.model.dao;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.wms.config.Configuration;
 import org.wms.config.HibernateUtil;
+import org.wms.model.order.ICRUDLayer;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderRow;
 
@@ -25,20 +24,16 @@ import org.wms.model.order.OrderRow;
  * @author Stefano Pessina, Daniele Ciriello
  *
  */
-public class OrderDao {
+public class OrderDao implements ICRUDLayer<Order> {
 
 	private static Logger logger = Logger.getLogger(Configuration.SUPERVISOR_LOGGER); 
 
-	/**
-	 * 
-	 * Create an order on the database
-	 * This method create also the materials
-	 * list (order row) stored inside the order
-	 * 
-	 * @param order order to create
-	 * @return true=order created succefully
-	 */	
-	public static boolean create(Order order) {
+	
+	/* (non-Javadoc)
+	 * @see org.wms.model.order.ICRUDLayer#create(java.lang.Object)
+	 */
+	@Override
+	public boolean create(Order order) {
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
@@ -58,14 +53,11 @@ public class OrderDao {
 		return false;
 	}
 
-	/**
-	 * 
-	 * Update an order on the database
-	 * 
-	 * @param order order to update
-	 * @return true=order updated succefully
-	 */	
-	public static boolean update(Order order) {
+	/* (non-Javadoc)
+	 * @see org.wms.model.order.ICRUDLayer#update(java.lang.Object)
+	 */
+	@Override
+	public boolean update(Order order) {
 		try {
 			//If some orderRows item was deleted, delete it also from the db
 			Session session = HibernateUtil.getSession();
@@ -103,20 +95,14 @@ public class OrderDao {
 		return false;
 	}
 
-	/**
-	 * 
-	 * Delete an order on the database
-	 * 
-	 * @param order order to delete
-	 * @return true=order deleted succefully
-	 */	
-	public static boolean delete(Order order) {
+	/* (non-Javadoc)
+	 * @see org.wms.model.order.ICRUDLayer#delete(java.lang.Object)
+	 */
+	@Override
+	public boolean delete(Order order) {
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
-			
-//			for (OrderRow orderRow : order.getMaterials())
-//				session.delete(orderRow);
 			
 			session.delete(order);		
 			session.getTransaction().commit();
@@ -131,14 +117,11 @@ public class OrderDao {
 		return false;
 	}
 
-	/**
-	 * 
-	 * Get a specific order on the database
-	 * 
-	 * @param orderId orderId to fetch
-	 * @return optionally the order searched
+	/* (non-Javadoc)
+	 * @see org.wms.model.order.ICRUDLayer#get(java.lang.Long)
 	 */
-	public static Optional<Order> get(long orderId) {
+	@Override
+	public Optional<Order> get(Long orderId) {
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
@@ -159,12 +142,11 @@ public class OrderDao {
 		return Optional.empty();
 	}
 
-	/**
-	 * Return all the orders stored on the database
-	 * 
-	 * @return optionally the list of orders
+	/* (non-Javadoc)
+	 * @see org.wms.model.order.ICRUDLayer#selectAll()
 	 */
-	public static Optional<List<Order>> selectAll() {
+	@Override
+	public Optional<List<Order>> selectAll() {
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
@@ -189,7 +171,7 @@ public class OrderDao {
 	 * @param message to log
 	 * @return formatted message
 	 */
-	private static String formatLogMessage(String message) {
-		return OrderDao.class.getSimpleName() + " - " + message;
+	private String formatLogMessage(String message) {
+		return this.getClass().getSimpleName() + " - " + message;
 	}
 }
