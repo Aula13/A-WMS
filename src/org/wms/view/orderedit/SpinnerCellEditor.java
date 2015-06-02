@@ -22,7 +22,7 @@ import javax.swing.table.TableCellEditor;
  */
 public class SpinnerCellEditor extends AbstractCellEditor implements TableCellEditor {
 
-	private JSpinner spinnerCell;
+	protected JSpinner spinnerCell;
 	
 	/**
 	 * Create a new spinner cell editor
