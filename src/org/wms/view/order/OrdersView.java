@@ -33,19 +33,19 @@ import org.wms.model.order.Orders;
  */
 public class OrdersView extends JPanel implements Observer {
 
-	private Orders ordersModel;
+	protected Orders ordersModel;
 	
-	private JTable ordersTable;
+	protected JTable ordersTable;
 	
-	private OrdersTableModel tableModel;
+	protected OrdersTableModel tableModel;
 	
-	private OrderType ordersType;
+	protected OrderType ordersType;
 	
-	private JButton btnAddOrder;
+	protected JButton btnAddOrder;
 	
-	private JButton btnEditOrder;
+	protected JButton btnEditOrder;
 	
-	private JButton btnDeleteOrder;
+	protected JButton btnDeleteOrder;
 	
 	/**
 	 * Constructor
@@ -66,7 +66,7 @@ public class OrdersView extends JPanel implements Observer {
 	 * Init graphic components
 	 * to be placed in the gui
 	 */
-	private void initComponent() {
+	protected void initComponent() {
 		tableModel = new OrdersTableModel(ordersModel, ordersType);
 		ordersTable = FactoryReferences.appStyle.getTableClass(tableModel);
 
@@ -79,7 +79,7 @@ public class OrdersView extends JPanel implements Observer {
 	/**
 	 * Place each component in the gui
 	 */
-	private void initUI() {
+	protected void initUI() {
 		setName(ordersType.name() + " ORDERS");
 		
 		setLayout(new BorderLayout());
@@ -104,7 +104,7 @@ public class OrdersView extends JPanel implements Observer {
 	 * if a row is selected, show edit/delete buttons
 	 * otherwise they hide them
 	 */
-	private void updateValue() {
+	protected void updateValue() {
 		tableModel.fireTableDataChanged();
 		if(ordersTable.getSelectedRow()!=-1) {
 			btnEditOrder.setVisible(true);

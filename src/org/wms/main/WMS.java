@@ -136,7 +136,7 @@ public class WMS {
 	/**
 	 * Initialize the factories
 	 */
-	protected static void initFactories(){
+	public static void initFactories(){
 		FactoryReferences.fields = new ConcreteFieldFactory();
 		FactoryReferences.appStyle = new ConcreteJXAppStyleFactory();
 		FactoryReferences.buttons = new ConcreteButtonFactory(ResourceUtil.iconResource);
