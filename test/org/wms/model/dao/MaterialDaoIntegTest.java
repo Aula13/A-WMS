@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.wms.config.HibernateUtil;
@@ -36,6 +37,11 @@ public class MaterialDaoIntegTest {
 	@After
 	public void tearDownAfterTest() {
 		materialDao.delete(newMaterial);
+	}
+	
+	@AfterClass
+	public static void tearDownAfterClass() {
+		HibernateUtil.closeSessionFactory();
 	}
 
 	/**
