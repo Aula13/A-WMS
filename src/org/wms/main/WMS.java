@@ -62,7 +62,7 @@ public class WMS {
 			loadConfigFile();
 			
 			//Init hibernate
-			HibernateUtil.buildSessionFactory();
+			HibernateUtil.buildSessionFactory("config/hibernate.cfg.xml");
 			
 			startDBConnectionChecker();
 			

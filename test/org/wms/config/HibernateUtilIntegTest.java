@@ -21,7 +21,7 @@ public class HibernateUtilIntegTest {
 	@Before
 	public void beforeTest() throws ConfigFileLoadingException {
 		if(HibernateUtil.getSessionFactory()==null)
-			HibernateUtil.buildSessionFactory();
+			HibernateUtil.buildSessionFactory("config/hibernate.cfg.xml");
 	}
 	
 	/**

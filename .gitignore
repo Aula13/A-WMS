@@ -9,5 +9,5 @@
 /*.log
 /log
 /db
-
+/dbtest
 .app.lock

@@ -54,12 +54,12 @@ public class MaterialDao implements ICRUDLayer<Material> {
 			session.saveOrUpdate(material);		
 			session.getTransaction().commit();
 			HibernateUtil.closeSession();
-			return false;
+			return true;
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
 			logger.error(formatLogMessage("Error during get update material " + material.getCode() + "; Exception: " + e));
 		}
-		return true;
+		return false;
 	}
 
 	/* (non-Javadoc)

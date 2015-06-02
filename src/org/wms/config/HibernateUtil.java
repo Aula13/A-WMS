@@ -36,12 +36,12 @@ public class HibernateUtil {
 	 * @return session factory
 	 * @throws ConfigFileLoadingException 
 	 */
-	public static void buildSessionFactory() throws ConfigFileLoadingException {
+	public static void buildSessionFactory(String cfgFilePath) throws ConfigFileLoadingException {
 		try {
 			// load from different directory
 			
 			Configuration configuration = new Configuration();
-			File cfgFile = new File("config/hibernate.cfg.xml");
+			File cfgFile = new File(cfgFilePath);
 		    configuration.configure(cfgFile);
 		    serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
 		            configuration.getProperties()).build();
