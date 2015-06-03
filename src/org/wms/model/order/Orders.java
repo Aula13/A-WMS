@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.wms.config.Configuration;
 import org.wms.config.HibernateUtil;
+import org.wms.model.common.ICRUDLayer;
 import org.wms.model.dao.MaterialDao;
 import org.wms.model.dao.OrderDao;
 

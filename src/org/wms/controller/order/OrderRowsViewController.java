@@ -1,4 +1,4 @@
-package org.wms.controller.orderedit;
+package org.wms.controller.order;
 
 import it.rmautomazioni.controller.listener.AbstractJButtonActionListener;
 
@@ -11,11 +11,11 @@ import javax.swing.event.ChangeEvent;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 import org.wms.config.Utils;
 import org.wms.controller.common.AbstractTableSelectionListener;
-import org.wms.model.order.Material;
+import org.wms.model.material.Material;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderRow;
-import org.wms.view.orderedit.OrderRowsView;
-import org.wms.view.orderedit.SpinnerCellEditor;
+import org.wms.view.common.SpinnerCellEditor;
+import org.wms.view.order.OrderRowsView;
 
 /**
  * Controller for material list view

@@ -1,4 +1,4 @@
-package org.wms.view.orderedit;
+package org.wms.view.common;
 
 import java.awt.event.MouseEvent;
 import java.util.EventObject;

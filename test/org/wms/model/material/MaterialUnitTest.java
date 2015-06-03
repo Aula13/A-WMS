@@ -1,9 +1,10 @@
-package org.wms.model.order;
+package org.wms.model.material;
 
 import static org.junit.Assert.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.wms.model.material.Material;
 
 public class MaterialUnitTest {
 

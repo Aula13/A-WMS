@@ -1,4 +1,4 @@
-package org.wms.controller.orderedit;
+package org.wms.controller.order;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -14,13 +14,13 @@ import javax.swing.event.ChangeEvent;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.wms.config.Utils;
-import org.wms.model.order.Material;
+import org.wms.model.material.Material;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderRow;
 import org.wms.test.TestUtils;
-import org.wms.view.orderedit.ComboBoxCellEditorCustom;
-import org.wms.view.orderedit.OrderRowsView;
-import org.wms.view.orderedit.SpinnerCellEditor;
+import org.wms.view.common.ComboBoxCellEditorCustom;
+import org.wms.view.common.SpinnerCellEditor;
+import org.wms.view.order.OrderRowsView;
 
 public class OrderRowsViewControllerUnitTest {
 

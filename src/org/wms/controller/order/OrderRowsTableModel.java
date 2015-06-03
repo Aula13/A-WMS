@@ -1,4 +1,4 @@
-package org.wms.controller.orderedit;
+package org.wms.controller.order;
 
 import javax.swing.table.AbstractTableModel;
 

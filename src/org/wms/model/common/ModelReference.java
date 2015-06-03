@@ -2,7 +2,7 @@ package org.wms.model.common;
 
 import org.wms.model.dao.MaterialDao;
 import org.wms.model.dao.OrderDao;
-import org.wms.model.order.Materials;
+import org.wms.model.material.Materials;
 import org.wms.model.order.Orders;
 
 /**

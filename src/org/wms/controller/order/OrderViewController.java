@@ -1,11 +1,11 @@
-package org.wms.controller.orderedit;
+package org.wms.controller.order;
 
 import it.rmautomazioni.controller.listener.AbstractJButtonActionListener;
 
 import org.wms.config.Utils;
 import org.wms.model.order.Order;
 import org.wms.model.order.Orders;
-import org.wms.view.orderedit.OrderView;
+import org.wms.view.order.OrderView;
 
 /**
  * Controller for order edit view

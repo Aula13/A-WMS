@@ -1,4 +1,4 @@
-package org.wms.view.orderedit;
+package org.wms.view.order;
 
 import it.rmautomazioni.view.factories.FactoryReferences;
 import it.rmautomazioni.view.factories.jx.ConcreteJXAppStyleFactory;
@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.wms.config.ResourceUtil;
 
-public class OrderEditViewTest {
+public class OrderViewTest {
 
 	private OrderView view;
 	

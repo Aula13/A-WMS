@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.wms.config.Utils;
-import org.wms.model.order.Materials;
+import org.wms.model.material.Materials;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderType;
 import org.wms.model.order.Orders;

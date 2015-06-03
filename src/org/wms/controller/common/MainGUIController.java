@@ -7,7 +7,7 @@ import it.rmautomazioni.security.SecurityLevel;
 import org.wms.config.SecurityConfig;
 import org.wms.controller.order.OrdersViewController;
 import org.wms.model.common.ModelReference;
-import org.wms.model.order.Materials;
+import org.wms.model.material.Materials;
 import org.wms.model.order.OrderType;
 import org.wms.model.order.Orders;
 import org.wms.view.common.LoginPopupMenu;

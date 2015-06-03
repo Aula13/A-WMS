@@ -1,4 +1,4 @@
-package org.wms.model.order;
+package org.wms.model.material;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,6 +9,7 @@ import java.util.concurrent.Semaphore;
 
 import org.apache.log4j.Logger;
 import org.wms.config.Configuration;
+import org.wms.model.common.ICRUDLayer;
 import org.wms.model.dao.MaterialDao;
 
 /**

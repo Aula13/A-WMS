@@ -1,4 +1,4 @@
-package org.wms.view.orderedit;
+package org.wms.view.order;
 
 import it.rmautomazioni.view.factories.FactoryReferences;
 
@@ -15,9 +15,11 @@ import javax.swing.JTable;
 
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 import org.wms.config.IconTypeAWMS;
-import org.wms.controller.orderedit.OrderRowsTableModel;
-import org.wms.model.order.Material;
+import org.wms.controller.order.OrderRowsTableModel;
+import org.wms.model.material.Material;
 import org.wms.model.order.Order;
+import org.wms.view.common.ComboBoxCellEditorCustom;
+import org.wms.view.common.SpinnerCellEditor;
 
 /**
  * Order rows view contains a table for order row editing

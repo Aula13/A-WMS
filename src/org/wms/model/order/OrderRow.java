@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.OnDelete;
+import org.wms.model.material.Material;
 
 /**
  * OrderRow model

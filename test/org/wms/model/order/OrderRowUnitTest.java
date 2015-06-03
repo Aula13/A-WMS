@@ -7,6 +7,7 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.wms.model.material.Material;
 
 
 /**

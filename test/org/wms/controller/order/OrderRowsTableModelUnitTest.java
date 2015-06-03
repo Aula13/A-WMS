@@ -1,4 +1,4 @@
-package org.wms.controller.orderedit;
+package org.wms.controller.order;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.wms.model.order.Material;
+import org.wms.model.material.Material;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderRow;
 import org.wms.model.order.OrderStatus;

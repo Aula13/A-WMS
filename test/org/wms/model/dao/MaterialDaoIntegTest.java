@@ -11,7 +11,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.wms.config.HibernateUtil;
-import org.wms.model.order.Material;
+import org.wms.model.material.Material;
 
 /**
  * Test integration with database

@@ -1,4 +1,4 @@
-package org.wms.controller.orderedit;
+package org.wms.controller.order;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
@@ -16,7 +16,7 @@ import org.junit.Test;
 import org.wms.model.order.Order;
 import org.wms.model.order.Orders;
 import org.wms.model.order.Priority;
-import org.wms.view.orderedit.OrderView;
+import org.wms.view.order.OrderView;
 
 public class OrderViewControllerTest {
 

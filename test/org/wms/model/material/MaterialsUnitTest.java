@@ -1,4 +1,4 @@
-package org.wms.model.order;
+package org.wms.model.material;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -16,6 +16,9 @@ import java.util.concurrent.Semaphore;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.wms.model.common.ICRUDLayer;
+import org.wms.model.material.Material;
+import org.wms.model.material.Materials;
 
 public class MaterialsUnitTest {
 
@@ -138,8 +141,8 @@ public class MaterialsUnitTest {
 	}
 
 	/**
-	 * Test should be through an exception
-	 * from persistenceInterface
+	 * Test material should be not updated
+	 * because it's not present 
 	 */
 	@Test
 	public void testUpdateMaterialNotPresent() {

@@ -1,4 +1,4 @@
-package org.wms.view.orderedit;
+package org.wms.view.order;
 
 import it.rmautomazioni.view.factories.FactoryReferences;
 
@@ -21,8 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.wms.config.IconTypeAWMS;
-import org.wms.controller.orderedit.OrderRowsViewController;
-import org.wms.model.order.Material;
+import org.wms.controller.order.OrderRowsViewController;
+import org.wms.model.material.Material;
 import org.wms.model.order.Order;
 import org.wms.model.order.Priority;
 

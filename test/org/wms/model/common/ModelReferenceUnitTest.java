@@ -6,6 +6,11 @@ import org.junit.Test;
 
 public class ModelReferenceUnitTest {
 
+	/**
+	 * Test materials and orders model
+	 * reference should be correctly
+	 * initialized
+	 */
 	@Test
 	public void testInitModel() {
 		ModelReference.initModel();

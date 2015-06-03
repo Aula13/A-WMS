@@ -6,13 +6,12 @@ import java.util.Date;
 
 import org.wms.config.Utils;
 import org.wms.controller.common.AbstractTableSelectionListener;
-import org.wms.controller.orderedit.OrderViewController;
-import org.wms.model.order.Materials;
+import org.wms.model.material.Materials;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderType;
 import org.wms.model.order.Orders;
+import org.wms.view.order.OrderView;
 import org.wms.view.order.OrdersView;
-import org.wms.view.orderedit.OrderView;
 
 /**
  * Controller for orders view

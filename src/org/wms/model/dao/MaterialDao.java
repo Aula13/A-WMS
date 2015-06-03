@@ -8,8 +8,8 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.wms.config.Configuration;
 import org.wms.config.HibernateUtil;
-import org.wms.model.order.ICRUDLayer;
-import org.wms.model.order.Material;
+import org.wms.model.common.ICRUDLayer;
+import org.wms.model.material.Material;
 
 /**
  * Material Database Access Object

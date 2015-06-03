@@ -9,7 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.wms.config.Configuration;
 import org.wms.config.HibernateUtil;
-import org.wms.model.order.ICRUDLayer;
+import org.wms.model.common.ICRUDLayer;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderRow;
 

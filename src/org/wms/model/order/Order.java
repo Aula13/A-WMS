@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.wms.model.material.Material;
+
 /**
  * Order model
  * Include the business logic

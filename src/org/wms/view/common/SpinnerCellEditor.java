@@ -1,4 +1,4 @@
-package org.wms.view.orderedit;
+package org.wms.view.common;
 
 import it.rmautomazioni.view.factories.FactoryReferences;
 import it.rmautomazioni.view.factories.JSpinnerType;
