@@ -180,7 +180,7 @@ public class OrdersUnitTest {
 	}
 	
 	/**
-	 * Test material should be returned correctly
+	 * Test order should be returned correctly
 	 */
 	@Test
 	public void testGetOrderNotPresent() {
