@@ -16,7 +16,7 @@ import org.wms.config.ResourceUtil;
  * @author Stefano Pessina, Daniele Ciriello
  *
  */
-public class OrderViewTest {
+public class OrderViewUnitTest {
 
 	private OrderView view;
 	

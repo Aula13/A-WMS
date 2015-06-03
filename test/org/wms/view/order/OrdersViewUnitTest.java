@@ -27,7 +27,7 @@ import org.wms.model.order.Orders;
  * @author Stefano Pessina, Daniele Ciriello
  *
  */
-public class OrdersViewTest {
+public class OrdersViewUnitTest {
 
 	private static OrdersView view;
 	
