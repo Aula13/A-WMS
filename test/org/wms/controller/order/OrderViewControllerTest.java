@@ -18,6 +18,12 @@ import org.wms.model.order.Orders;
 import org.wms.model.order.Priority;
 import org.wms.view.order.OrderView;
 
+/**
+ * Test order view controller class
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class OrderViewControllerTest {
 
 	private static OrderView mockOrderView;

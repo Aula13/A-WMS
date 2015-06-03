@@ -16,6 +16,12 @@ import org.wms.model.order.OrderType;
 import org.wms.model.order.Orders;
 import org.wms.model.order.Priority;
 
+/**
+ * Test orders table model class
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class OrdersTableModelUnitTest {
 
 	private static Orders mockOrdersModel;

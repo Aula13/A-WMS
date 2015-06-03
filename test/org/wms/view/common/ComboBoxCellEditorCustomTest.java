@@ -11,6 +11,12 @@ import javax.swing.event.ChangeEvent;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+/**
+ * Test combo box cell editor for tables
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class ComboBoxCellEditorCustomTest {
 
 	private static ComboBoxCellEditorCustom cmbCellEditor;

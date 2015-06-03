@@ -15,6 +15,12 @@ import javax.swing.event.ChangeEvent;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+/**
+ * Test spinner cell editor for tables
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class SpinnerCellEditorTest {
 
 	private static SpinnerCellEditor spnCellEditor;

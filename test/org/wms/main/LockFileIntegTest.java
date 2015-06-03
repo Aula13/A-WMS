@@ -15,7 +15,7 @@ import org.junit.Test;
  *
  * this test will create a real lock file (no mocks)
  * 
- * @author stefano
+ * @author Stefano Pessina, Daniele Ciriello
  *
  */
 public class LockFileIntegTest {

@@ -13,7 +13,7 @@ import org.wms.exception.ConfigFileLoadingException;
  * this test require a hibernate configuration file correctly
  * configured in /config/hiberante.cfg.xml
  * 
- * @author stefano
+ * @author Stefano Pessina, Daniele Ciriello
  *
  */
 public class HibernateUtilIntegTest {

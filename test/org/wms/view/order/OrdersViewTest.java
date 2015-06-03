@@ -21,6 +21,12 @@ import org.wms.main.WMS;
 import org.wms.model.order.OrderType;
 import org.wms.model.order.Orders;
 
+/**
+ * Test orders view
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class OrdersViewTest {
 
 	private static OrdersView view;

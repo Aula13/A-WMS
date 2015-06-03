@@ -18,7 +18,7 @@ import org.wms.config.ResourceUtil;
 /**
  * Left navigation panel test class
  * 
- * @author Daniele
+ * @author Stefano Pessina, Daniele Ciriello
  *
  */
 public class NavigationPanelUnitTest {

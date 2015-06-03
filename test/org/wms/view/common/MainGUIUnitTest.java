@@ -24,7 +24,7 @@ import org.wms.config.ResourceUtil;
 /**
  * GUI test main GUI class
  * 
- * @author stefano
+ * @author Stefano Pessina, Daniele Ciriello
  *
  */
 public class MainGUIUnitTest {

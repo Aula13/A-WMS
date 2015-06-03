@@ -20,6 +20,12 @@ import org.wms.model.common.ICRUDLayer;
 import org.wms.model.material.Material;
 import org.wms.model.material.Materials;
 
+/**
+ * Test Materials class
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class MaterialsUnitTest {
 
 	private static Materials materials;

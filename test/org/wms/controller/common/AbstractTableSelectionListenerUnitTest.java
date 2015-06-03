@@ -12,6 +12,12 @@ import javax.swing.JTable;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+/**
+ * Test table selection listener for table
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class AbstractTableSelectionListenerUnitTest {
 
 	private static JTable mockTable;

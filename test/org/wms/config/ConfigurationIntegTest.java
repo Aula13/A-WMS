@@ -8,7 +8,7 @@ import org.junit.Test;
  * Check configuration file loaded correctly
  * This test require a correct configuration file in /config/config.properties
  * 
- * @author stefano
+ * @author Stefano Pessina, Daniele Ciriello
  *
  */
 public class ConfigurationIntegTest {

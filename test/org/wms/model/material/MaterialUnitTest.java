@@ -6,6 +6,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.wms.model.material.Material;
 
+/**
+ * Test Material class
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class MaterialUnitTest {
 
 	private static Material m;

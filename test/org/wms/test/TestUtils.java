@@ -8,6 +8,12 @@ import static org.mockito.Mockito.mock;
 import org.wms.config.Utils;
 import org.wms.view.common.MessageBox;
 
+/**
+ * Utils for testing
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class TestUtils {
 	
 	public static MessageBox mockMsgBox;

@@ -10,6 +10,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.wms.config.ResourceUtil;
 
+/**
+ * Test order view
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class OrderViewTest {
 
 	private OrderView view;

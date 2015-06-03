@@ -25,6 +25,12 @@ import org.wms.test.TestUtils;
 import org.wms.view.common.MessageBox;
 import org.wms.view.order.OrdersView;
 
+/**
+ * Test orders view controller class
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class OrdersViewControllerUnitTest {
 	
 	private static Orders mockOrdersModel;

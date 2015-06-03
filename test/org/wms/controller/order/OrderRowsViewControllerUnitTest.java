@@ -22,6 +22,12 @@ import org.wms.view.common.ComboBoxCellEditorCustom;
 import org.wms.view.common.SpinnerCellEditor;
 import org.wms.view.order.OrderRowsView;
 
+/**
+ * Test order rows view controller class
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class OrderRowsViewControllerUnitTest {
 
 	private static OrderRowsView mockOrderRowsView;

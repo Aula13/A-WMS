@@ -8,7 +8,7 @@ import org.junit.Test;
 /**
  * Test configuration file should be correctly initialized
  * 
- * @author stefano
+ * @author Stefano Pessina, Daniele Ciriello
  *
  */
 public class SecurityUnitTest {

@@ -18,6 +18,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.wms.model.common.ICRUDLayer;
 
+/**
+ * Test Orders model class
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class OrdersUnitTest {
 
 	private static Orders orders;

@@ -45,7 +45,7 @@ class TestParameter {
  * on main gui status bar
  * 
  * 
- * @author stefano
+ * @author Stefano Pessina, Daniele Ciriello
  *
  */
 @RunWith(Parameterized.class)

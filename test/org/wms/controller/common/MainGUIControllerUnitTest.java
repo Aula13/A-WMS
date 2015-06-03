@@ -21,9 +21,9 @@ import org.wms.view.common.MainGUI;
 import org.wms.view.common.NavigationPanel;
 
 /**
- * Test listeners created in MainGUIController
+ * Test MainGUIController for MainGUI
  * 
- * @author stefano
+ * @author Stefano Pessina, Daniele Ciriello
  *
  */
 public class MainGUIControllerUnitTest {

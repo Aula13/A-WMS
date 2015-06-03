@@ -18,7 +18,7 @@ import org.wms.test.TestUtils;
 /**
  * Test configuration class
  * 
- * @author stefano
+ * @author Stefano Pessina, Daniele Ciriello
  *
  */
 public class ConfigurationUnitTest {
