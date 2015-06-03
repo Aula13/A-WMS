@@ -22,7 +22,7 @@
 		
 		<!-- dichiarazione delle classi mappate nel database -->
 		<mapping class="org.wms.model.order.Order"/>
-		<mapping class="org.wms.model.order.Material"/>
+		<mapping class="org.wms.model.material.Material"/>
 		<mapping class="org.wms.model.order.OrderRow"/>
 	</session-factory>
 </hibernate-configuration>

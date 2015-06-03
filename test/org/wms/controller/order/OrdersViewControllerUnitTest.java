@@ -343,6 +343,10 @@ public class OrdersViewControllerUnitTest {
 		}
 	}
 
+	/**
+	 * Test edit and delete buttons should be
+	 * not visible if the table selection is not valid
+	 */
 	@Test
 	public void testTblOrdersInvalidSelectionAction() {
 		OrdersViewController controller = new OrdersViewController(mockView, mockOrdersModel, mockMaterialsModel);

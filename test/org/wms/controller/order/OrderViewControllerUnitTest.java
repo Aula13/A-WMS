@@ -24,7 +24,7 @@ import org.wms.view.order.OrderView;
  * @author Stefano Pessina, Daniele Ciriello
  *
  */
-public class OrderViewControllerTest {
+public class OrderViewControllerUnitTest {
 
 	private static OrderView mockOrderView;
 	

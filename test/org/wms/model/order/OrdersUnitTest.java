@@ -180,7 +180,8 @@ public class OrdersUnitTest {
 	}
 	
 	/**
-	 * Test order should be returned correctly
+	 * Test order should be not fetched
+	 * because it's not present
 	 */
 	@Test
 	public void testGetOrderNotPresent() {

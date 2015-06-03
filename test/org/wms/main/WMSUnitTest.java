@@ -92,6 +92,11 @@ public class WMSUnitTest {
 		WMS.launchWMS();
 	}
 	
+	/**
+	 * Test should throw an exception for mission or wrong connection to the database
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	public void testDBConnectionException() throws Exception {
 		when(LockFile.checkLockFile()).thenReturn(true);
@@ -103,6 +108,9 @@ public class WMSUnitTest {
 		WMS.launchWMS();
 	}
 
+	/**
+	 * Test factories should be initialized
+	 */
 	@Test
 	public void testInitFactory() throws Exception {
 		WMS.initFactories();
