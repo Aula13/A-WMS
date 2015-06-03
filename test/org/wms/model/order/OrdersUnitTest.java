@@ -72,7 +72,7 @@ public class OrdersUnitTest {
 	}
 
 	/**
-	 * Test material to add should be already
+	 * Test order to add should be already
 	 * present
 	 */
 	@Test
@@ -82,7 +82,7 @@ public class OrdersUnitTest {
 	}
 	
 	/**
-	 * Test material should be not added
+	 * Test order should be not added
 	 * for semaphore interruption exception
 	 */
 	@Test
@@ -97,7 +97,7 @@ public class OrdersUnitTest {
 	}
 	
 	/**
-	 * Test material should be added correctly
+	 * Test order should be added correctly
 	 */
 	@Test
 	public void testAddOrder() {
@@ -108,7 +108,7 @@ public class OrdersUnitTest {
 	}
 
 	/**
-	 * Test material should be not present
+	 * Test order should be not present
 	 * and delete operation should fail
 	 */
 	@Test
@@ -120,7 +120,7 @@ public class OrdersUnitTest {
 	}
 
 	/**
-	 * Test material should be not deleted
+	 * Test order should be not deleted
 	 * for semaphore interruption exception
 	 */
 	@Test
@@ -135,7 +135,7 @@ public class OrdersUnitTest {
 	}
 	
 	/**
-	 * Test material should be deleted
+	 * Test order should be deleted
 	 * correctly
 	 */
 	@Test
@@ -145,8 +145,8 @@ public class OrdersUnitTest {
 	}
 
 	/**
-	 * Test should be through an exception
-	 * from persistenceInterface
+	 * Test order should be not updated
+	 * because it's not present 
 	 */
 	@Test
 	public void testUpdateOrderNotPresent() {
@@ -156,7 +156,7 @@ public class OrdersUnitTest {
 	}
 	
 	/**
-	 * Test material should be not updated
+	 * Test order should be not updated
 	 * for semaphore interruption exception
 	 */
 	@Test
@@ -170,6 +170,9 @@ public class OrdersUnitTest {
 		assertFalse(isUpdated);
 	}
 	
+	/**
+	 * Test order should be updated correctly
+	 */
 	@Test
 	public void testUpdateOrder() {
 		assertTrue(orders.updateOrder(mockOrder));
@@ -186,7 +189,7 @@ public class OrdersUnitTest {
 	}
 	
 	/**
-	 * Test material should be not fetch
+	 * Test order should be not fetch
 	 * for semaphore interruption exception
 	 */
 	@Test
@@ -200,7 +203,7 @@ public class OrdersUnitTest {
 	}
 	
 	/**
-	 * Test material should be returned correctly
+	 * Test order should be returned correctly
 	 */
 	@Test
 	public void testGetOrder() {

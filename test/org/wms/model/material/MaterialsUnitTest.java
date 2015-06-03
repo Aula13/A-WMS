@@ -172,6 +172,10 @@ public class MaterialsUnitTest {
 		assertFalse(isUpdated);
 	}
 	
+	/**
+	 * Test material should be updated
+	 * correctly
+	 */
 	@Test
 	public void testUpdateMaterial() {
 		assertTrue(materials.updateMaterial(mockMaterial));
