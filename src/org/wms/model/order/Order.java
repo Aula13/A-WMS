@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.wms.model.common.ListType;
 import org.wms.model.material.Material;
 
 /**
@@ -46,7 +47,7 @@ public class Order {
 	protected List<OrderRow> rows = new ArrayList<>();
 	
 	@Column(name="order_type", nullable=false)
-	protected OrderType type; 
+	protected ListType type; 
 	
 	protected OrderStatus orderStatus = OrderStatus.WAITING;
 	
@@ -65,25 +66,25 @@ public class Order {
 	public Order(long id) {
 		this(id,
 			new Date(),
-			OrderType.INPUT,
+			ListType.INPUT,
 			Priority.LOW);
 	}
 
 
 
-	public Order(long id, Date emissionDate, OrderType orderType) {
+	public Order(long id, Date emissionDate, ListType orderType) {
 		super();
 		this.id = id;
 		this.emissionDate = emissionDate;
 		this.type = orderType;
 	}
 
-	public Order(long id, Date emissionDate, OrderType orderType, Priority priority) {
+	public Order(long id, Date emissionDate, ListType orderType, Priority priority) {
 		this(id, emissionDate, orderType);
 		this.priority = priority;
 	}
 
-	public Order(long id, Date emissionDate, OrderType orderType, Priority priority,
+	public Order(long id, Date emissionDate, ListType orderType, Priority priority,
 			List<OrderRow> rows) {
 		this(id, emissionDate, orderType, priority);
 		this.rows = rows;
@@ -150,7 +151,7 @@ public class Order {
 	/**
 	 * @return get order type
 	 */
-	public OrderType getType() {
+	public ListType getType() {
 		return type;
 	}
 

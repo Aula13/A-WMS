@@ -1,38 +1,31 @@
-package org.wms.model.order;
+package org.wms.model.worklist;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Optional;
-import java.util.Random;
 import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
 import org.wms.config.Configuration;
-import org.wms.config.HibernateUtil;
 import org.wms.model.common.ICRUDLayer;
 import org.wms.model.common.ListType;
-import org.wms.model.dao.MaterialDao;
-import org.wms.model.dao.OrderDao;
 
 /**
- * Orders model
- * This model provide high level CRUD for orders
+ * WorkLists model
+ * This model provide high level CRUD for worklists
  * 
  * This model is synchronized though a semaphore(1)
  * 
  * This model provide observable methods
- * for get signal about orders list modifications
+ * for get signal about Work list modifications
  * 
  * @author Stefano Pessina, Daniele Ciriello
  *
  */
-public class Orders extends Observable {
+public class WorkLists extends Observable {
 	
 	private Logger logger = Logger.getLogger(Configuration.SUPERVISOR_LOGGER);
 	
@@ -41,33 +34,33 @@ public class Orders extends Observable {
 	 */
 	protected Semaphore semaphore = new Semaphore(1);
 	
-	private ICRUDLayer<Order> persistentLayer;
+	private ICRUDLayer<WorkList> persistentLayer;
 	
 	/**
 	 * Constructor
 	 * 
-	 * @param persistentLayer class the provide method for persinstence
+	 * @param persistentLayer class the provide method for persistence
 	 */
-	public Orders(ICRUDLayer<Order> persistentLayer) {
+	public WorkLists(ICRUDLayer<WorkList> persistentLayer) {
 		super();
 		this.persistentLayer = persistentLayer;
 	}
 
 	/**
-	 * Add a new order
+	 * Add a new workList
 	 * 
-	 * @param order order to add
-	 * @return true=order created succefully
+	 * @param workList workList to add
+	 * @return true=workList created succefully
 	 */
-	public boolean addOrder(Order order) {
+	public boolean addWorkList(WorkList workList) {
 		
 		boolean result = false;
 		
 		try {
 			semaphore.acquire();
 			
-			if(!persistentLayer.get(order.getId()).isPresent()) {
-				result = persistentLayer.create(order);
+			if(!persistentLayer.get(workList.getId()).isPresent()) {
+				result = persistentLayer.create(workList);
 			
 				semaphore.release();
 				
@@ -84,20 +77,20 @@ public class Orders extends Observable {
 	}
 	
 	/**
-	 * Delete a order
+	 * Delete a workList
 	 * 
-	 * @param order order to delele
-	 * @return true=order deleted succefully
+	 * @param workList workList to delele
+	 * @return true=workList deleted succefully
 	 */
-	public boolean deleteOrder(Order order) {
+	public boolean deleteWorkList(WorkList workList) {
 		
 		boolean result = false;
 		
 		try {
 			semaphore.acquire();
 			
-			if(persistentLayer.get(order.getId()).isPresent()) {
-				result = persistentLayer.delete(order);
+			if(persistentLayer.get(workList.getId()).isPresent()) {
+				result = persistentLayer.delete(workList);
 			
 				semaphore.release();
 				
@@ -114,20 +107,20 @@ public class Orders extends Observable {
 	}
 	
 	/**
-	 * Update a order
+	 * Update a workList
 	 * 
-	 * @param order order to update
-	 * @return true=order updated
+	 * @param workList workList to update
+	 * @return true=workList updated
 	 */
-	public boolean updateOrder(Order order) {
+	public boolean updateWorkList(WorkList workList) {
 		
 		boolean result = false;
 		
 		try {
 			semaphore.acquire();
 			
-			if(persistentLayer.get(order.getId()).isPresent()) {
-				result = persistentLayer.update(order);
+			if(persistentLayer.get(workList.getId()).isPresent()) {
+				result = persistentLayer.update(workList);
 				
 				semaphore.release();
 			
@@ -144,19 +137,19 @@ public class Orders extends Observable {
 	}
 	
 	/**
-	 * Get a order
+	 * Get a workList
 	 * 
-	 * @param orderId orderId to fetch
-	 * @return optionally the order
+	 * @param workListId workListId to fetch
+	 * @return optionally the workList
 	 */
-	public Optional<Order> get(Long orderId) {
+	public Optional<WorkList> get(Long workListId) {
 		
-		Optional<Order> result = Optional.empty();
+		Optional<WorkList> result = Optional.empty();
 		
 		try {
 			semaphore.acquire();
 			
-			result = persistentLayer.get(orderId);
+			result = persistentLayer.get(workListId);
 			
 		} catch (InterruptedException e) {
 			logger.error(formatLogMessage("Error during semaphore acquire " + e));
@@ -167,11 +160,11 @@ public class Orders extends Observable {
 	}
 	
 	/**
-	 * Provide an unmodificable list of materials
+	 * Provide an unmodificable list of worklists
 	 * 
-	 * @return list of the materials
+	 * @return list of the worklists
 	 */
-	public List<Order> getUnmodificableOrderList() {
+	public List<WorkList> getUnmodificableWorkListList() {
 		
 		try {
 			semaphore.acquire();
@@ -181,30 +174,30 @@ public class Orders extends Observable {
 			return new ArrayList<>();
 		}
 		
-		Optional<List<Order>> opt = persistentLayer.selectAll();
-		List<Order> orders = opt.isPresent()? opt.get() : new ArrayList<>();
+		Optional<List<WorkList>> opt = persistentLayer.selectAll();
+		List<WorkList> workLists = opt.isPresent()? opt.get() : new ArrayList<>();
 		
 		semaphore.release();
 		
-		return Collections.unmodifiableList(orders);
+		return Collections.unmodifiableList(workLists);
 	}
 	
 	/**
-	 * Provide an unmodificable list of materials
-	 * filtered by the order type
+	 * Provide an unmodificable list of worklists
+	 * filtered by the workList type
 	 * 
-	 * @return list of the materials
+	 * @return list of the worklists
 	 */
-	public List<Order> getUnmodificableOrderList(ListType orderType) {
+	public List<WorkList> getUnmodificableWorkListList(ListType workListType) {
 		
-		List<Order> orders = getUnmodificableOrderList();
-		List<Order> filteredOrders = orders.stream()
-				.filter(order -> order.getType()==orderType)
+		List<WorkList> workLists = getUnmodificableWorkListList();
+		List<WorkList> filteredWorkLists = workLists.stream()
+				.filter(workList -> workList.getType()==workListType)
 				.collect(Collectors.toList());
 		
 		semaphore.release();
 		
-		return Collections.unmodifiableList(filteredOrders);
+		return Collections.unmodifiableList(filteredWorkLists);
 	}
 	
 	/**

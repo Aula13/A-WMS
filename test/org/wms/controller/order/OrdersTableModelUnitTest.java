@@ -10,9 +10,9 @@ import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.wms.model.common.ListType;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderStatus;
-import org.wms.model.order.OrderType;
 import org.wms.model.order.Orders;
 import org.wms.model.order.Priority;
 
@@ -47,7 +47,7 @@ public class OrdersTableModelUnitTest {
 		List<Order> testList = new ArrayList<>();
 		testList.add(mockOrder);
 		
-		when(mockOrdersModel.getUnmodificableOrderList(OrderType.INPUT))
+		when(mockOrdersModel.getUnmodificableOrderList(ListType.INPUT))
 			.thenReturn(testList);
 	}
 
@@ -56,9 +56,9 @@ public class OrdersTableModelUnitTest {
 	 */
 	@Test
 	public void testOrdersTableModel() {
-		OrdersTableModel tableModel = new OrdersTableModel(mockOrdersModel, OrderType.INPUT);
+		OrdersTableModel tableModel = new OrdersTableModel(mockOrdersModel, ListType.INPUT);
 		assertTrue(tableModel.ordersModel.equals(mockOrdersModel));
-		assertTrue(tableModel.orderType==OrderType.INPUT);
+		assertTrue(tableModel.orderType==ListType.INPUT);
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class OrdersTableModelUnitTest {
 	 */
 	@Test
 	public void testGetRowCount() {
-		OrdersTableModel tableModel = new OrdersTableModel(mockOrdersModel, OrderType.INPUT);
+		OrdersTableModel tableModel = new OrdersTableModel(mockOrdersModel, ListType.INPUT);
 		
 		assertTrue(tableModel.getRowCount()==1);
 	}
@@ -76,7 +76,7 @@ public class OrdersTableModelUnitTest {
 	 */
 	@Test
 	public void testGetColumnCount() {
-		OrdersTableModel tableModel = new OrdersTableModel(mockOrdersModel, OrderType.INPUT);
+		OrdersTableModel tableModel = new OrdersTableModel(mockOrdersModel, ListType.INPUT);
 		
 		assertTrue(tableModel.getColumnCount()==6);
 	}
@@ -87,7 +87,7 @@ public class OrdersTableModelUnitTest {
 	 */
 	@Test
 	public void testGetColumnNameInt() {
-		OrdersTableModel tableModel = new OrdersTableModel(mockOrdersModel, OrderType.INPUT);
+		OrdersTableModel tableModel = new OrdersTableModel(mockOrdersModel, ListType.INPUT);
 		
 		assertTrue(tableModel.getColumnName(0).compareTo(tableModel.headers[0])==0);
 		assertTrue(tableModel.getColumnName(1).compareTo(tableModel.headers[1])==0);
@@ -104,7 +104,7 @@ public class OrdersTableModelUnitTest {
 	 */
 	@Test
 	public void testNoCacheGetValueAt() {
-		OrdersTableModel tableModel = new OrdersTableModel(mockOrdersModel, OrderType.INPUT);
+		OrdersTableModel tableModel = new OrdersTableModel(mockOrdersModel, ListType.INPUT);
 		
 		assertTrue(tableModel.orders==null);
 		
@@ -129,7 +129,7 @@ public class OrdersTableModelUnitTest {
 	 */
 	@Test
 	public void testCachedGetValueAt() {
-		OrdersTableModel tableModel = new OrdersTableModel(mockOrdersModel, OrderType.INPUT);
+		OrdersTableModel tableModel = new OrdersTableModel(mockOrdersModel, ListType.INPUT);
 		tableModel.getRowCount();
 		
 		assertTrue(tableModel.orders!=null);
@@ -153,7 +153,7 @@ public class OrdersTableModelUnitTest {
 	 */
 	@Test
 	public void testInvalidIndexGetValueAt() {
-		OrdersTableModel tableModel = new OrdersTableModel(mockOrdersModel, OrderType.INPUT);
+		OrdersTableModel tableModel = new OrdersTableModel(mockOrdersModel, ListType.INPUT);
 		
 		assertTrue(((String) tableModel.getValueAt(0, tableModel.getColumnCount()+1))
 				.compareTo("Unknow column: " + (tableModel.getColumnCount()+1))==0);

@@ -13,8 +13,8 @@ import javax.swing.JButton;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.wms.model.common.ListType;
 import org.wms.model.material.Materials;
-import org.wms.model.order.OrderType;
 import org.wms.model.order.Orders;
 import org.wms.test.TestUtils;
 import org.wms.view.common.MainGUI;
@@ -64,9 +64,9 @@ public class MainGUIControllerUnitTest {
 		mockOrdersModel = mock(Orders.class);
 		mockMaterialsModel = mock(Materials.class);
 		
-		when(mockOrdersModel.getUnmodificableOrderList(OrderType.INPUT))
+		when(mockOrdersModel.getUnmodificableOrderList(ListType.INPUT))
 			.thenReturn(new ArrayList<>());
-		when(mockOrdersModel.getUnmodificableOrderList(OrderType.OUTPUT))
+		when(mockOrdersModel.getUnmodificableOrderList(ListType.OUTPUT))
 			.thenReturn(new ArrayList<>());
 	
 		when(mockMaterialsModel.getUnmodificableMaterialList()).thenReturn(new ArrayList<>());

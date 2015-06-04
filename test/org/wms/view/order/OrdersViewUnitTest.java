@@ -18,7 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.wms.config.ResourceUtil;
 import org.wms.main.WMS;
-import org.wms.model.order.OrderType;
+import org.wms.model.common.ListType;
 import org.wms.model.order.Orders;
 
 /**
@@ -46,7 +46,7 @@ public class OrdersViewUnitTest {
 		
 		WMS.initFactories();
 		
-		view = new OrdersView(mockOrdersModel, OrderType.INPUT);
+		view = new OrdersView(mockOrdersModel, ListType.INPUT);
 		view.ordersTable = mockOrdersTable;
 		
 		btnEditOrder = new JButton();

@@ -11,9 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.wms.model.common.ListType;
 import org.wms.model.order.OrderRow;
 import org.wms.model.order.OrderStatus;
-import org.wms.model.order.OrderType;
 
 /**
  * Work list for an operator
@@ -32,7 +32,7 @@ public class WorkList {
 	protected long id;
 	
 	@Column(name="work_list_type", nullable=false)
-	protected OrderType type; 
+	protected ListType type; 
 	
 	/**
 	 * List of the OrderRow that this order contains
@@ -47,7 +47,7 @@ public class WorkList {
 	
 	}
 
-	public WorkList(long id, OrderType type) {
+	public WorkList(long id, ListType type) {
 		super();
 		this.id = id;
 		this.type = type;
@@ -57,7 +57,7 @@ public class WorkList {
 		return id;
 	}
 
-	public OrderType getType() {
+	public ListType getType() {
 		return type;
 	}
 

@@ -6,9 +6,9 @@ import java.util.Date;
 
 import org.wms.config.Utils;
 import org.wms.controller.common.AbstractTableSelectionListener;
+import org.wms.model.common.ListType;
 import org.wms.model.material.Materials;
 import org.wms.model.order.Order;
-import org.wms.model.order.OrderType;
 import org.wms.model.order.Orders;
 import org.wms.view.order.OrderView;
 import org.wms.view.order.OrdersView;
@@ -43,7 +43,7 @@ public class OrdersViewController {
 	/**
 	 * Type of order to manage
 	 */
-	protected OrderType orderType;
+	protected ListType orderType;
 	
 	/**
 	 * Order details view JDialog reference

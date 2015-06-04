@@ -6,9 +6,9 @@ import it.rmautomazioni.security.SecurityLevel;
 
 import org.wms.config.SecurityConfig;
 import org.wms.controller.order.OrdersViewController;
+import org.wms.model.common.ListType;
 import org.wms.model.common.ModelReference;
 import org.wms.model.material.Materials;
-import org.wms.model.order.OrderType;
 import org.wms.model.order.Orders;
 import org.wms.view.common.LoginPopupMenu;
 import org.wms.view.common.MainGUI;
@@ -51,14 +51,14 @@ public class MainGUIController {
 			}
 		};
 		
-		inputOrdersView = new OrdersView(ordersModel, OrderType.INPUT);
+		inputOrdersView = new OrdersView(ordersModel, ListType.INPUT);
 		new OrdersViewController(inputOrdersView, ordersModel, materialsModel);
 		new ChangePageListener(
 				gui.getNavPanel().getBtnInputOrders(), 
 				inputOrdersView, 
 				gui);
 		
-		outputOrdersView = new OrdersView(ordersModel, OrderType.OUTPUT);
+		outputOrdersView = new OrdersView(ordersModel, ListType.OUTPUT);
 		new OrdersViewController(outputOrdersView, ordersModel, materialsModel);
 		new ChangePageListener(
 				gui.getNavPanel().getBtnOutputOrders(), 

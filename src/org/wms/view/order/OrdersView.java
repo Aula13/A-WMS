@@ -15,7 +15,7 @@ import javax.swing.JTable;
 
 import org.wms.config.IconTypeAWMS;
 import org.wms.controller.order.OrdersTableModel;
-import org.wms.model.order.OrderType;
+import org.wms.model.common.ListType;
 import org.wms.model.order.Orders;
 
 /**
@@ -39,7 +39,7 @@ public class OrdersView extends JPanel implements Observer {
 	
 	protected OrdersTableModel tableModel;
 	
-	protected OrderType ordersType;
+	protected ListType ordersType;
 	
 	protected JButton btnAddOrder;
 	
@@ -53,7 +53,7 @@ public class OrdersView extends JPanel implements Observer {
 	 * @param ordersModel reference to the orders model
 	 * @param inputType true if the view is for input orders
 	 */
-	public OrdersView(Orders ordersModel, OrderType ordersType) {
+	public OrdersView(Orders ordersModel, ListType ordersType) {
 		this.ordersModel = ordersModel;
 		this.ordersType = ordersType;
 		initComponent();
@@ -150,7 +150,7 @@ public class OrdersView extends JPanel implements Observer {
 	/**
 	 * @return get order type configured
 	 */
-	public OrderType getOrdersType() {
+	public ListType getOrdersType() {
 		return ordersType;
 	}
 	

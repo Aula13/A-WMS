@@ -17,6 +17,7 @@ import java.util.concurrent.Semaphore;
 import org.junit.Before;
 import org.junit.Test;
 import org.wms.model.common.ICRUDLayer;
+import org.wms.model.common.ListType;
 
 /**
  * Test Orders model class
@@ -248,8 +249,8 @@ public class OrdersUnitTest {
 	 */
 	@Test
 	public void testGetUnmodificableOrderListByOrderType() {
-		doReturn(OrderType.INPUT).when(mockOrder).getType();
-		assertFalse(orders.getUnmodificableOrderList(OrderType.INPUT).isEmpty());
+		doReturn(ListType.INPUT).when(mockOrder).getType();
+		assertFalse(orders.getUnmodificableOrderList(ListType.INPUT).isEmpty());
 	}
 	
 	/**
@@ -258,8 +259,8 @@ public class OrdersUnitTest {
 	 */
 	@Test
 	public void testGetUnmodificableOrderListByOrderTypeEmpty() {
-		doReturn(OrderType.OUTPUT).when(mockOrder).getType();
-		assertTrue(orders.getUnmodificableOrderList(OrderType.INPUT).isEmpty());
+		doReturn(ListType.OUTPUT).when(mockOrder).getType();
+		assertTrue(orders.getUnmodificableOrderList(ListType.INPUT).isEmpty());
 	}
 
 	/**

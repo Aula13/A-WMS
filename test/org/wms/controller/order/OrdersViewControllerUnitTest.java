@@ -17,9 +17,9 @@ import javax.swing.SwingUtilities;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.wms.config.Utils;
+import org.wms.model.common.ListType;
 import org.wms.model.material.Materials;
 import org.wms.model.order.Order;
-import org.wms.model.order.OrderType;
 import org.wms.model.order.Orders;
 import org.wms.test.TestUtils;
 import org.wms.view.common.MessageBox;
@@ -61,13 +61,13 @@ public class OrdersViewControllerUnitTest {
 		doReturn(mockBtnEditOrder).when(mockView).getBtnEditOrder();
 		doReturn(mockBtnDeleteOrder).when(mockView).getBtnDeleteOrder();
 		
-		doReturn(OrderType.INPUT).when(mockView).getOrdersType();
+		doReturn(ListType.INPUT).when(mockView).getOrdersType();
 		
 		mockOrdersTable = mock(JTable.class);
 		doReturn(mockOrdersTable).when(mockView).getOrdersTable();
 		
 		mockOrder = mock(Order.class);
-		doReturn(OrderType.INPUT).when(mockOrder).getType();
+		doReturn(ListType.INPUT).when(mockOrder).getType();
 		
 		List<Order> orders = new ArrayList<>();
 		orders.add(mockOrder);
@@ -75,7 +75,7 @@ public class OrdersViewControllerUnitTest {
 		mockOrdersModel = mock(Orders.class);
 		mockMaterialsModel = mock(Materials.class);
 		
-		doReturn(orders).when(mockOrdersModel).getUnmodificableOrderList(OrderType.INPUT);
+		doReturn(orders).when(mockOrdersModel).getUnmodificableOrderList(ListType.INPUT);
 		doReturn(new ArrayList<>()).when(mockMaterialsModel).getUnmodificableMaterialList();
 	}
 

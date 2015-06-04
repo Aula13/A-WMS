@@ -9,10 +9,10 @@ import org.hibernate.Session;
 import org.wms.config.Configuration;
 import org.wms.config.HibernateUtil;
 import org.wms.model.common.ICRUDLayer;
-import org.wms.model.material.Material;
+import org.wms.model.warehouse.WarehouseCell;
 
 /**
- * Material Database Access Object
+ * Warehouse cell Database Access Object
  * 
  * Store CRUD method to the database, 
  * manage open/close connection hibernate method
@@ -22,24 +22,27 @@ import org.wms.model.material.Material;
  * @author Stefano Pessina, Daniele Ciriello
  *
  */
-public class MaterialDao implements ICRUDLayer<Material> {
+public class WarehouseCellDao implements ICRUDLayer<WarehouseCell> {
 
 	private static Logger logger = Logger.getLogger(Configuration.SUPERVISOR_LOGGER); 
 
+	
 	/* (non-Javadoc)
 	 * @see org.wms.model.common.ICRUDLayer#create(java.lang.Object)
 	 */
-	public boolean create(Material material) {
+	@Override
+	public boolean create(WarehouseCell warehouseCell) {
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
-			session.save(material);
-			session.getTransaction().commit();
+			session.save(warehouseCell);			
+			session.getTransaction().commit();	
+			
 			HibernateUtil.closeSession();
 			return true;
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
-			logger.error(formatLogMessage("Error during create material " + material.getCode() + "; Exception: " + e));
+			logger.error(formatLogMessage("Error during create warehouseCell " + warehouseCell.getId() + "; Exception: " + e));
 		}
 		return false;
 	}
@@ -47,17 +50,20 @@ public class MaterialDao implements ICRUDLayer<Material> {
 	/* (non-Javadoc)
 	 * @see org.wms.model.common.ICRUDLayer#update(java.lang.Object)
 	 */
-	public boolean update(Material material) {
+	@Override
+	public boolean update(WarehouseCell warehouseCell) {
 		try {
 			Session session = HibernateUtil.getSession();
-			session.beginTransaction();
-			session.saveOrUpdate(material);		
+			session.beginTransaction();	
+			session.saveOrUpdate(warehouseCell);
 			session.getTransaction().commit();
+			
 			HibernateUtil.closeSession();
+			
 			return true;
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
-			logger.error(formatLogMessage("Error during get update material " + material.getCode() + "; Exception: " + e));
+			logger.error(formatLogMessage("Error during get update warehouseCell " + warehouseCell.getId() + "; Exception: " + e));
 		}
 		return false;
 	}
@@ -65,67 +71,73 @@ public class MaterialDao implements ICRUDLayer<Material> {
 	/* (non-Javadoc)
 	 * @see org.wms.model.common.ICRUDLayer#delete(java.lang.Object)
 	 */
-	public boolean delete(Material material) {
+	@Override
+	public boolean delete(WarehouseCell warehouseCell) {
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
-			session.delete(material);		
+			
+			session.delete(warehouseCell);		
 			session.getTransaction().commit();
+			
 			HibernateUtil.closeSession();
+			
 			return true;
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
-			logger.error(formatLogMessage("Error during delete material by id " + material.getCode() + "; Exception: "+ e));
+			logger.error(formatLogMessage("Error during delete warehouseCell by id " + warehouseCell.getId() + "; Exception: "+ e));
 		}
 		return false;
 	}
 
-	
 	/* (non-Javadoc)
 	 * @see org.wms.model.common.ICRUDLayer#get(java.lang.Long)
 	 */
-	public Optional<Material> get(Long materialId) {
+	@Override
+	public Optional<WarehouseCell> get(Long warehouseCellId) {
 		try {
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
-			Material material = (Material) session.get(Material.class, materialId);
+			WarehouseCell warehouseCell = (WarehouseCell) session.get(WarehouseCell.class, warehouseCellId);
 			session.getTransaction().commit();
 			HibernateUtil.closeSession();
 			
-			if(material!=null)
-				return Optional.of(material);
+			if(warehouseCell!=null)
+				return Optional.of(warehouseCell);
 			else
 				return Optional.empty();
+			
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
-			logger.error(formatLogMessage("Error during get material by id " + e));
+			logger.error(formatLogMessage("Error during get warehouseCell by id " + warehouseCellId + "; Exception: "+ e));
 		}
+		
 		return Optional.empty();
 	}
-
 
 	/* (non-Javadoc)
 	 * @see org.wms.model.common.ICRUDLayer#selectAll()
 	 */
-	public Optional<List<Material>> selectAll() {
+	@Override
+	public Optional<List<WarehouseCell>> selectAll() {
 		try {
+			//Fetch warehouse lines
 			Session session = HibernateUtil.getSession();
 			session.beginTransaction();
-			List<Material> materials = session.createCriteria(Material.class)
+			List<WarehouseCell> warehouseCells = session.createCriteria(WarehouseCell.class)
 					.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY) //Filter hibernate join duplicated results
 					.list();
 			session.getTransaction().commit();
 			HibernateUtil.closeSession();
-			
-			return Optional.of(materials);
+			return Optional.of(warehouseCells);
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
-			logger.error(formatLogMessage("Error during get all material " + e));
+			logger.error(formatLogMessage("Error during get all warehouseCell " + e));
 		}
 		
 		return Optional.empty();
-	}	
-
+	}		
+	
 	/**
 	 * Add some general information to a specific
 	 * log message like class name or moreover

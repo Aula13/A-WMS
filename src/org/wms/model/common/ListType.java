@@ -1,4 +1,4 @@
-package org.wms.model.order;
+package org.wms.model.common;
 
 /**
  * Order type
@@ -6,7 +6,7 @@ package org.wms.model.order;
  * @author Stefano Pessina, Daniele Ciriello
  *
  */
-public enum OrderType {
+public enum ListType {
 	INPUT,
 	OUTPUT
 }

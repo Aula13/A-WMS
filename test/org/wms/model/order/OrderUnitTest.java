@@ -18,6 +18,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.wms.model.common.ListType;
 
 /**
  * Order Unit Testing Class
@@ -60,12 +61,12 @@ public class OrderUnitTest {
 	@Test
 	public void testOrderConstr3() {
 		Date date = new Date();
-		Order order = new Order(10l, date, OrderType.OUTPUT);
+		Order order = new Order(10l, date, ListType.OUTPUT);
 		assertTrue(order.id==10l);
 		assertTrue(order.orderStatus==OrderStatus.WAITING);
 		assertSame(date, order.emissionDate);
 		assertTrue(order.priority==Priority.LOW);
-		assertTrue(order.type==OrderType.OUTPUT);
+		assertTrue(order.type==ListType.OUTPUT);
 	}
 	
 	/**
@@ -74,12 +75,12 @@ public class OrderUnitTest {
 	@Test
 	public void testOrderConstr4() {
 		Date date = new Date();
-		Order order = new Order(10l, date, OrderType.OUTPUT, Priority.MEDIUM);
+		Order order = new Order(10l, date, ListType.OUTPUT, Priority.MEDIUM);
 		assertTrue(order.id==10l);
 		assertTrue(order.orderStatus==OrderStatus.WAITING);
 		assertSame(date, order.emissionDate);
 		assertTrue(order.priority==Priority.MEDIUM);
-		assertTrue(order.type==OrderType.OUTPUT);
+		assertTrue(order.type==ListType.OUTPUT);
 	}
 	
 	/**
@@ -90,12 +91,12 @@ public class OrderUnitTest {
 		Date date = new Date();
 		List<OrderRow> list = new ArrayList<>();
 		
-		Order order = new Order(10l, date, OrderType.OUTPUT, Priority.MEDIUM, list);
+		Order order = new Order(10l, date, ListType.OUTPUT, Priority.MEDIUM, list);
 		assertTrue(order.id==10l);
 		assertTrue(order.orderStatus==OrderStatus.WAITING);
 		assertSame(date, order.emissionDate);
 		assertTrue(order.priority==Priority.MEDIUM);
-		assertTrue(order.type==OrderType.OUTPUT);
+		assertTrue(order.type==ListType.OUTPUT);
 		assertSame(list, order.rows);
 	}
 
@@ -176,8 +177,8 @@ public class OrderUnitTest {
 	@Test
 	public void testGetType() {
 		Order order = new Order();
-		order.type = OrderType.INPUT;
-		assertSame(OrderType.INPUT, order.getType());
+		order.type = ListType.INPUT;
+		assertSame(ListType.INPUT, order.getType());
 	}
 	
 	/**

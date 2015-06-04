@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import org.wms.model.common.ListType;
 import org.wms.model.order.Order;
-import org.wms.model.order.OrderType;
 import org.wms.model.order.Orders;
 
 /**
@@ -33,7 +33,7 @@ public class OrdersTableModel extends AbstractTableModel {
 	/**
 	 * Type of order to show 
 	 */
-	protected OrderType orderType;
+	protected ListType orderType;
 	
 	/**
 	 * cache of the orders list to reduce the #call to ordersModel
@@ -46,7 +46,7 @@ public class OrdersTableModel extends AbstractTableModel {
 	 * @param ordersModel reference to the ordersModel
 	 * @param orderType order type to manage
 	 */
-	public OrdersTableModel(Orders ordersModel, OrderType orderType) {
+	public OrdersTableModel(Orders ordersModel, ListType orderType) {
 		super();
 		this.ordersModel = ordersModel;
 		this.orderType = orderType;

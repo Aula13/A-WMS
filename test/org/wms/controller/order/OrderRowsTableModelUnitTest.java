@@ -9,11 +9,11 @@ import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.wms.model.common.ListType;
 import org.wms.model.material.Material;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderRow;
 import org.wms.model.order.OrderStatus;
-import org.wms.model.order.OrderType;
 import org.wms.model.order.Orders;
 import org.wms.model.order.Priority;
 
