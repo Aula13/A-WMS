@@ -24,5 +24,6 @@
 		<mapping class="org.wms.model.order.Order"/>
 		<mapping class="org.wms.model.material.Material"/>
 		<mapping class="org.wms.model.order.OrderRow"/>
+		<mapping class="org.wms.model.worklist.WorkList"/>
 	</session-factory>
 </hibernate-configuration>

@@ -1,9 +1,8 @@
 package org.wms.model.order;
 
 import java.io.Serializable;
+import java.util.Optional;
 
-import javax.annotation.Generated;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,8 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.OnDelete;
 import org.wms.model.material.Material;
+import org.wms.model.worklist.WorkList;
 
 /**
  * OrderRow model
@@ -47,6 +46,13 @@ public class OrderRow implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="material_id")
 	protected Material material;
+	
+	/**
+	 * Material to this order row is referred
+	 */
+	@ManyToOne
+	@JoinColumn(name="work_list_id", nullable=true)
+	protected WorkList worklist;
 	
 	@Column(name="quantity")
 	protected int quantity;
@@ -122,6 +128,26 @@ public class OrderRow implements Serializable {
 			return false;
 		this.material = material;
 		return true;
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @return optionally the work list that this order row is assegned
+	 */
+	public Optional<WorkList> getWorklist() {
+		if(worklist==null)
+			return Optional.empty();
+		return Optional.of(worklist);
+	}
+	
+	/**
+	 * Set work list for this order row
+	 * 
+	 * @param worklist
+	 */
+	public void setWorklist(WorkList worklist) {
+		this.worklist = worklist;
 	}
 	
 	/**
