@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.wms.model.material.Material;
@@ -27,8 +29,11 @@ public class WarehouseCell {
 	protected long id;
 	
 	@ManyToOne
-	@JoinColumn(name="warehouse_shelf_id")
+	@JoinColumn(name="warehouse_shelf_id", nullable=false)
 	protected WarehouseShelf warehouseShelf;
+	
+	@Column(name="code")
+	protected int code;
 	
 	@ManyToOne
 	@JoinColumn(name="material_id")

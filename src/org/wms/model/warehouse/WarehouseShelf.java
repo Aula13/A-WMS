@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 /**
  * @author Stefano Pessina, Daniele Ciriello
  *
@@ -22,16 +25,20 @@ import javax.persistence.Table;
 @Table(name="wms_warehouse_shelf")
 public class WarehouseShelf {
 
+	@ManyToOne
+	@JoinColumn(name="warehouse_line_id")
+	protected WarehouseLine warehouseLine;
+	
 	@Id
 	@Column(name="warehouse_shelf_id")
 	protected long id;
 	
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="warehouseShelf", cascade=CascadeType.REMOVE)
-	protected List<WarehouseCell> cells = new ArrayList<>();
+	@Column(name="code")
+	protected int code;
 	
-	@ManyToOne
-	@JoinColumn(name="warehouse_line_id")
-	protected WarehouseLine warehouseLine;
+	@OneToMany(mappedBy="warehouseShelf", cascade=CascadeType.REMOVE)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	protected List<WarehouseCell> cells = new ArrayList<>();
 	
 	public WarehouseShelf() {
 	
