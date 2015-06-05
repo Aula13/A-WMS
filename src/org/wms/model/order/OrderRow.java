@@ -47,8 +47,8 @@ public class OrderRow implements Serializable {
 	/**
 	 * List of the OrderRow that this order contains
 	 */
-	@ManyToMany(fetch=FetchType.EAGER, mappedBy="referredOrderRows", cascade=CascadeType.REMOVE)
-	protected List<BatchRow> referredWorkListRows = new ArrayList<>();
+	@ManyToMany(fetch=FetchType.EAGER, mappedBy="referredOrderRow", cascade=CascadeType.REMOVE)
+	protected List<BatchRow> referredBatchRows = new ArrayList<>();
 	
 	/**
 	 * Material to this order row is referred
@@ -89,6 +89,13 @@ public class OrderRow implements Serializable {
 		this.quantity = quantity;
 	}
 
+	/**
+	 * @return order row id
+	 */
+	public long getId() {
+		return id;
+	}
+	
 	/**
 	 * @return get material quantity
 	 */
