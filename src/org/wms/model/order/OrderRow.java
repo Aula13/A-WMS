@@ -15,8 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.wms.model.batch.BatchRow;
 import org.wms.model.material.Material;
-import org.wms.model.worklist.BatchRow;
 
 /**
  * OrderRow model

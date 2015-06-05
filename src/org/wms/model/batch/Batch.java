@@ -1,4 +1,4 @@
-package org.wms.model.worklist;
+package org.wms.model.batch;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,8 +8,8 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.wms.config.Configuration;
 import org.wms.config.HibernateUtil;
+import org.wms.model.batch.Batch;
 import org.wms.model.common.ICRUDLayer;
-import org.wms.model.worklist.Batch;
 
 /**
  * Batch Database Access Object

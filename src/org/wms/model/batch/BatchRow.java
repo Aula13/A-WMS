@@ -1,4 +1,4 @@
-package org.wms.model.worklist;
+package org.wms.model.batch;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
