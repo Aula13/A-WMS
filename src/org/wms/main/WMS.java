@@ -153,7 +153,10 @@ public class WMS {
 		UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		
 		MainGUI mgui = new MainGUI(DbConnectionProvider.CONNECTION_STATUS, SecurityConfig.getSecurityManager().getStatus());
-		new MainGUIController(mgui, ModelReference.ordersModel, ModelReference.materialsModel);
+		new MainGUIController(mgui, 
+				ModelReference.ordersModel, 
+				ModelReference.materialsModel,
+				ModelReference.batchesModel);
 			
 		SwingUtilities.invokeLater(new Runnable() {
 	
