@@ -1,18 +1,22 @@
 package org.wms.model.order;
 
 import java.io.Serializable;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.wms.model.material.Material;
-import org.wms.model.worklist.WorkList;
+import org.wms.model.worklist.BatchRow;
 
 /**
  * OrderRow model
@@ -37,8 +41,14 @@ public class OrderRow implements Serializable {
 	 * Order to this order row is referred
 	 */
 	@ManyToOne
-	@JoinColumn(name="order_id")
+	@JoinColumn(name="order_id", nullable = false)
 	protected Order order;
+	
+	/**
+	 * List of the OrderRow that this order contains
+	 */
+	@ManyToMany(fetch=FetchType.EAGER, mappedBy="referredOrderRows", cascade=CascadeType.REMOVE)
+	protected List<BatchRow> referredWorkListRows = new ArrayList<>();
 	
 	/**
 	 * Material to this order row is referred
@@ -47,22 +57,18 @@ public class OrderRow implements Serializable {
 	@JoinColumn(name="material_id")
 	protected Material material;
 	
-	/**
-	 * Material to this order row is referred
-	 */
-	@ManyToOne
-	@JoinColumn(name="work_list_id", nullable=true)
-	protected WorkList worklist;
-	
-	@Column(name="quantity")
+	@Column(name="quantity", nullable=false)
 	protected int quantity;
+	
+	@Column(name="picked_quantity", nullable=false)
+	protected int pickedQuantity = 0;
 	
 	/**
 	 * Allocated means this order row
 	 * is in a input/output list
 	 * and an operator is processing it
 	 */
-	@Column(name="allocated")
+	@Column(name="allocated", nullable = false)
 	protected boolean allocated = false;
 	
 	/**
@@ -70,7 +76,7 @@ public class OrderRow implements Serializable {
 	 * was in a input/output list
 	 * and an operator has process it
 	 */
-	@Column(name="completed")
+	@Column(name="completed", nullable = false)
 	protected boolean completed = false;
 
 	public OrderRow() {
@@ -132,26 +138,6 @@ public class OrderRow implements Serializable {
 	
 	/**
 	 * 
-	 * 
-	 * @return optionally the work list that this order row is assegned
-	 */
-	public Optional<WorkList> getWorklist() {
-		if(worklist==null)
-			return Optional.empty();
-		return Optional.of(worklist);
-	}
-	
-	/**
-	 * Set work list for this order row
-	 * 
-	 * @param worklist
-	 */
-	public void setWorklist(WorkList worklist) {
-		this.worklist = worklist;
-	}
-	
-	/**
-	 * 
 	 * Allocated means this order row
 	 * is in a input/output list
 	 * and an operator is processing it
@@ -177,7 +163,9 @@ public class OrderRow implements Serializable {
 	 * @return this order row is completed
 	 */
 	public boolean isCompleted() {
-		return completed;
+		if(this.completed)
+			return true;
+		return quantity==pickedQuantity;
 	}
 	
 	/**
@@ -185,6 +173,28 @@ public class OrderRow implements Serializable {
 	 */
 	public void setCompleted() {
 		this.completed = true;
+	}
+	
+	/**
+	 * Set picked quantity
+	 * 
+	 * @param pickedQuantity
+	 */
+	public void setPickedQuantity(int pickedQuantity) {
+		this.pickedQuantity = pickedQuantity;
+	}
+	
+	/**
+	 * Set delta picked quantity if it's valid
+	 * 
+	 * @param deltaPickedQuantity
+	 * @return true=picked quantity updated, false=deltaPickQuantity greater than residual requested quantity
+	 */
+	public boolean setDeltaPickedQuantity(int deltaPickedQuantity) {
+		if(deltaPickedQuantity>(quantity-pickedQuantity))
+			return false;
+		this.pickedQuantity -= deltaPickedQuantity;
+		return true;
 	}
 	
 	/**

@@ -22,9 +22,9 @@ import javax.swing.JTextField;
 
 import org.wms.config.IconTypeAWMS;
 import org.wms.controller.order.OrderRowsViewController;
+import org.wms.model.common.Priority;
 import org.wms.model.material.Material;
 import org.wms.model.order.Order;
-import org.wms.model.order.Priority;
 
 import com.toedter.calendar.JDateChooser;
 

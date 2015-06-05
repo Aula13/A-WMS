@@ -8,15 +8,18 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.wms.model.common.ListType;
+import org.wms.model.common.Status;
+import org.wms.model.order.Order;
 import org.wms.model.order.OrderRow;
-import org.wms.model.order.OrderStatus;
 
 /**
- * Work list for an operator
+ * Batch is the job list for an operator (a warehouse tour)
  * Include the business logic
  * Include hibernate annotations for persistence
  * 
@@ -24,30 +27,30 @@ import org.wms.model.order.OrderStatus;
  *
  */
 @Entity
-@Table(name="wms_work_list")
-public class WorkList {
+@Table(name="wms_batch")
+public class Batch {
 
 	@Id
-	@Column(name="work_list_id")
+	@Column(name="batch_id")
 	protected long id;
 	
-	@Column(name="work_list_type", nullable=false)
+	@Column(name="batch_type", nullable=false)
 	protected ListType type; 
 	
 	/**
 	 * List of the OrderRow that this order contains
 	 */
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="worklist", cascade=CascadeType.REMOVE)
-	protected List<OrderRow> rows = new ArrayList<>();
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="referredBatch", cascade=CascadeType.REMOVE)
+	protected List<BatchRow> batchRows = new ArrayList<>();
 	
-	@Column(name="work_list_status", nullable=false)
-	protected OrderStatus orderStatus = OrderStatus.WAITING;
+	@Column(name="batch_status", nullable=false)
+	protected Status batchStatus = Status.WAITING;
 
-	public WorkList() {
+	public Batch() {
 	
 	}
 
-	public WorkList(long id, ListType type) {
+	public Batch(long id, ListType type) {
 		super();
 		this.id = id;
 		this.type = type;
@@ -61,12 +64,12 @@ public class WorkList {
 		return type;
 	}
 
-	public List<OrderRow> getRows() {
-		return rows;
+	public List<BatchRow> getRows() {
+		return batchRows;
 	}
 
-	public OrderStatus getOrderStatus() {
-		return orderStatus;
+	public Status getBatchStatus() {
+		return batchStatus;
 	}
 	
 }

@@ -5,10 +5,11 @@ import org.wms.model.dao.OrderDao;
 import org.wms.model.dao.WarehouseCellDao;
 import org.wms.model.dao.WarehouseLineDao;
 import org.wms.model.dao.WarehouseShelfDao;
+import org.wms.model.dao.BatchDao;
 import org.wms.model.material.Materials;
 import org.wms.model.order.Orders;
 import org.wms.model.warehouse.Warehouse;
-import org.wms.model.worklist.WorkLists;
+import org.wms.model.worklist.Batches;
 
 /**
  * Store reference to orders and materials models
@@ -30,7 +31,7 @@ public class ModelReference {
 	
 	public static Warehouse warehouseModel;
 	
-	public static WorkLists workListsModel;
+	public static Batches workListsModel;
 	
 	/**
 	 * Init models
@@ -41,6 +42,6 @@ public class ModelReference {
 		warehouseModel = new Warehouse(new WarehouseLineDao(),
 				new WarehouseShelfDao(),
 				new WarehouseCellDao());
-		
+		workListsModel = new Batches(new BatchDao());
 	}
 }

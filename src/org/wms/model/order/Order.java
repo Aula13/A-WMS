@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.wms.model.common.ListType;
+import org.wms.model.common.Priority;
+import org.wms.model.common.Status;
 import org.wms.model.material.Material;
 
 /**
@@ -49,7 +51,7 @@ public class Order {
 	@Column(name="order_type", nullable=false)
 	protected ListType type; 
 	
-	protected OrderStatus orderStatus = OrderStatus.WAITING;
+	protected Status orderStatus = Status.WAITING;
 	
 	protected float completePercentual = 0.0f;
 	
@@ -229,7 +231,7 @@ public class Order {
 	/**
 	 * @return order status
 	 */
-	public OrderStatus getOrderStatus() {
+	public Status getOrderStatus() {
 		return orderStatus;
 	}
 

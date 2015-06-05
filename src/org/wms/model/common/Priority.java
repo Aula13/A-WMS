@@ -1,4 +1,4 @@
-package org.wms.model.order;
+package org.wms.model.common;
 
 /**
  * Order priority
