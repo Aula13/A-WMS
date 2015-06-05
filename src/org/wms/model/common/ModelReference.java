@@ -31,7 +31,7 @@ public class ModelReference {
 	
 	public static Warehouse warehouseModel;
 	
-	public static Batches workListsModel;
+	public static Batches batchesModel;
 	
 	/**
 	 * Init models
@@ -42,6 +42,6 @@ public class ModelReference {
 		warehouseModel = new Warehouse(new WarehouseLineDao(),
 				new WarehouseShelfDao(),
 				new WarehouseCellDao());
-		workListsModel = new Batches(new BatchDao());
+		batchesModel = new Batches(new BatchDao());
 	}
 }
