@@ -4,10 +4,13 @@
 package org.wms.graph.model;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.wms.model.warehouse.Warehouse;
 import org.wms.model.warehouse.WarehouseCell;
+import org.wms.model.warehouse.WarehouseLine;
+import org.wms.model.warehouse.WarehouseShelf;
 
 import edu.uci.ics.jung.graph.UndirectedOrderedSparseMultigraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
@@ -19,7 +22,10 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 public class WarehouseGraph extends UndirectedOrderedSparseMultigraph<WarehouseNode, WarehouseLink> {
 
 	private WarehouseNode checkPointNode = null;
-	private Map<WarehouseCell, WarehouseNode> cellsNodesCorrs = new HashMap<>();
+	private Map<WarehouseCell, WarehouseNode> cellsNodesCorrs = new LinkedHashMap<>();
+	private Map<WarehouseShelf, WarehouseNode> ShelvesNodesCorrs = new LinkedHashMap<>();
+	private Map<WarehouseLine, WarehouseNode> linesNodesCorrs = new LinkedHashMap<>();
+	
 	
 	public boolean addEdge(WarehouseLink link, WarehouseNode node1, WarehouseNode node2){
 		return super.addEdge(link, node1, node2, EdgeType.UNDIRECTED);
@@ -29,6 +35,20 @@ public class WarehouseGraph extends UndirectedOrderedSparseMultigraph<WarehouseN
 		if (this.containsVertex(node))
 			return false;
 		cellsNodesCorrs.put(cell, node);
+		return true;
+	}	
+	
+	public boolean addShelfNodeCorr(WarehouseShelf shelf, WarehouseNode node){
+		if (this.containsVertex(node))
+			return false;
+		ShelvesNodesCorrs.put(shelf, node);
+		return true;
+	}	
+	
+	public boolean addLineNodeCorr(WarehouseLine line, WarehouseNode node){
+		if (this.containsVertex(node))
+			return false;
+		linesNodesCorrs.put(line, node);
 		return true;
 	}
 	

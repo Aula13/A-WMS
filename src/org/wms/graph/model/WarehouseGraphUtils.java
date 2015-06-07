@@ -70,6 +70,7 @@ public class WarehouseGraphUtils {
 			node2 = new WarehouseNode(lineId); 	
 			// link lines together
 			addEdgeToGraph(graph, node1, node2);
+			graph.addLineNodeCorr(line, node1);
 			node1 = node2;
 			
 			lastNodes.add(generateLineGraph(graph, line, node1));
@@ -107,6 +108,7 @@ public class WarehouseGraphUtils {
 			else {
 				node2 = new WarehouseNode(lineNode.getLabel() + '/' + String.format("%02d", shelfNumber));
 				addEdgeToGraph(graph, node1, node2);
+				graph.addShelfNodeCorr(shelf, node1);
 				node1 = node2;
 			}
 			generateShelfGraph(graph, shelf, node1);
