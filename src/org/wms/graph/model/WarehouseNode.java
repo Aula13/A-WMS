@@ -3,27 +3,26 @@ package org.wms.graph.model;
 import org.wms.model.warehouse.WarehouseCell;
 
 
-public class WarehouseNode{
+public class WarehouseNode {
 
-	private String id;
+	private String label;
 	private WarehouseCell cell;
 	
 	public WarehouseNode(String id) {
-		this.id = id;
+		this.label = id;
 	}
 	
-	public WarehouseNode(String id, WarehouseCell cell) {
-		this.id = id;
+	public WarehouseNode(String label, WarehouseCell cell) {
+		this.label = label;
 		this.setCell(cell);
 	}
 	
-	public String getId() {
-		return id;
+	public String getLabel() {
+		return label;
 	}
 
-	
 	public String toString() {
-		return "V"+id;
+		return "N"+label;
 	}
 
 	public WarehouseCell getCell() {
