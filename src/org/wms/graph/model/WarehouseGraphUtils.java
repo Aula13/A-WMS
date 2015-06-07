@@ -30,6 +30,18 @@ public class WarehouseGraphUtils {
 		return path;
 	}
 	
+	public static List<WarehouseLink> shortestPath(WarehouseGraph graph, WarehouseNode end) {
+		return shortestPath(graph, graph.getCheckPointnode(), end);
+	}
+	
+	public static List<WarehouseLink> shortestPath(WarehouseGraph graph, WarehouseCell start, WarehouseCell end) {
+		return shortestPath(graph, graph.getNode(start), graph.getNode(end));
+	}
+	
+	public static List<WarehouseLink> shortestPath(WarehouseGraph graph, WarehouseCell end) {
+		return shortestPath(graph, graph.getCheckPointnode(), graph.getNode(end));
+	}
+	
 	public static String linkLabel(WarehouseNode node1, WarehouseNode node2){
 		return node1.getLabel() + "->" + node2.getLabel();
 	}
@@ -57,7 +69,7 @@ public class WarehouseGraphUtils {
 			
 			node2 = new WarehouseNode(lineId); 	
 			// link lines together
-			graph.addEdge(new WarehouseLink(linkLabel(node1, node2), nodeDistanceBetweenLines(lineNumber), linkCapacity), node1, node2, EdgeType.UNDIRECTED);
+			addEdgeToGraph(graph, node1, node2);
 			node1 = node2;
 			
 			lastNodes.add(generateLineGraph(graph, line, node1));
@@ -71,7 +83,7 @@ public class WarehouseGraphUtils {
 			}
 			else{
 				node2 = node;
-				graph.addEdge(new WarehouseLink(linkLabel(node1, node2), nodeDistanceBetweenLines(nodeNumber), linkCapacity), node1, node2, EdgeType.UNDIRECTED);
+				addEdgeToGraph(graph, node1, node2);
 				node1 = node;
 			}
 			nodeNumber++;
@@ -94,7 +106,7 @@ public class WarehouseGraphUtils {
 			}
 			else {
 				node2 = new WarehouseNode(lineNode.getLabel() + '/' + String.format("%02d", shelfNumber));
-				graph.addEdge(new WarehouseLink(linkLabel(node1, node2), shelfWidth, linkCapacity), node1, node2, EdgeType.UNDIRECTED);
+				addEdgeToGraph(graph, node1, node2);
 				node1 = node2;
 			}
 			generateShelfGraph(graph, shelf, node1);
@@ -119,12 +131,16 @@ public class WarehouseGraphUtils {
 			}
 			else {
 				node2 = new WarehouseNode(shelfNode.getLabel() + '/' + String.format("%02d", cellNumber));
-				graph.addEdge(new WarehouseLink(linkLabel(node1, node2), cellHeight, linkCapacity), node1, node2, EdgeType.UNDIRECTED);
-				node1.setCell(cell);
+				addEdgeToGraph(graph, node1, node2);
+				graph.addCellNodeCorr(cell, node1);
 				node1 = node2;
 			}
 			cellNumber ++;
 		}
+	}
+	
+	private static void addEdgeToGraph(WarehouseGraph graph, WarehouseNode node1, WarehouseNode node2){
+		graph.addEdge(new WarehouseLink(linkLabel(node1, node2), cellHeight, linkCapacity), node1, node2);
 	}
 	
 	private static double nodeDistanceBetweenLines(int lineNumber){
