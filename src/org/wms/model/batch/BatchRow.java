@@ -32,7 +32,7 @@ public class BatchRow {
 	 * Batch that this batch row is referred
 	 */
 	@ManyToOne
-	@JoinColumn(name="batch_id", nullable=false)
+	@JoinColumn(name="batch_id", nullable = false)
 	protected Batch referredBatch;
 
 	/**
@@ -49,7 +49,7 @@ public class BatchRow {
 	@JoinColumn(name="warehouse_cell_id", nullable = false)
 	protected WarehouseCell jobWarehouseCell;
 
-	@Column(name="quantity", nullable=false)
+	@Column(name="batch_row_quantity", nullable=false)
 	protected int quantity = 0;
 	
 	public BatchRow() {

@@ -3,8 +3,10 @@ package org.wms.model.order;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
@@ -14,8 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.wms.model.common.ListType;
 import org.wms.model.common.Priority;
 import org.wms.model.common.Status;
@@ -37,18 +39,18 @@ public class Order {
 	@Column(name="order_id")
 	protected long id;
 	
-	@Column(name="emission_date", nullable=false)
+	@Column(name="order_emission_date", nullable=false)
 	protected Date emissionDate;
 	
-	@Column(name="prioriry", nullable=false)
+	@Column(name="order_prioriry", nullable=false)
 	protected Priority priority = Priority.LOW;
 	
 	/**
 	 * List of the OrderRow that this order contains
 	 */
 	@OneToMany(mappedBy="order", cascade=CascadeType.REMOVE)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	protected List<OrderRow> rows = new ArrayList<>();
+	@Fetch(FetchMode.SUBSELECT)
+	protected Set<OrderRow> rows = new HashSet<>();
 	
 	@Column(name="order_type", nullable=false)
 	protected ListType type; 
@@ -59,7 +61,7 @@ public class Order {
 	
 	protected float allocationPercentual = 0.0f;
 	
-	@Column(name="done_date")
+	@Column(name="order_done_date")
 	protected Date doneDate;
 	
 	public Order() {
@@ -91,7 +93,7 @@ public class Order {
 	public Order(long id, Date emissionDate, ListType orderType, Priority priority,
 			List<OrderRow> rows) {
 		this(id, emissionDate, orderType, priority);
-		this.rows = rows;
+		this.rows = new HashSet<>(rows);
 	}
 
 	/**
@@ -186,7 +188,7 @@ public class Order {
 	 * @return unmodificable list of orderrow
 	 */
 	public List<OrderRow> getUnmodificableMaterials() {
-		return Collections.unmodifiableList(rows);
+		return Collections.unmodifiableList(new ArrayList<OrderRow>(rows));
 	}
 	
 	/**

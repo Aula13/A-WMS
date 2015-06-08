@@ -1,13 +1,12 @@
 package org.wms.model.order;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -15,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.wms.model.batch.BatchRow;
 import org.wms.model.material.Material;
 
@@ -47,20 +48,21 @@ public class OrderRow implements Serializable {
 	/**
 	 * List of the OrderRow that this order contains
 	 */
-	@ManyToMany(fetch=FetchType.EAGER, mappedBy="referredOrderRow", cascade=CascadeType.REMOVE)
-	protected List<BatchRow> referredBatchRows = new ArrayList<>();
+	@ManyToMany(mappedBy="referredOrderRow", cascade=CascadeType.REMOVE)
+	@Fetch(FetchMode.SUBSELECT)
+	protected Set<BatchRow> referredBatchRows = new HashSet<>();
 	
 	/**
 	 * Material to this order row is referred
 	 */
 	@ManyToOne
-	@JoinColumn(name="material_id")
+	@JoinColumn(name="order_row_material_id")
 	protected Material material;
 	
-	@Column(name="quantity", nullable=false)
+	@Column(name="order_row_quantity", nullable=false)
 	protected int quantity;
 	
-	@Column(name="picked_quantity", nullable=false)
+	@Column(name="order_row_picked_quantity", nullable=false)
 	protected int pickedQuantity = 0;
 	
 	/**
@@ -68,7 +70,7 @@ public class OrderRow implements Serializable {
 	 * is in a input/output list
 	 * and an operator is processing it
 	 */
-	@Column(name="allocated", nullable = false)
+	@Column(name="order_row_allocated", nullable = false)
 	protected boolean allocated = false;
 	
 	/**
@@ -76,7 +78,7 @@ public class OrderRow implements Serializable {
 	 * was in a input/output list
 	 * and an operator has process it
 	 */
-	@Column(name="completed", nullable = false)
+	@Column(name="order_row_completed", nullable = false)
 	protected boolean completed = false;
 
 	public OrderRow() {

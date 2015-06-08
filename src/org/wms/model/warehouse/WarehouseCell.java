@@ -32,7 +32,7 @@ public class WarehouseCell {
 	@JoinColumn(name="warehouse_shelf_id", nullable=false)
 	protected WarehouseShelf warehouseShelf;
 	
-	@Column(name="code")
+	@Column(name="warehouse_cell_code")
 	protected int code;
 	
 	@ManyToOne
