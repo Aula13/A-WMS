@@ -70,10 +70,10 @@ public class BatchesView extends JPanel implements Observer {
 		tableModel = new BatchesTableModel(batchesModel);
 		batchesTable = FactoryReferences.appStyle.getTableClass(tableModel);
 
-		btnRefreshBatches = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.PLUS.name());
-		btnMarkBatchAsAllocated = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.PLUS.name());
-		btnPrintBatch = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.PLUS.name());
-		btnMarkBatchAsComplete = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.PLUS.name());
+		btnRefreshBatches = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.REFRESH.name());
+		btnMarkBatchAsAllocated = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.START.name());
+		btnPrintBatch = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.PRINT.name());
+		btnMarkBatchAsComplete = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.COMPLETED.name());
 		
 	}
 	
@@ -161,7 +161,7 @@ public class BatchesView extends JPanel implements Observer {
 	/**
 	 * @return get reference to batches table
 	 */
-	public JTable getBathesTable() {
+	public JTable getBatchesTable() {
 		return batchesTable;
 	}
 }

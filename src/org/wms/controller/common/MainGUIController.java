@@ -5,6 +5,7 @@ import it.rmautomazioni.controller.listener.ChangePageListener;
 import it.rmautomazioni.security.SecurityLevel;
 
 import org.wms.config.SecurityConfig;
+import org.wms.controller.batch.BatchesViewController;
 import org.wms.controller.order.OrdersViewController;
 import org.wms.model.batch.Batches;
 import org.wms.model.common.ListType;
@@ -72,7 +73,7 @@ public class MainGUIController {
 				gui);
 		
 		batchesView = new BatchesView(batchesModel);
-//		new OrdersViewController(batchesView, ordersModel, materialsModel);
+		new BatchesViewController(batchesView, batchesModel);
 		new ChangePageListener(
 				gui.getNavPanel().getBtnBatches(), 
 				batchesView, 

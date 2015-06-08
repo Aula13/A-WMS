@@ -6,10 +6,15 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.IndexColumn;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.wms.model.common.ListType;
@@ -49,7 +54,7 @@ public class Batch {
 	protected Status batchStatus = Status.WAITING;
 
 	@Column(name="batch_allocated", nullable=false)
-	protected boolean allocated = false;
+	protected int allocated = 0;
 	
 	
 	
@@ -84,7 +89,7 @@ public class Batch {
 	}
 	
 	public boolean isAllocated() {
-		return allocated;
+		return allocated==1;
 	}
 	
 }

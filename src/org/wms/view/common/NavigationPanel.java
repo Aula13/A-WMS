@@ -39,14 +39,14 @@ public class NavigationPanel extends JPanel {
 	private JButton btnOutputOrders;
 
 	/**
-	 * Verify list button
-	 */
-	private JButton btnVerifyList;
-
-	/**
 	 * Jobs list button
 	 */
 	private JButton btnBatches;
+	
+	/**
+	 * Verify list button
+	 */
+	private JButton btnVerifyList;
 	
 	/**
 	 * current security level
@@ -95,11 +95,11 @@ public class NavigationPanel extends JPanel {
 		btnOutputOrders = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.OUTPUT_ORDER.name());
 		navigationButtonsList.add(btnOutputOrders);
 
-		btnVerifyList = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.HOME.name());
-		navigationButtonsList.add(btnVerifyList);
-
-		btnBatches = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.HOME.name());
+		btnBatches = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.BATCHES.name());
 		navigationButtonsList.add(btnBatches);
+		
+		btnVerifyList = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.HOME.name());
+//		navigationButtonsList.add(btnVerifyList);
 
 		navBar = FactoryReferences.panels.getVerticalNavigationBarPanel(navigationButtonsList);
 	}
