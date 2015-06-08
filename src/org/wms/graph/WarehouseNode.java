@@ -1,4 +1,4 @@
-package org.wms.graph.model;
+package org.wms.graph;
 
 import org.wms.model.warehouse.WarehouseCell;
 

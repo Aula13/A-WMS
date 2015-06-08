@@ -1,4 +1,4 @@
-package org.wms.graph.model;
+package org.wms.graph;
 
 
 public class WarehouseLink {

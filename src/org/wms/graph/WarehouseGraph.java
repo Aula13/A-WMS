@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.wms.graph.model;
+package org.wms.graph;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
