@@ -1,4 +1,4 @@
-package org.wms.model.worklist;
+package org.wms.model.batch;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,8 +14,8 @@ import org.wms.model.common.ICRUDLayer;
 import org.wms.model.common.ListType;
 
 /**
- * WorkLists model
- * This model provide high level CRUD for worklists
+ * Batchs model
+ * This model provide high level CRUD for batches
  * 
  * This model is synchronized though a semaphore(1)
  * 
@@ -25,7 +25,7 @@ import org.wms.model.common.ListType;
  * @author Stefano Pessina, Daniele Ciriello
  *
  */
-public class WorkLists extends Observable {
+public class Batches extends Observable {
 	
 	private Logger logger = Logger.getLogger(Configuration.SUPERVISOR_LOGGER);
 	
@@ -34,33 +34,33 @@ public class WorkLists extends Observable {
 	 */
 	protected Semaphore semaphore = new Semaphore(1);
 	
-	private ICRUDLayer<WorkList> persistentLayer;
+	private ICRUDLayer<Batch> persistentLayer;
 	
 	/**
 	 * Constructor
 	 * 
 	 * @param persistentLayer class the provide method for persistence
 	 */
-	public WorkLists(ICRUDLayer<WorkList> persistentLayer) {
+	public Batches(ICRUDLayer<Batch> persistentLayer) {
 		super();
 		this.persistentLayer = persistentLayer;
 	}
 
 	/**
-	 * Add a new workList
+	 * Add a new batch
 	 * 
-	 * @param workList workList to add
-	 * @return true=workList created succefully
+	 * @param batch batch to add
+	 * @return true=batch created succefully
 	 */
-	public boolean addWorkList(WorkList workList) {
+	public boolean addBatch(Batch batch) {
 		
 		boolean result = false;
 		
 		try {
 			semaphore.acquire();
 			
-			if(!persistentLayer.get(workList.getId()).isPresent()) {
-				result = persistentLayer.create(workList);
+			if(!persistentLayer.get(batch.getId()).isPresent()) {
+				result = persistentLayer.create(batch);
 			
 				semaphore.release();
 				
@@ -77,20 +77,20 @@ public class WorkLists extends Observable {
 	}
 	
 	/**
-	 * Delete a workList
+	 * Delete a batch
 	 * 
-	 * @param workList workList to delele
-	 * @return true=workList deleted succefully
+	 * @param batch batch to delele
+	 * @return true=batch deleted succefully
 	 */
-	public boolean deleteWorkList(WorkList workList) {
+	public boolean deleteBatch(Batch batch) {
 		
 		boolean result = false;
 		
 		try {
 			semaphore.acquire();
 			
-			if(persistentLayer.get(workList.getId()).isPresent()) {
-				result = persistentLayer.delete(workList);
+			if(persistentLayer.get(batch.getId()).isPresent()) {
+				result = persistentLayer.delete(batch);
 			
 				semaphore.release();
 				
@@ -107,20 +107,20 @@ public class WorkLists extends Observable {
 	}
 	
 	/**
-	 * Update a workList
+	 * Update a batch
 	 * 
-	 * @param workList workList to update
-	 * @return true=workList updated
+	 * @param batch batch to update
+	 * @return true=batch updated
 	 */
-	public boolean updateWorkList(WorkList workList) {
+	public boolean updateBatch(Batch batch) {
 		
 		boolean result = false;
 		
 		try {
 			semaphore.acquire();
 			
-			if(persistentLayer.get(workList.getId()).isPresent()) {
-				result = persistentLayer.update(workList);
+			if(persistentLayer.get(batch.getId()).isPresent()) {
+				result = persistentLayer.update(batch);
 				
 				semaphore.release();
 			
@@ -137,19 +137,19 @@ public class WorkLists extends Observable {
 	}
 	
 	/**
-	 * Get a workList
+	 * Get a batch
 	 * 
-	 * @param workListId workListId to fetch
-	 * @return optionally the workList
+	 * @param batchId batchId to fetch
+	 * @return optionally the batch
 	 */
-	public Optional<WorkList> get(Long workListId) {
+	public Optional<Batch> get(Long batchId) {
 		
-		Optional<WorkList> result = Optional.empty();
+		Optional<Batch> result = Optional.empty();
 		
 		try {
 			semaphore.acquire();
 			
-			result = persistentLayer.get(workListId);
+			result = persistentLayer.get(batchId);
 			
 		} catch (InterruptedException e) {
 			logger.error(formatLogMessage("Error during semaphore acquire " + e));
@@ -160,11 +160,11 @@ public class WorkLists extends Observable {
 	}
 	
 	/**
-	 * Provide an unmodificable list of worklists
+	 * Provide an unmodificable list of batches
 	 * 
-	 * @return list of the worklists
+	 * @return list of the batches
 	 */
-	public List<WorkList> getUnmodificableWorkListList() {
+	public List<Batch> getUnmodificableBatchList() {
 		
 		try {
 			semaphore.acquire();
@@ -174,30 +174,30 @@ public class WorkLists extends Observable {
 			return new ArrayList<>();
 		}
 		
-		Optional<List<WorkList>> opt = persistentLayer.selectAll();
-		List<WorkList> workLists = opt.isPresent()? opt.get() : new ArrayList<>();
+		Optional<List<Batch>> opt = persistentLayer.selectAll();
+		List<Batch> batchs = opt.isPresent()? opt.get() : new ArrayList<>();
 		
 		semaphore.release();
 		
-		return Collections.unmodifiableList(workLists);
+		return Collections.unmodifiableList(batchs);
 	}
 	
 	/**
-	 * Provide an unmodificable list of worklists
-	 * filtered by the workList type
+	 * Provide an unmodificable list of batches
+	 * filtered by the batch type
 	 * 
-	 * @return list of the worklists
+	 * @return list of the batches
 	 */
-	public List<WorkList> getUnmodificableWorkListList(ListType workListType) {
+	public List<Batch> getUnmodificableBatchList(ListType batchType) {
 		
-		List<WorkList> workLists = getUnmodificableWorkListList();
-		List<WorkList> filteredWorkLists = workLists.stream()
-				.filter(workList -> workList.getType()==workListType)
+		List<Batch> batchs = getUnmodificableBatchList();
+		List<Batch> filteredBatchs = batchs.stream()
+				.filter(batch -> batch.getType()==batchType)
 				.collect(Collectors.toList());
 		
 		semaphore.release();
 		
-		return Collections.unmodifiableList(filteredWorkLists);
+		return Collections.unmodifiableList(filteredBatchs);
 	}
 	
 	/**

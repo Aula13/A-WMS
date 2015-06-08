@@ -39,14 +39,14 @@ public class NavigationPanel extends JPanel {
 	private JButton btnOutputOrders;
 
 	/**
+	 * Jobs list button
+	 */
+	private JButton btnBatches;
+	
+	/**
 	 * Verify list button
 	 */
 	private JButton btnVerifyList;
-
-	/**
-	 * Jobs list button
-	 */
-	private JButton btnJobsList;
 	
 	/**
 	 * current security level
@@ -95,11 +95,11 @@ public class NavigationPanel extends JPanel {
 		btnOutputOrders = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.OUTPUT_ORDER.name());
 		navigationButtonsList.add(btnOutputOrders);
 
+		btnBatches = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.BATCHES.name());
+		navigationButtonsList.add(btnBatches);
+		
 		btnVerifyList = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.HOME.name());
-		navigationButtonsList.add(btnVerifyList);
-
-		btnJobsList = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.HOME.name());
-		navigationButtonsList.add(btnJobsList);
+//		navigationButtonsList.add(btnVerifyList);
 
 		navBar = FactoryReferences.panels.getVerticalNavigationBarPanel(navigationButtonsList);
 	}
@@ -126,13 +126,13 @@ public class NavigationPanel extends JPanel {
 		btnInputOrders.setVisible(false);
 		btnOutputOrders.setVisible(false);
 		btnVerifyList.setVisible(false);
-		btnJobsList.setVisible(false);
+		btnBatches.setVisible(false);
 		
 		switch (level) {
 		case NO_LEVEL:
 			break;
 		case OPERATOR:
-			btnJobsList.setVisible(true);
+			btnBatches.setVisible(true);
 			break;
 		case SUPERVISOR:
 			btnVerifyList.setVisible(true);
@@ -141,7 +141,7 @@ public class NavigationPanel extends JPanel {
 			btnInputOrders.setVisible(true);
 			btnOutputOrders.setVisible(true);
 			btnVerifyList.setVisible(true);
-			btnJobsList.setVisible(true);
+			btnBatches.setVisible(true);
 			break;
 		default:
 			break;
@@ -167,5 +167,9 @@ public class NavigationPanel extends JPanel {
 	 */
 	public JButton getBtnOutputOrders() {
 		return btnOutputOrders;
+	}
+	
+	public JButton getBtnBatches() {
+		return btnBatches;
 	}
 }

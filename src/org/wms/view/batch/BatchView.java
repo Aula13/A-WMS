@@ -1,4 +1,4 @@
-package org.wms.view.order;
+package org.wms.view.batch;
 
 import it.rmautomazioni.view.factories.FactoryReferences;
 
@@ -16,15 +16,16 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.wms.config.IconTypeAWMS;
 import org.wms.controller.order.OrderRowsViewController;
+import org.wms.model.batch.Batch;
 import org.wms.model.common.Priority;
 import org.wms.model.material.Material;
 import org.wms.model.order.Order;
+import org.wms.view.order.OrderRowsView;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -36,9 +37,9 @@ import com.toedter.calendar.JDateChooser;
  * @author Stefano Pessina, Daniele Ciriello
  *
  */
-public class OrderView extends JDialog {
+public class BatchView extends JDialog {
 	
-	private Order order;
+	private Batch batch;
 	
 	private JPanel containerPanel;
 	
@@ -48,13 +49,11 @@ public class OrderView extends JDialog {
 	private JPanel fieldsPanel;
 	private JTextField idField;
 	private JComboBox<Priority> priorityField;
-	private SimpleDateFormat dateFormat;
-	private JDateChooser dateField;
 	
 	/**
 	 * Contains the materials/quantity table and the right sidebar with the edit buttons
 	 */
-	private OrderRowsView orderRowsPanel;
+	private BatchRowsView batchRowsPanel;
 	
 	/**
 	 * Contains the confirm/cancel buttons
@@ -64,13 +63,6 @@ public class OrderView extends JDialog {
 	private JButton cancelButton;
 
 	/**
-	 * List of available materials
-	 * for new order row materials proposal
-	 */
-	private List<Material> availableMaterials;
-	
-	private boolean isNew;
-	/**
 	 * Constructor
 	 * 
 	 * create the component
@@ -78,14 +70,12 @@ public class OrderView extends JDialog {
 	 * 
 	 * init components value
 	 * 
-	 * @param order to show/edit
+	 * @param batch to show
 	 * @throws ParseException 
 	 */
-	public OrderView(Order order, List<Material> availableMaterials, boolean isNew) {
+	public BatchView(Batch batch) {
 		super();
-		this.order = order;
-		this.availableMaterials = availableMaterials;
-		this.isNew = isNew;
+		this.batch = batch;
 		initComponents();		
 		initUI();
 		initFieldsValue();
@@ -119,7 +109,7 @@ public class OrderView extends JDialog {
 		containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
 		add(containerPanel);
 		containerPanel.add(fieldsPanel);
-		containerPanel.add(orderRowsPanel);
+		containerPanel.add(batchRowsPanel);
 		containerPanel.add(confirmationPanel);
 	}
 
@@ -137,8 +127,6 @@ public class OrderView extends JDialog {
 		priorityField = new JComboBox<Priority>();
 		priorityField.setModel(new DefaultComboBoxModel<Priority>(Priority.values()));
 
-		dateField = new JDateChooser();
-
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.weightx = 0.5;
@@ -154,22 +142,14 @@ public class OrderView extends JDialog {
 		
 		constraints.gridx += 1;
 		fieldsPanel.add(priorityField, constraints);
-		
-		constraints.gridx = 0; 
-		constraints.gridy = 1;
-		fieldsPanel.add(FactoryReferences.fields.getParameterLabel("Date"), constraints);
-		
-		constraints.gridx += 1;
-		fieldsPanel.add(dateField, constraints);
 	}
 	
 	/**
 	 * Init order rows panel
 	 */
 	private void initOrderRowsPanel(){
-		orderRowsPanel = new OrderRowsView(order, availableMaterials);
-		new OrderRowsViewController(orderRowsPanel, order, availableMaterials);
-		orderRowsPanel.setBackground(Color.BLUE);
+		batchRowsPanel = new BatchRowsView(batch);
+		batchRowsPanel.setBackground(Color.BLUE);
 	}
 	
 	/**
@@ -191,19 +171,11 @@ public class OrderView extends JDialog {
 	 * Setup fields values
 	 */
 	private void initFieldsValue() {
-		if(isNew) {
-			idField.setText("");
-			idField.setEditable(true);
-			dateField.setDate(new Date(System.currentTimeMillis()));
-			dateField.setEnabled(true);
-		} else {
-			idField.setText(Long.toString(order.getId()));
-			idField.setEditable(false);
-			dateField.setDate(order.getEmissionDate());
-			dateField.setEnabled(false);
-		}	
+		idField.setText(Long.toString(batch.getId()));
+		idField.setEditable(false);
 		
-		priorityField.setSelectedItem(order.getPriority());
+		priorityField.setSelectedItem(batch.getPriority());
+		priorityField.setEditable(false);
 	}
 	
 	/**
@@ -218,33 +190,5 @@ public class OrderView extends JDialog {
 	 */
 	public JButton getCancelButton() {
 		return cancelButton;
-	}
-	
-	/**
-	 * @return id selected by the user
-	 */
-	public long getSelectedId() {
-		return Long.parseLong(idField.getText());
-	}
-	
-	/**
-	 * @return emission date selected by the user
-	 */
-	public Date getSelectedEmissionDate() {
-		return dateField.getDate();
-	}
-	
-	/**
-	 * @return priority selected by the user
-	 */
-	public Priority getSelectedPriority() {
-		return priorityField.getItemAt(priorityField.getSelectedIndex());	
-	}
-	
-	/**
-	 * @return true if the order showed is new
-	 */
-	public boolean isNew() {
-		return isNew;
 	}
 }

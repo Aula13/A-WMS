@@ -5,11 +5,13 @@ import it.rmautomazioni.controller.listener.ChangePageListener;
 import it.rmautomazioni.security.SecurityLevel;
 
 import org.wms.config.SecurityConfig;
+import org.wms.controller.batch.BatchesViewController;
 import org.wms.controller.order.OrdersViewController;
+import org.wms.model.batch.Batches;
 import org.wms.model.common.ListType;
-import org.wms.model.common.ModelReference;
 import org.wms.model.material.Materials;
 import org.wms.model.order.Orders;
+import org.wms.view.batch.BatchesView;
 import org.wms.view.common.LoginPopupMenu;
 import org.wms.view.common.MainGUI;
 import org.wms.view.order.OrdersView;
@@ -35,8 +37,13 @@ public class MainGUIController {
 	
 	protected final OrdersView inputOrdersView;
 	protected final OrdersView outputOrdersView;
+	
+	protected final BatchesView batchesView;
 
-	public MainGUIController(MainGUI gui, Orders ordersModel, Materials materialsModel) {
+	public MainGUIController(MainGUI gui, 
+			Orders ordersModel, 
+			Materials materialsModel,
+			Batches batchesModel) {
 		super();
 		this.gui = gui;
 		loginMenu = new LoginPopupMenu();
@@ -63,6 +70,13 @@ public class MainGUIController {
 		new ChangePageListener(
 				gui.getNavPanel().getBtnOutputOrders(), 
 				outputOrdersView, 
+				gui);
+		
+		batchesView = new BatchesView(batchesModel);
+		new BatchesViewController(batchesView, batchesModel);
+		new ChangePageListener(
+				gui.getNavPanel().getBtnBatches(), 
+				batchesView, 
 				gui);
 	}
 

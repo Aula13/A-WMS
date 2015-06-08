@@ -7,10 +7,12 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table(name="wms_warehouse_line")
@@ -23,7 +25,8 @@ public class WarehouseLine {
 	@Column(name="warehouse_line_code", nullable=false, unique=true)
 	protected String code;
 	
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="warehouseLine", cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy="warehouseLine", cascade=CascadeType.REMOVE)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	protected List<WarehouseShelf> shelfs = new ArrayList<>();
 	
 	public WarehouseLine() {

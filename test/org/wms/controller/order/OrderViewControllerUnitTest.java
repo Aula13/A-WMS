@@ -13,9 +13,9 @@ import javax.swing.JButton;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.wms.model.common.Priority;
 import org.wms.model.order.Order;
 import org.wms.model.order.Orders;
-import org.wms.model.order.Priority;
 import org.wms.view.order.OrderView;
 
 /**

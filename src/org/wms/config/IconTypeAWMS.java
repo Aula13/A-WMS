@@ -20,5 +20,12 @@ public enum IconTypeAWMS {
 	
 	CONFIRM,
 	CANCEL,
-	USER
+	USER,
+	
+	BATCHES,
+	
+	REFRESH,
+	START,
+	PRINT,
+	COMPLETED
 }

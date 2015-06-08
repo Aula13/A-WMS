@@ -55,6 +55,11 @@ public class ResourceUtil {
 		iconResource.addResource(IconTypeAWMS.CONFIRM.name(), iconPath + "confirm.png");
 		iconResource.addResource(IconTypeAWMS.CANCEL.name(), iconPath + "cancel.png");
 		iconResource.addResource(IconTypeAWMS.USER.name(), iconPath + "user.png");
+		iconResource.addResource(IconTypeAWMS.BATCHES.name(), iconPath + "batches.png");
+		iconResource.addResource(IconTypeAWMS.REFRESH.name(), iconPath + "refresh.png");
+		iconResource.addResource(IconTypeAWMS.START.name(), iconPath + "play.png");
+		iconResource.addResource(IconTypeAWMS.PRINT.name(), iconPath + "print.png");
+		iconResource.addResource(IconTypeAWMS.COMPLETED.name(), iconPath + "completed.png");
 		
 		return iconResource;
 	}

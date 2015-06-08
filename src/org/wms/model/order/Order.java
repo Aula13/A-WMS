@@ -10,12 +10,15 @@ import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.wms.model.common.ListType;
+import org.wms.model.common.Priority;
+import org.wms.model.common.Status;
 import org.wms.model.material.Material;
 
 /**
@@ -43,13 +46,14 @@ public class Order {
 	/**
 	 * List of the OrderRow that this order contains
 	 */
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="order", cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy="order", cascade=CascadeType.REMOVE)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	protected List<OrderRow> rows = new ArrayList<>();
 	
 	@Column(name="order_type", nullable=false)
 	protected ListType type; 
 	
-	protected OrderStatus orderStatus = OrderStatus.WAITING;
+	protected Status orderStatus = Status.WAITING;
 	
 	protected float completePercentual = 0.0f;
 	
@@ -100,7 +104,7 @@ public class Order {
 	/**
 	 * Set order id
 	 * if the order is new (id==0)
-	 * @param order id
+	 * @param batch id
 	 * @return true=id updated
 	 */
 	public boolean setId(long id) {
@@ -229,7 +233,7 @@ public class Order {
 	/**
 	 * @return order status
 	 */
-	public OrderStatus getOrderStatus() {
+	public Status getOrderStatus() {
 		return orderStatus;
 	}
 

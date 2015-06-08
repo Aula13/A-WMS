@@ -71,7 +71,7 @@ public class MainGUIControllerUnitTest {
 	
 		when(mockMaterialsModel.getUnmodificableMaterialList()).thenReturn(new ArrayList<>());
 		
-		ctrlTest = new MainGUIController(mockGUI, mockOrdersModel, mockMaterialsModel);
+		ctrlTest = new MainGUIController(mockGUI, mockOrdersModel, mockMaterialsModel, null);
 	}
 
 	/**

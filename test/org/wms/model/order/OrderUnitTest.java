@@ -19,6 +19,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.wms.model.common.ListType;
+import org.wms.model.common.Priority;
+import org.wms.model.common.Status;
 
 /**
  * Order Unit Testing Class
@@ -50,7 +52,7 @@ public class OrderUnitTest {
 	public void testOrderConstr2() {
 		Order order = new Order(10l);
 		assertTrue(order.id==10l);
-		assertTrue(order.orderStatus==OrderStatus.WAITING);
+		assertTrue(order.orderStatus==Status.WAITING);
 		assertNotNull(order.emissionDate);
 		assertTrue(order.priority==Priority.LOW);
 	}
@@ -63,7 +65,7 @@ public class OrderUnitTest {
 		Date date = new Date();
 		Order order = new Order(10l, date, ListType.OUTPUT);
 		assertTrue(order.id==10l);
-		assertTrue(order.orderStatus==OrderStatus.WAITING);
+		assertTrue(order.orderStatus==Status.WAITING);
 		assertSame(date, order.emissionDate);
 		assertTrue(order.priority==Priority.LOW);
 		assertTrue(order.type==ListType.OUTPUT);
@@ -77,7 +79,7 @@ public class OrderUnitTest {
 		Date date = new Date();
 		Order order = new Order(10l, date, ListType.OUTPUT, Priority.MEDIUM);
 		assertTrue(order.id==10l);
-		assertTrue(order.orderStatus==OrderStatus.WAITING);
+		assertTrue(order.orderStatus==Status.WAITING);
 		assertSame(date, order.emissionDate);
 		assertTrue(order.priority==Priority.MEDIUM);
 		assertTrue(order.type==ListType.OUTPUT);
@@ -93,7 +95,7 @@ public class OrderUnitTest {
 		
 		Order order = new Order(10l, date, ListType.OUTPUT, Priority.MEDIUM, list);
 		assertTrue(order.id==10l);
-		assertTrue(order.orderStatus==OrderStatus.WAITING);
+		assertTrue(order.orderStatus==Status.WAITING);
 		assertSame(date, order.emissionDate);
 		assertTrue(order.priority==Priority.MEDIUM);
 		assertTrue(order.type==ListType.OUTPUT);
@@ -278,7 +280,7 @@ public class OrderUnitTest {
 	@Test
 	public void testGetOrderStatus() {
 		Order order = new Order();
-		assertSame(OrderStatus.WAITING, order.getOrderStatus());
+		assertSame(Status.WAITING, order.getOrderStatus());
 	}
 	
 	/**

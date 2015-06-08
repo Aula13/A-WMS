@@ -24,7 +24,8 @@
 		<mapping class="org.wms.model.order.Order"/>
 		<mapping class="org.wms.model.material.Material"/>
 		<mapping class="org.wms.model.order.OrderRow"/>
-		<mapping class="org.wms.model.worklist.WorkList"/>
+		<mapping class="org.wms.model.batch.Batch"/>
+		<mapping class="org.wms.model.batch.BatchRow"/>
 		<mapping class="org.wms.model.warehouse.WarehouseLine"/>
 		<mapping class="org.wms.model.warehouse.WarehouseShelf"/>
 		<mapping class="org.wms.model.warehouse.WarehouseCell"/>

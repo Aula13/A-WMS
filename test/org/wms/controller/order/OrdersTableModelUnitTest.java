@@ -11,10 +11,10 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.wms.model.common.ListType;
+import org.wms.model.common.Priority;
+import org.wms.model.common.Status;
 import org.wms.model.order.Order;
-import org.wms.model.order.OrderStatus;
 import org.wms.model.order.Orders;
-import org.wms.model.order.Priority;
 
 /**
  * Test orders table model class
@@ -39,7 +39,7 @@ public class OrdersTableModelUnitTest {
 		
 		when(mockOrder.getId()).thenReturn(100l);
 		when(mockOrder.getEmissionDate()).thenReturn(mockEmissionDate);
-		when(mockOrder.getOrderStatus()).thenReturn(OrderStatus.WAITING);
+		when(mockOrder.getOrderStatus()).thenReturn(Status.WAITING);
 		when(mockOrder.getPriority()).thenReturn(Priority.LOW);
 		when(mockOrder.getAllocationPercentual()).thenReturn(0.0f);
 		when(mockOrder.getCompletePercentual()).thenReturn(0.0f);
