@@ -78,7 +78,7 @@ public class Batch {
 	}
 	
 	public List<BatchRow> getRows() {
-		return new ArrayList(batchRows);
+		return new ArrayList<BatchRow>(batchRows);
 	}
 
 	public Status getBatchStatus() {
@@ -87,6 +87,12 @@ public class Batch {
 	
 	public boolean isAllocated() {
 		return allocated==1;
+	}
+	
+	public boolean setAsAllocated() {
+		for (BatchRow batchRow : batchRows)
+			batchRow.getReferredOrderRow().setAllocated();
+		return true;
 	}
 	
 }

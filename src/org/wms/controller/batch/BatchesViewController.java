@@ -10,9 +10,9 @@ import org.wms.view.batch.BatchView;
 import org.wms.view.batch.BatchesView;
 
 /**
- * Controller for orders view
+ * Controller for batches view
  * 
- * manage all the view actions and connections between OrdersView and OrdersModel
+ * manage all the view actions and connections between BatchesView and BatchesModel
  * 
  * @author Stefano Pessina, Daniele Ciriello
  *
@@ -20,17 +20,17 @@ import org.wms.view.batch.BatchesView;
 public class BatchesViewController {
 
 	/**
-	 * Reference to the order view
+	 * Reference to the batch view
 	 */
 	protected BatchesView view;
 	
 	/**
-	 * Reference to the orders model
+	 * Reference to the batchs model
 	 */
 	protected Batches batchesModel;
 	
 	/**
-	 * Order details view JDialog reference
+	 * Batch details view JDialog reference
 	 */
 	protected BatchView batchDialog;
 	
@@ -125,7 +125,12 @@ public class BatchesViewController {
 		
 		Batch batch = batchesModel.getUnmodificableBatchList().get(rowIndex);
 		
-		//TODO: Allocate action
+		if(!batch.setAsAllocated()) {
+			Utils.msg.errorBox("Error during batch allocation", "Error");
+			return false;
+		}
+		
+		batchesModel.updateBatch(batch);
 		
 		return true;
 	}
