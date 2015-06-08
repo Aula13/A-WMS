@@ -42,8 +42,9 @@ public class WMS {
 	 * 
 	 * @throws Exception 
 	 */
-	public static void main(String[] args) throws Exception {
-		launchWMS();
+	public static void main(String[] args) {
+		if(!launchWMS())
+			System.exit(1);;
 	}
 	
 	/**
@@ -51,7 +52,7 @@ public class WMS {
 	 * 
 	 * @throws Exception 
 	 */
-	public static void launchWMS() throws Exception{
+	public static boolean launchWMS() {
 		
 		Logger logger = setupLogger();
 		
@@ -64,7 +65,7 @@ public class WMS {
 			//Init hibernate
 			HibernateUtil.buildSessionFactory("config/hibernate.cfg.xml");
 			
-			startDBConnectionChecker();
+			configDBConnectionChecker();
 			
 			initFactories();
 			
@@ -78,11 +79,13 @@ public class WMS {
 			
 			startBackgroudTasks();
 			
+			return true;
+			
 		} catch (Exception e) {
 			stopBackgroudTasks();
 			logger.error(e.getMessage());
 			Utils.msg.errorBox("Error", "Error during application initialization");
-			throw e;
+			return false;
 		}
 	}
 	
@@ -122,7 +125,7 @@ public class WMS {
 	 * 
 	 * @throws Exception, DBConnectionException
 	 */
-	private static void startDBConnectionChecker() throws Exception {
+	private static void configDBConnectionChecker() throws Exception {
 		dbStatusChecker = new DbStatusChecker(
 				"DBChecker", 
 				Configuration.DBCHECKER_LOGGER, 
