@@ -1,9 +1,8 @@
 package org.wms.graph.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-
-import javax.xml.transform.Source;
 
 import org.wms.model.warehouse.Warehouse;
 import org.wms.model.warehouse.WarehouseCell;
@@ -11,7 +10,6 @@ import org.wms.model.warehouse.WarehouseLine;
 import org.wms.model.warehouse.WarehouseShelf;
 
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
-import edu.uci.ics.jung.graph.util.EdgeType;
 
 public class WarehouseGraphUtils {
 	
@@ -97,6 +95,8 @@ public class WarehouseGraphUtils {
 
 		WarehouseNode node1 = graph.getCheckPointNode();
 		WarehouseNode node2 = null;
+		WarehouseLine line1 = null;
+		WarehouseLine line2 = null;
 
 		List<WarehouseNode> lastNodes =  new ArrayList<>();
 
@@ -106,11 +106,25 @@ public class WarehouseGraphUtils {
 			
 			node2 = new WarehouseNode(lineId); 	
 			// link lines together
-			addEdgeToGraph(graph, node1, node2);
+			addEdgeToGraph(graph, nodeDistanceBetweenLines(lineNumber), node1, node2);
 			graph.addLineNodeCorr(line, node1);
 			node1 = node2;
 			
 			lastNodes.add(generateLineGraph(graph, line, node1));
+			
+			if (lineNumber % 2 == 0){
+				line1 = line;
+				line2 = null;
+			}
+			else {
+				line2 = line;
+			}
+			
+			if (line1 != null && line2 != null) {
+				addCrossLinesEdges(graph, line1, line2);
+				line1 = null;
+			}
+			
 			lineNumber ++;	
 		}
 
@@ -121,7 +135,7 @@ public class WarehouseGraphUtils {
 			}
 			else{
 				node2 = node;
-				addEdgeToGraph(graph, node1, node2);
+				addEdgeToGraph(graph, nodeDistanceBetweenLines(nodeNumber), node1, node2);
 				node1 = node;
 			}
 			nodeNumber++;
@@ -144,7 +158,7 @@ public class WarehouseGraphUtils {
 			}
 			else {
 				node2 = new WarehouseNode(lineNode.getLabel() + '/' + String.format("%02d", shelfNumber));
-				addEdgeToGraph(graph, node1, node2);
+				addEdgeToGraph(graph, cellWidth,node1, node2);
 				graph.addShelfNodeCorr(shelf, node1);
 				node1 = node2;
 			}
@@ -152,6 +166,15 @@ public class WarehouseGraphUtils {
 			shelfNumber ++;	
 		}
 		return node1;
+	}
+	
+	private static void addCrossLinesEdges(WarehouseGraph graph, WarehouseLine line1, WarehouseLine line2){
+		Iterator<WarehouseShelf> shelvesIterator1 = line1.getUnmodifiableListShelfs().iterator();
+		Iterator<WarehouseShelf> shelvesIterator2 = line2.getUnmodifiableListShelfs().iterator();
+
+		while(shelvesIterator1.hasNext() && shelvesIterator2.hasNext()) {
+		    addEdgeToGraph(graph, laneWidth, graph.getNode(shelvesIterator1.next()), graph.getNode(shelvesIterator2.next()));
+		}
 	}
 	
 	private static void generateShelfGraph(WarehouseGraph graph, WarehouseShelf shelf, WarehouseNode shelfNode){
@@ -169,7 +192,7 @@ public class WarehouseGraphUtils {
 			}
 			else {
 				node2 = new WarehouseNode(shelfNode.getLabel() + '/' + String.format("%02d", cellNumber));
-				addEdgeToGraph(graph, node1, node2);
+				addEdgeToGraph(graph, cellHeight, node1, node2);
 				graph.addCellNodeCorr(cell, node1);
 				node1 = node2;
 			}
@@ -177,8 +200,8 @@ public class WarehouseGraphUtils {
 		}
 	}
 	
-	private static void addEdgeToGraph(WarehouseGraph graph, WarehouseNode node1, WarehouseNode node2){
-		graph.addEdge(new WarehouseLink(linkLabel(node1, node2), cellHeight, linkCapacity), node1, node2);
+	private static void addEdgeToGraph(WarehouseGraph graph, double weight, WarehouseNode node1, WarehouseNode node2){
+		graph.addEdge(new WarehouseLink(linkLabel(node1, node2), weight, linkCapacity), node1, node2);
 	}
 	
 	private static double nodeDistanceBetweenLines(int lineNumber){
