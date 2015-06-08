@@ -22,10 +22,29 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 public class WarehouseGraph extends UndirectedOrderedSparseMultigraph<WarehouseNode, WarehouseLink> {
 
 	private WarehouseNode checkPointNode = null;
-	private Map<WarehouseCell, WarehouseNode> cellsNodesCorrs = new LinkedHashMap<>();
-	private Map<WarehouseShelf, WarehouseNode> ShelvesNodesCorrs = new LinkedHashMap<>();
-	private Map<WarehouseLine, WarehouseNode> linesNodesCorrs = new LinkedHashMap<>();
+	private Warehouse warehouse = null;
+	private Map<WarehouseCell, WarehouseNode> cellsNodesCorrs = new HashMap<>();
+	private Map<WarehouseShelf, WarehouseNode> shelvesNodesCorrs = new HashMap<>();
+	private Map<WarehouseLine, WarehouseNode> linesNodesCorrs = new HashMap<>();
 	
+	public WarehouseGraph() {
+		super();
+	}
+	
+	public WarehouseGraph(WarehouseNode checkPoint) {
+		super();
+		this.checkPointNode = checkPoint;
+	}
+
+	public WarehouseGraph(Warehouse warehouse) {
+		super();
+		this.warehouse = warehouse;
+		generateGraph(warehouse);
+	}
+
+	private void generateGraph(Warehouse warehouse) {
+		WarehouseGraphUtils.populateGraph(warehouse, this);
+	}
 	
 	public boolean addEdge(WarehouseLink link, WarehouseNode node1, WarehouseNode node2){
 		return super.addEdge(link, node1, node2, EdgeType.UNDIRECTED);
@@ -41,7 +60,7 @@ public class WarehouseGraph extends UndirectedOrderedSparseMultigraph<WarehouseN
 	public boolean addShelfNodeCorr(WarehouseShelf shelf, WarehouseNode node){
 		if (this.containsVertex(node))
 			return false;
-		ShelvesNodesCorrs.put(shelf, node);
+		shelvesNodesCorrs.put(shelf, node);
 		return true;
 	}	
 	
@@ -54,27 +73,17 @@ public class WarehouseGraph extends UndirectedOrderedSparseMultigraph<WarehouseN
 	
 	public WarehouseNode getNode(WarehouseCell cell){
 		return cellsNodesCorrs.get(cell);
-	}
-
-	public WarehouseGraph() {
-		super();
-	}
+	}	
 	
-	public WarehouseGraph(WarehouseNode checkPoint) {
-		super();
-		this.checkPointNode = checkPoint;
+	public WarehouseNode getNode(WarehouseShelf shelf){
+		return shelvesNodesCorrs.get(shelf);
+	}	
+	
+	public WarehouseNode getNode(WarehouseLine line){
+		return linesNodesCorrs.get(line);
 	}
 
-	public WarehouseGraph(Warehouse warehouse) {
-		super();
-		generateGraph(warehouse);
-	}
-
-	private void generateGraph(Warehouse warehouse) {
-		WarehouseGraphUtils.populateGraph(warehouse, this);
-	}
-
-	public WarehouseNode getCheckPointnode() {
+	public WarehouseNode getCheckPointNode() {
 		return checkPointNode;
 	}
 

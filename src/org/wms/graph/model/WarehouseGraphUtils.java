@@ -3,6 +3,8 @@ package org.wms.graph.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.transform.Source;
+
 import org.wms.model.warehouse.Warehouse;
 import org.wms.model.warehouse.WarehouseCell;
 import org.wms.model.warehouse.WarehouseLine;
@@ -25,13 +27,48 @@ public class WarehouseGraphUtils {
 	public static List<WarehouseLink> shortestPath(WarehouseGraph graph, WarehouseNode start, WarehouseNode end) {
 		DijkstraShortestPath<WarehouseNode, WarehouseLink> alg = new DijkstraShortestPath<WarehouseNode, WarehouseLink>(graph);
 		List<WarehouseLink> path = alg.getPath(start, end);
-		System.out.println("The shortest unweighted path from " + start + " to " + end + " is:");
-		System.out.println(path.toString());
+//		System.out.println("The shortest unweighted path from " + start + " to " + end + " is:");
+//		System.out.println(path.toString());
 		return path;
 	}
 	
+	public static List<WarehouseLink> generatePickerRoute(WarehouseGraph graph, List<WarehouseCell> targetList){
+		List<WarehouseCell> targets = new ArrayList<>(targetList);
+		
+		List<WarehouseLink> pickerRoute = new ArrayList<>();
+		DijkstraShortestPath<WarehouseNode, WarehouseLink> alg = new DijkstraShortestPath<WarehouseNode, WarehouseLink>(graph);
+		List<List<WarehouseLink>> paths = new ArrayList<>();
+		
+		WarehouseNode checkPointNode = graph.getCheckPointNode();
+		WarehouseNode source = checkPointNode;
+		WarehouseNode target = null;
+		WarehouseNode nearestNode = null;
+		WarehouseCell nearestCell = null;
+		
+		while(targets.size() > 0){
+			int minDistance = Integer.MAX_VALUE;
+			List<WarehouseLink> shortestPath = null;
+			for (WarehouseCell cell : targets) {
+				target = graph.getNode(cell);
+				int distance = alg.getDistance(source, target).intValue();
+				if (distance < minDistance) {
+					minDistance = distance;
+					shortestPath = alg.getPath(source, target);
+					nearestCell = cell;
+					nearestNode = target; 
+				}
+			}
+			paths.add(shortestPath);
+			source = nearestNode;
+			targets.remove(nearestCell);
+		}
+		paths.add(alg.getPath(source, checkPointNode));
+		return pickerRoute;
+		
+	}
+	
 	public static List<WarehouseLink> shortestPath(WarehouseGraph graph, WarehouseNode end) {
-		return shortestPath(graph, graph.getCheckPointnode(), end);
+		return shortestPath(graph, graph.getCheckPointNode(), end);
 	}
 	
 	public static List<WarehouseLink> shortestPath(WarehouseGraph graph, WarehouseCell start, WarehouseCell end) {
@@ -39,7 +76,7 @@ public class WarehouseGraphUtils {
 	}
 	
 	public static List<WarehouseLink> shortestPath(WarehouseGraph graph, WarehouseCell end) {
-		return shortestPath(graph, graph.getCheckPointnode(), graph.getNode(end));
+		return shortestPath(graph, graph.getCheckPointNode(), graph.getNode(end));
 	}
 	
 	public static String linkLabel(WarehouseNode node1, WarehouseNode node2){
@@ -58,7 +95,7 @@ public class WarehouseGraphUtils {
 	private static WarehouseGraph generateGraph(Warehouse warehouse, WarehouseGraph graph){
 		int lineNumber = 0;
 
-		WarehouseNode node1 = graph.getCheckPointnode();
+		WarehouseNode node1 = graph.getCheckPointNode();
 		WarehouseNode node2 = null;
 
 		List<WarehouseNode> lastNodes =  new ArrayList<>();
@@ -112,7 +149,6 @@ public class WarehouseGraphUtils {
 				node1 = node2;
 			}
 			generateShelfGraph(graph, shelf, node1);
-
 			shelfNumber ++;	
 		}
 		return node1;
