@@ -2,7 +2,9 @@ package org.wms.model.warehouse;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,8 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name="wms_warehouse_line")
@@ -26,8 +28,8 @@ public class WarehouseLine {
 	protected String code;
 	
 	@OneToMany(mappedBy="warehouseLine", cascade=CascadeType.REMOVE)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	protected List<WarehouseShelf> shelfs = new ArrayList<>();
+	@Fetch(FetchMode.JOIN)
+	protected Set<WarehouseShelf> shelfs = new HashSet<>();
 	
 	public WarehouseLine() {
 	
@@ -48,7 +50,7 @@ public class WarehouseLine {
 	}
 	
 	public List<WarehouseShelf> getUnmodifiableListShelfs() {
-		return Collections.unmodifiableList(shelfs);
+		return Collections.unmodifiableList(new ArrayList<WarehouseShelf>(shelfs));
 	}
 	
 }
