@@ -58,8 +58,8 @@ public class Picker {
 			System.out.println("currentPosition != graph.getSource(link)");
 			return false;
 		}
-		currentPosition = graph.getDest(link);
 		System.out.println("Moving through the link: " + link);
+		currentPosition = graph.getDest(link);
 		return true;
 	}
 	
