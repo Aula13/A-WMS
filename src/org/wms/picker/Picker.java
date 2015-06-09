@@ -42,7 +42,6 @@ public class Picker {
 			if (jobs.containsKey(currentCell) ) {
 				if (!pick(quantity, currentNode))
 					return false;
-				currentLoad += quantity;
 				currentCell.setQuantity(currentCell.getQuantity() - quantity);
 				jobs.remove(currentCell);
 				//TODO set batchrow as allocated
@@ -82,6 +81,7 @@ public class Picker {
 			return false;
 		}
 		System.out.println("Picking: " + quantity + "from: " + cell);
+		currentLoad += quantity;
 		return true;
 	}
 
