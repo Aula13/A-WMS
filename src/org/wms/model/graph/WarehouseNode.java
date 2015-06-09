@@ -17,6 +17,11 @@ public class WarehouseNode {
 	private String label;
 	
 	/**
+	 * the node's cell
+	 */
+	private WarehouseCell cell = null;
+	
+	/**
 	 * Creates a node with a label
 	 * 
 	 * @param label the label of the new node
@@ -37,5 +42,13 @@ public class WarehouseNode {
 	 */
 	public String toString() {
 		return "N"+label;
+	}
+
+	public WarehouseCell getCell() {
+		return cell;
+	}
+
+	public void setCell(WarehouseCell cell) {
+		this.cell = cell;
 	}
 }

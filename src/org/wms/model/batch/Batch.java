@@ -53,8 +53,6 @@ public class Batch {
 	@Column(name="batch_allocated", nullable=false)
 	protected int allocated = 0;
 	
-	
-	
 	public Batch() {
 	
 	}
