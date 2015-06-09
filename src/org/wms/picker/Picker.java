@@ -10,19 +10,16 @@ import org.wms.model.batch.BatchRow;
 import org.wms.model.graph.WarehouseGraph;
 import org.wms.model.graph.WarehouseLink;
 import org.wms.model.graph.WarehouseNode;
-import org.wms.model.warehouse.Warehouse;
 import org.wms.model.warehouse.WarehouseCell;
 
 
 public class Picker {
-	private Warehouse warehouse;
 	private WarehouseGraph graph;
 	private WarehouseNode currentPosition;
 	
 	
-	public Picker(Warehouse warehouse, WarehouseGraph graph){
+	public Picker(WarehouseGraph graph){
 		super();
-		this.warehouse = warehouse;
 		this.graph = graph;
 		currentPosition = graph.getCheckPointNode();
 	}
