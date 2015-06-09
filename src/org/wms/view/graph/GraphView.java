@@ -17,12 +17,30 @@ public class GraphView extends JPanel  {
 
 	private WarehouseGraph graph;
 	private GraphVisualizationServer visualizer;
+	private Layout<WarehouseNode, WarehouseLink> layout ;
 
 	public GraphView(WarehouseGraph graph) {
-		this.graph = graph;
-		Layout<WarehouseNode, WarehouseLink> layout = new CircleLayout<WarehouseNode, WarehouseLink>(graph);
-		layout.setSize(new Dimension(300,300));
+		this.graph = graph;		
+		initComponents();
+		initUI();
+	}
+	
+	/**
+	 * Init components to be placed in the view
+	 */
+	private void initComponents() {
+		layout = new CircleLayout<WarehouseNode, WarehouseLink>(graph);
 		visualizer =  new GraphVisualizationServer(layout);
 		add(visualizer);
+
+	}
+	
+
+	/**
+	 * Set view appearance
+	 */
+	private void initUI() {
+		layout.setSize(new Dimension(300,300));
+		setSize(700, 500);
 	}
 }
