@@ -12,10 +12,11 @@ import org.wms.model.graph.WarehouseLink;
 import org.wms.model.graph.WarehouseNode;
 import org.wms.model.warehouse.WarehouseCell;
 
-
 public class Picker {
 	private WarehouseGraph graph;
 	private WarehouseNode currentPosition;
+	private int capacity = 100;
+	private int currentLoad = 0;
 	
 	
 	public Picker(WarehouseGraph graph){
@@ -35,12 +36,13 @@ public class Picker {
 			
 			WarehouseNode currentNode = graph.getSource(link);
 			WarehouseCell currentCell = currentNode.getCell();
-			int neededQuantity = jobs.get(currentCell).getQuantity();
+			int quantity = jobs.get(currentCell).getQuantity();
 			
 			if (jobs.containsKey(currentCell) ) {
-				if (!pick(neededQuantity, currentNode))
+				if (!pick(quantity, currentNode))
 					return false;
-				currentCell.setQuantity(currentCell.getQuantity() - neededQuantity);
+				currentLoad += quantity;
+				currentCell.setQuantity(currentCell.getQuantity() - quantity);
 				jobs.remove(currentCell);
 				//TODO set batchrow as allocated
 			}
@@ -73,8 +75,20 @@ public class Picker {
 			System.out.println("node.getCell().getQuantity() < quantity");
 			return false;
 		}
+		if (capacity < currentLoad + quantity ) {
+			System.out.println("capacity < currentLoad + quantity ");
+			return false;
+		}
 		System.out.println("Picking: " + quantity + "from: " + cell);
 		return true;
+	}
+
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
 	}
 	
 }
