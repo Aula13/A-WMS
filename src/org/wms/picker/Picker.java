@@ -25,7 +25,8 @@ public class Picker {
 		currentPosition = graph.getCheckPointNode();
 	}
 	
-	public boolean executeRoute(Batch batch, List<WarehouseLink> route){
+	//TODO per ora fa solo il pick
+	public boolean executeBatch(Batch batch, List<WarehouseLink> route){
 		System.out.println("batch received, going through the links: " + route);
 		
 		Map<WarehouseCell, BatchRow> jobs = new HashMap<>();
