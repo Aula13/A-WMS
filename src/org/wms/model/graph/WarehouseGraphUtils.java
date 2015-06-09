@@ -19,7 +19,7 @@ import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
  *
  */
 public class WarehouseGraphUtils {
-	
+
 	//TODO put in config file (?)
 	static double firstLinkDistance = 3; //distance between checkpoint node and fisrt node
 
@@ -40,18 +40,18 @@ public class WarehouseGraphUtils {
 	public static List<WarehouseLink> shortestPath(WarehouseGraph graph, WarehouseNode start, WarehouseNode end) {
 		Transformer<WarehouseLink, Double> capTransformer =
 				new Transformer<WarehouseLink, Double>(){
-				 public Double transform(WarehouseLink link) {
-				 return link.getCapacity();
-				 }
-				 };
-				 
+			public Double transform(WarehouseLink link) {
+				return link.getCapacity();
+			}
+		};
+
 		DijkstraShortestPath<WarehouseNode, WarehouseLink> alg = new DijkstraShortestPath<WarehouseNode, WarehouseLink>(graph, capTransformer);
 		List<WarehouseLink> path = alg.getPath(start, end);
-//		System.out.println("The shortest unweighted path from " + start + " to " + end + " is:");
-//		System.out.println(path.toString());
+		//		System.out.println("The shortest unweighted path from " + start + " to " + end + " is:");
+		//		System.out.println(path.toString());
 		return path;
 	}
-	
+
 	/**
 	 * Generate the picker route from a list of cells to be visited, starting from and ending to the checkpoint
 	 * 
@@ -61,17 +61,17 @@ public class WarehouseGraphUtils {
 	 */
 	public static List<WarehouseLink> generatePickerRoute(WarehouseGraph graph, List<WarehouseCell> targetList){
 		List<WarehouseCell> targets = new ArrayList<>(targetList);
-		
+
 		List<WarehouseLink> pickerRoute = new ArrayList<>();
 		DijkstraShortestPath<WarehouseNode, WarehouseLink> alg = new DijkstraShortestPath<WarehouseNode, WarehouseLink>(graph);
 		List<List<WarehouseLink>> paths = new ArrayList<>();
-		
+
 		WarehouseNode checkPointNode = graph.getCheckPointNode();
 		WarehouseNode source = checkPointNode;
 		WarehouseNode target = null;
 		WarehouseNode nearestNode = null;
 		WarehouseCell nearestCell = null;
-		
+
 		while(targets.size() > 0){
 			int minDistance = Integer.MAX_VALUE;
 			List<WarehouseLink> shortestPath = null;
@@ -91,9 +91,9 @@ public class WarehouseGraphUtils {
 		}
 		paths.add(alg.getPath(source, checkPointNode));
 		return pickerRoute;
-		
+
 	}
-	
+
 	/**
 	 * Calculate the shortest path between the check point and an end node
 	 * 
@@ -104,7 +104,7 @@ public class WarehouseGraphUtils {
 	public static List<WarehouseLink> shortestPath(WarehouseGraph graph, WarehouseNode end) {
 		return shortestPath(graph, graph.getCheckPointNode(), end);
 	}
-	
+
 	/**
 	 * Calculate the shortest path between two cells
 	 * 
@@ -116,7 +116,7 @@ public class WarehouseGraphUtils {
 	public static List<WarehouseLink> shortestPath(WarehouseGraph graph, WarehouseCell start, WarehouseCell end) {
 		return shortestPath(graph, graph.getNode(start), graph.getNode(end));
 	}
-	
+
 	/**
 	 * Calculate the shortest path between the check point and an end cell
 	 * 
@@ -127,7 +127,7 @@ public class WarehouseGraphUtils {
 	public static List<WarehouseLink> shortestPath(WarehouseGraph graph, WarehouseCell end) {
 		return shortestPath(graph, graph.getCheckPointNode(), graph.getNode(end));
 	}
-	
+
 	/**
 	 * Generate the label of a link between two nodes
 	 * 
@@ -138,7 +138,7 @@ public class WarehouseGraphUtils {
 	public static String linkLabel(WarehouseNode node1, WarehouseNode node2){
 		return node1.getLabel() + "->" + node2.getLabel();
 	}
-	
+
 	/**
 	 * Populate a graph with a warehouse structure
 	 * 
@@ -148,7 +148,7 @@ public class WarehouseGraphUtils {
 	public static void populateGraph(Warehouse warehouse, WarehouseGraph graph){
 		generateGraph(warehouse, graph);
 	}
-	
+
 	/**
 	 * Create and returns a Wareohouse Graph starting from a warehouse
 	 * 
@@ -159,7 +159,7 @@ public class WarehouseGraphUtils {
 		WarehouseGraph graph = new WarehouseGraph(new WarehouseNode("checkpoint"));
 		return generateGraph(warehouse, graph);
 	}
-	
+
 	/**
 	 * Generate and return a graph from a warehouse
 	 *  
@@ -178,17 +178,17 @@ public class WarehouseGraphUtils {
 		List<WarehouseNode> lastNodes =  new ArrayList<>();
 
 		for (WarehouseLine line : warehouse.getUnmodifiableLines()) {
-			
+
 			String lineId = Character.toChars(65 + lineNumber).toString(); // returns 'A', 'B', etc.
-			
+
 			node2 = new WarehouseNode(lineId); 	
 			// link lines together
 			addEdgeToGraph(graph, nodeDistanceBetweenLines(lineNumber), node1, node2);
 			graph.addLineNodeCorr(line, node1);
 			node1 = node2;
-			
+
 			lastNodes.add(generateLineGraph(graph, line, node1));
-			
+
 			if (lineNumber % 2 == 0){
 				line1 = line;
 				line2 = null;
@@ -196,12 +196,12 @@ public class WarehouseGraphUtils {
 			else {
 				line2 = line;
 			}
-			
+
 			if (line1 != null && line2 != null) {
 				addCrossLinesEdges(graph, line1, line2);
 				line1 = null;
 			}
-			
+
 			lineNumber ++;	
 		}
 
@@ -219,7 +219,7 @@ public class WarehouseGraphUtils {
 		}
 		return graph;
 	}
-	
+
 	/**
 	 * Generate a graph of a Line
 	 * 
@@ -252,7 +252,7 @@ public class WarehouseGraphUtils {
 		}
 		return node1;
 	}
-	
+
 	/**
 	 * Generate the edges crossing the lines
 	 * 
@@ -265,10 +265,10 @@ public class WarehouseGraphUtils {
 		Iterator<WarehouseShelf> shelvesIterator2 = line2.getUnmodifiableListShelfs().iterator();
 
 		while(shelvesIterator1.hasNext() && shelvesIterator2.hasNext()) {
-		    addEdgeToGraph(graph, laneWidth, graph.getNode(shelvesIterator1.next()), graph.getNode(shelvesIterator2.next()));
+			addEdgeToGraph(graph, laneWidth, graph.getNode(shelvesIterator1.next()), graph.getNode(shelvesIterator2.next()));
 		}
 	}
-	
+
 	/**
 	 * Generate and return a graph from a Shelf
 	 * 
@@ -299,7 +299,7 @@ public class WarehouseGraphUtils {
 			cellNumber ++;
 		}
 	}
-	
+
 	/**
 	 * Add an edge to a graph
 	 * 
@@ -311,7 +311,7 @@ public class WarehouseGraphUtils {
 	private static void addEdgeToGraph(WarehouseGraph graph, double weight, WarehouseNode node1, WarehouseNode node2){
 		graph.addEdge(new WarehouseLink(linkLabel(node1, node2), weight, linkCapacity), node1, node2);
 	}
-	
+
 	/**
 	 * calulate and returns the distance between a line and its predecessor line
 	 * 
@@ -324,5 +324,5 @@ public class WarehouseGraphUtils {
 		}
 		return laneWidth;
 	}
-	
+
 }
