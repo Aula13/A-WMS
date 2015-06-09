@@ -1,9 +1,10 @@
-package org.wms.graph;
+package org.wms.model.graph;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.collections15.Transformer;
 import org.wms.model.warehouse.Warehouse;
 import org.wms.model.warehouse.WarehouseCell;
 import org.wms.model.warehouse.WarehouseLine;
@@ -37,7 +38,14 @@ public class WarehouseGraphUtils {
 	 * @return a list of links representing the shortest path from start to end
 	 */
 	public static List<WarehouseLink> shortestPath(WarehouseGraph graph, WarehouseNode start, WarehouseNode end) {
-		DijkstraShortestPath<WarehouseNode, WarehouseLink> alg = new DijkstraShortestPath<WarehouseNode, WarehouseLink>(graph);
+		Transformer<WarehouseLink, Double> capTransformer =
+				new Transformer<WarehouseLink, Double>(){
+				 public Double transform(WarehouseLink link) {
+				 return link.getCapacity();
+				 }
+				 };
+				 
+		DijkstraShortestPath<WarehouseNode, WarehouseLink> alg = new DijkstraShortestPath<WarehouseNode, WarehouseLink>(graph, capTransformer);
 		List<WarehouseLink> path = alg.getPath(start, end);
 //		System.out.println("The shortest unweighted path from " + start + " to " + end + " is:");
 //		System.out.println(path.toString());
