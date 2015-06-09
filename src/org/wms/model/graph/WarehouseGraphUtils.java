@@ -293,6 +293,7 @@ public class WarehouseGraphUtils {
 				node2 = new WarehouseNode(shelfNode.getLabel() + '/' + String.format("%02d", cellNumber));
 				addEdgeToGraph(graph, cellHeight, node1, node2);
 				graph.addCellNodeCorr(cell, node1);
+				node1.setCell(cell);
 				node1 = node2;
 			}
 			cellNumber ++;
