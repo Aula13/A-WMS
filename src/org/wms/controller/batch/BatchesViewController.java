@@ -108,7 +108,7 @@ public class BatchesViewController {
 	 * to create a new order
 	 */
 	protected void btnRefreshAction() {
-		//TODO: Refresh action
+		batchesModel.update(batchesModel, null);
 	}
 	
 	/**

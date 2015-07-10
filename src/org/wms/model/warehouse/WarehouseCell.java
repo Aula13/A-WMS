@@ -1,5 +1,7 @@
 package org.wms.model.warehouse;
 
+import static org.mockito.Matchers.isA;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -69,6 +71,15 @@ public class WarehouseCell {
 
 	public long getId() {
 		return id;
+	}
+	
+	/**
+	 * @return id with line and shelf identifier
+	 */
+	public String getPublicId() {
+		return warehouseShelf.getWarehouseLine().getCode() +
+			warehouseShelf.getId() +
+			id;
 	}
 
 	public Material getMaterial() {

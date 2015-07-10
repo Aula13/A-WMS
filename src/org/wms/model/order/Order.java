@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -48,8 +49,8 @@ public class Order {
 	/**
 	 * List of the OrderRow that this order contains
 	 */
-	@OneToMany(mappedBy="order", cascade=CascadeType.REMOVE)
-	@Fetch(FetchMode.SUBSELECT)
+	@OneToMany(mappedBy="order", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	//@Fetch(FetchMode.SUBSELECT)
 	protected Set<OrderRow> rows = new HashSet<>();
 	
 	@Column(name="order_type", nullable=false)

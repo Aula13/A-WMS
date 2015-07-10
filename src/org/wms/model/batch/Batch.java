@@ -6,15 +6,16 @@ import java.util.List;
 import java.util.OptionalInt;
 import java.util.Set;
 
+import javax.annotation.Generated;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.wms.model.common.ListType;
 import org.wms.model.common.Priority;
 import org.wms.model.common.Status;
@@ -32,6 +33,7 @@ import org.wms.model.common.Status;
 public class Batch {
 
 	@Id
+	@GeneratedValue
 	@Column(name="batch_id")
 	protected long id;
 	
@@ -44,8 +46,8 @@ public class Batch {
 	/**
 	 * List of the OrderRow that this order contains
 	 */
-	@OneToMany(mappedBy="referredBatch", cascade=CascadeType.REMOVE)
-	@Fetch(FetchMode.JOIN)
+	@OneToMany(mappedBy="referredBatch", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	//@Fetch(FetchMode.JOIN)
 	protected Set<BatchRow> batchRows = new HashSet<>();
 	
 	@Column(name="batch_status", nullable=false)

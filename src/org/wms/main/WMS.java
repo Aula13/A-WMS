@@ -83,7 +83,7 @@ public class WMS {
 			
 		} catch (Exception e) {
 			stopBackgroudTasks();
-			logger.error(e.getMessage());
+			logger.error(e);
 			Utils.msg.errorBox("Error", "Error during application initialization");
 			return false;
 		}

@@ -79,7 +79,7 @@ public class BatchRowsTableModel extends AbstractTableModel {
 		case 3:
 			return row.getReferredOrderRow().getMaterial().getCode();
 		case 4:
-			return row.getJobWarehouseCell().getId();
+			return row.getJobWarehouseCell().getPublicId();
 		case 5:
 			return row.getQuantity();
 		default:

@@ -67,9 +67,9 @@ public class Batches extends Observable implements Observer {
 		this.orders = orders;
 		this.warehouse = warehouse;
 		this.materials = materials;
-		orders.addObserver(this);
-		warehouse.addObserver(this);
-		update(orders, null);
+//		orders.addObserver(this);
+//		warehouse.addObserver(this);
+//		update(orders, null);
 	}
 
 	/**
