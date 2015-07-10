@@ -13,6 +13,9 @@ import org.apache.log4j.Logger;
 import org.wms.config.Configuration;
 import org.wms.model.common.ICRUDLayer;
 import org.wms.model.common.ListType;
+import org.wms.model.common.ModelReference;
+import org.wms.model.common.Status;
+import org.wms.model.material.Materials;
 import org.wms.model.order.Order;
 import org.wms.model.order.Orders;
 import org.wms.model.warehouse.Warehouse;
@@ -46,6 +49,8 @@ public class Batches extends Observable implements Observer {
 	
 	Warehouse warehouse;
 	
+	Materials materials;
+	
 	/**
 	 * Constructor
 	 * 
@@ -53,11 +58,15 @@ public class Batches extends Observable implements Observer {
 	 */
 	public Batches(Orders orders,
 			Warehouse warehouse,
+			Materials materials,
 			ICRUDLayer<Batch> persistentLayer, 
 			IBatchesCreatorStrategy batchesCreatorStrategy) {
 		super();
 		this.persistentLayer = persistentLayer;
 		this.batchesCreatorStrategy = batchesCreatorStrategy;
+		this.orders = orders;
+		this.warehouse = warehouse;
+		this.materials = materials;
 		orders.addObserver(this);
 		warehouse.addObserver(this);
 		update(orders, null);
@@ -217,8 +226,31 @@ public class Batches extends Observable implements Observer {
 		return Collections.unmodifiableList(filteredBatchs);
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param orders
+	 * @param warehouse
+	 */
 	public void createBatches(List<Order> orders, Warehouse warehouse) {
+		//Delete batch not already assigned
+		getUnmodificableBatchList().stream()
+			.filter(batch -> batch.getBatchStatus().compareTo(Status.WAITING)==0)
+			.forEach(batch -> deleteBatch(batch));
 		
+		//Compute new list of batch
+		List<Batch> batches = batchesCreatorStrategy.computeListOfBatch(
+				getUnmodificableBatchList(),
+				orders, 
+				warehouse,
+				materials.getUnmodificableMaterialList());
+		
+		//Add new batches
+		batches.stream()
+			.forEach(batch -> addBatch(batch));
+		
+		setChanged();
+		notifyObservers();
 	}
 	
 	@Override

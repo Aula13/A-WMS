@@ -1,7 +1,7 @@
 package org.wms.model.common;
 
 import org.wms.model.batch.Batches;
-import org.wms.model.batch.BatchesCreatorDinamicProgram;
+import org.wms.model.batch.BatchesCreatorGreedy;
 import org.wms.model.dao.MaterialDao;
 import org.wms.model.dao.OrderDao;
 import org.wms.model.dao.WarehouseCellDao;
@@ -48,7 +48,8 @@ public class ModelReference {
 		batchesModel = new Batches(
 				ordersModel,
 				warehouseModel,
+				materialsModel,
 				new BatchDao(), 
-				new BatchesCreatorDinamicProgram());
+				new BatchesCreatorGreedy());
 	}
 }
