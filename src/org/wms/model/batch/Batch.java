@@ -3,6 +3,7 @@ package org.wms.model.batch;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.OptionalInt;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -53,7 +54,7 @@ public class Batch {
 	@Column(name="batch_allocated", nullable=false)
 	protected int allocated = 0;
 	
-	
+	public static int capacity = 100;
 	
 	public Batch() {
 	
@@ -77,6 +78,10 @@ public class Batch {
 		return priority;
 	}
 	
+	public void addRow(BatchRow row) {
+		batchRows.add(row);
+	}
+	
 	public List<BatchRow> getRows() {
 		return new ArrayList<BatchRow>(batchRows);
 	}
@@ -89,9 +94,27 @@ public class Batch {
 		return allocated==1;
 	}
 	
+	public int getActualQuantity() {
+		OptionalInt actualQuantity = batchRows.stream()
+				.mapToInt(row -> row.getQuantity())
+				.reduce((row1, row2) -> row1+row2);
+		if(actualQuantity.isPresent())
+			return actualQuantity.getAsInt();
+		return 0;
+	}
+	
+	public boolean isFull() {
+		return getActualQuantity()>=capacity;
+	}
+	
+	public boolean checkCanAddRow(int quantity) {
+		return getActualQuantity()+quantity<=capacity;
+	}
+	
 	public boolean setAsAllocated() {
 		for (BatchRow batchRow : batchRows)
 			batchRow.getReferredOrderRow().setAllocated();
+		batchStatus=Status.ASSIGNED;
 		return true;
 	}
 	
