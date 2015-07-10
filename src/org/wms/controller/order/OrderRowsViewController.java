@@ -187,7 +187,7 @@ public class OrderRowsViewController {
 			return false;
 		}
 		
-		if(!order.addMaterial(new OrderRow(order, availableMaterials.get(0), 0))) {
+		if(!order.addMaterial(new OrderRow(order, availableMaterials.get(0), 1))) {
 			Utils.msg.errorBox("The order row is not valid!", "Error");
 			return false;
 		}

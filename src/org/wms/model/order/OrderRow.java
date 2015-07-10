@@ -60,7 +60,7 @@ public class OrderRow implements Serializable {
 	protected Material material;
 	
 	@Column(name="order_row_quantity", nullable=false)
-	protected int quantity;
+	protected int quantity = 1;
 	
 	@Column(name="order_row_picked_quantity", nullable=false)
 	protected int pickedQuantity = 0;
