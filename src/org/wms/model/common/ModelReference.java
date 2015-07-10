@@ -1,6 +1,7 @@
 package org.wms.model.common;
 
 import org.wms.model.batch.Batches;
+import org.wms.model.batch.BatchesCreatorDinamicProgram;
 import org.wms.model.dao.MaterialDao;
 import org.wms.model.dao.OrderDao;
 import org.wms.model.dao.WarehouseCellDao;
@@ -38,10 +39,16 @@ public class ModelReference {
 	 */
 	public static void initModel() {
 		ordersModel = new Orders(new OrderDao());
+		
 		materialsModel = new Materials(new MaterialDao());
 		warehouseModel = new Warehouse(new WarehouseLineDao(),
 				new WarehouseShelfDao(),
 				new WarehouseCellDao());
-		batchesModel = new Batches(new BatchDao());
+		
+		batchesModel = new Batches(
+				ordersModel,
+				warehouseModel,
+				new BatchDao(), 
+				new BatchesCreatorDinamicProgram());
 	}
 }

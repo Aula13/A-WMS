@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.Optional;
 import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
@@ -12,6 +13,9 @@ import org.apache.log4j.Logger;
 import org.wms.config.Configuration;
 import org.wms.model.common.ICRUDLayer;
 import org.wms.model.common.ListType;
+import org.wms.model.order.Order;
+import org.wms.model.order.Orders;
+import org.wms.model.warehouse.Warehouse;
 
 /**
  * Batchs model
@@ -25,7 +29,7 @@ import org.wms.model.common.ListType;
  * @author Stefano Pessina, Daniele Ciriello
  *
  */
-public class Batches extends Observable {
+public class Batches extends Observable implements Observer {
 	
 	private Logger logger = Logger.getLogger(Configuration.SUPERVISOR_LOGGER);
 	
@@ -36,14 +40,27 @@ public class Batches extends Observable {
 	
 	private ICRUDLayer<Batch> persistentLayer;
 	
+	private IBatchesCreatorStrategy batchesCreatorStrategy;
+	
+	Orders orders;
+	
+	Warehouse warehouse;
+	
 	/**
 	 * Constructor
 	 * 
 	 * @param persistentLayer class the provide method for persistence
 	 */
-	public Batches(ICRUDLayer<Batch> persistentLayer) {
+	public Batches(Orders orders,
+			Warehouse warehouse,
+			ICRUDLayer<Batch> persistentLayer, 
+			IBatchesCreatorStrategy batchesCreatorStrategy) {
 		super();
 		this.persistentLayer = persistentLayer;
+		this.batchesCreatorStrategy = batchesCreatorStrategy;
+		orders.addObserver(this);
+		warehouse.addObserver(this);
+		update(orders, null);
 	}
 
 	/**
@@ -198,6 +215,15 @@ public class Batches extends Observable {
 		semaphore.release();
 		
 		return Collections.unmodifiableList(filteredBatchs);
+	}
+	
+	public void createBatches(List<Order> orders, Warehouse warehouse) {
+		
+	}
+	
+	@Override
+	public void update(Observable o, Object arg) {
+		createBatches(orders.getUnmodificableOrderList(), warehouse);
 	}
 	
 	/**
