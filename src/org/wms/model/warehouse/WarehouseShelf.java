@@ -52,6 +52,10 @@ public class WarehouseShelf {
 		return id;
 	}
 	
+	public String getPublicId() {
+		return warehouseLine.getCode() + "/" + id;
+	}
+	
 	public WarehouseLine getWarehouseLine() {
 		return warehouseLine;
 	}

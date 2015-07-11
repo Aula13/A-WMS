@@ -157,6 +157,7 @@ public class WMS {
 		
 		MainGUI mgui = new MainGUI(DbConnectionProvider.CONNECTION_STATUS, SecurityConfig.getSecurityManager().getStatus());
 		new MainGUIController(mgui, 
+				ModelReference.warehouseModel,
 				ModelReference.ordersModel, 
 				ModelReference.materialsModel,
 				ModelReference.batchesModel);

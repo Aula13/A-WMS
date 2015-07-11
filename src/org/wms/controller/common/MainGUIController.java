@@ -11,10 +11,12 @@ import org.wms.model.batch.Batches;
 import org.wms.model.common.ListType;
 import org.wms.model.material.Materials;
 import org.wms.model.order.Orders;
+import org.wms.model.warehouse.Warehouse;
 import org.wms.view.batch.BatchesView;
 import org.wms.view.common.LoginPopupMenu;
 import org.wms.view.common.MainGUI;
 import org.wms.view.order.OrdersView;
+import org.wms.view.warehouse.WarehouseView;
 
 /**
  * Main GUI controller manage the connection between models and the main GUI
@@ -35,12 +37,15 @@ public class MainGUIController {
 	 */
 	protected final LoginPopupMenu loginMenu;
 	
+	protected final WarehouseView warehouseView;
+	
 	protected final OrdersView inputOrdersView;
 	protected final OrdersView outputOrdersView;
 	
 	protected final BatchesView batchesView;
 
 	public MainGUIController(MainGUI gui, 
+			Warehouse warehouse,
 			Orders ordersModel, 
 			Materials materialsModel,
 			Batches batchesModel) {
@@ -57,6 +62,12 @@ public class MainGUIController {
 				SecurityConfig.getSecurityManager().openLoginScreen(SecurityLevel.NO_LEVEL);
 			}
 		};
+		
+		warehouseView = new WarehouseView(warehouse);
+		new ChangePageListener(
+				gui.getNavPanel().getBtnWarehouseView(), 
+				warehouseView, 
+				gui);
 		
 		inputOrdersView = new OrdersView(ordersModel, ListType.INPUT);
 		new OrdersViewController(inputOrdersView, ordersModel, materialsModel);

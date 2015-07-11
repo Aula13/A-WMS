@@ -32,6 +32,8 @@ public class NavigationPanel extends JPanel {
 	 */
 	private JButton btnLogin;	
 
+	private JButton btnWarehouseView;
+	
 	/**
 	 * Orders list button
 	 */
@@ -89,6 +91,9 @@ public class NavigationPanel extends JPanel {
 		btnLogin = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.USER.name());
 		navigationButtonsList.add(btnLogin);
 
+		btnWarehouseView = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.EDIT.name());
+		navigationButtonsList.add(btnWarehouseView);
+		
 		btnInputOrders = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.INPUT_ORDER.name());
 		navigationButtonsList.add(btnInputOrders);
 		
@@ -153,6 +158,13 @@ public class NavigationPanel extends JPanel {
 	 */
 	public JButton getBtnLogin() {
 		return btnLogin;
+	}
+	
+	/**
+	 * @return reference to warehouse view
+	 */
+	public JButton getBtnWarehouseView() {
+		return btnWarehouseView;
 	}
 	
 	/**

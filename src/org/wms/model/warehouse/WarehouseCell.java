@@ -77,9 +77,7 @@ public class WarehouseCell {
 	 * @return id with line and shelf identifier
 	 */
 	public String getPublicId() {
-		return warehouseShelf.getWarehouseLine().getCode() +
-			warehouseShelf.getId() +
-			id;
+		return warehouseShelf.getPublicId() + "/" + id;
 	}
 
 	public Material getMaterial() {
