@@ -115,7 +115,7 @@ public class BatchesCreatorGreedy implements IBatchesCreatorStrategy {
 		//Update already reserved quantity and create material -> cell map
 		warehouse.getUnmodifiableLines().stream()
 		.forEach(line -> line.getUnmodifiableListShelfs().stream()
-				.forEach(shelf -> shelf.getUnmodiableListCells().stream()
+				.forEach(shelf -> shelf.getUnmodificableListCells().stream()
 						.forEach(cell ->
 						{
 							//Update cell already reserved quantity

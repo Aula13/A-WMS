@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.wms.model.warehouse.Warehouse;
+import org.wms.model.warehouse.WarehouseLine;
 
 public class WarehouseView extends JPanel {
 
@@ -35,15 +36,19 @@ public class WarehouseView extends JPanel {
 		
 		add(scrollpane, BorderLayout.CENTER);
 		
-		warehousemap.setLayout(new GridLayout(1, warehouse.lines.size()));
+		warehousemap.setLayout(new GridLayout(1, warehouse.lines.size()*2));
 		warehousemap.setSize(1000, this.getHeight());
 		warehousemap.setPreferredSize(new Dimension(1000, 1000));
-				
-		warehouse.lines.stream()
-		.forEach(line -> {
+		
+		int i=0;
+		for (WarehouseLine line : warehouse.lines) {
 			WarehouseLineView lineView = new WarehouseLineView(line);
 			warehousemap.add(lineView);
-		});
+			if(i%2==0)
+				warehousemap.add(new JPanel());
+			
+			i+=2;
+		}
 
 	}
 	

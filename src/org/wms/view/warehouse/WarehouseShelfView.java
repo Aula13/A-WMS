@@ -38,4 +38,8 @@ public class WarehouseShelfView extends JPanel {
 						GridBagConstraints.CENTER, GridBagConstraints.BOTH, 
 						new Insets(2, 2, 2, 2), 0, 0));
 	}	
+	
+	public JTextField getShelfCodeField() {
+		return shelfCode;
+	}
 }

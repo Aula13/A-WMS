@@ -60,7 +60,7 @@ public class WarehouseShelf {
 		return warehouseLine;
 	}
 	
-	public List<WarehouseCell> getUnmodiableListCells() {
+	public List<WarehouseCell> getUnmodificableListCells() {
 		return Collections.unmodifiableList(new ArrayList<WarehouseCell>(cells));
 	}
 	

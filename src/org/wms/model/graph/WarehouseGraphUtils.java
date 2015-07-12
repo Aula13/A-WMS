@@ -284,7 +284,7 @@ public class WarehouseGraphUtils {
 		WarehouseNode node1 = null;
 		WarehouseNode node2 = null;
 
-		for (WarehouseCell cell : shelf.getUnmodiableListCells()) {
+		for (WarehouseCell cell : shelf.getUnmodificableListCells()) {
 			if (cellNumber == 0) {
 				firstCellNode = shelfNode;
 				node1 = firstCellNode;

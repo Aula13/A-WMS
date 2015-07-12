@@ -27,5 +27,7 @@ public enum IconTypeAWMS {
 	REFRESH,
 	START,
 	PRINT,
-	COMPLETED
+	COMPLETED,
+	
+	WAREHOUSE
 }

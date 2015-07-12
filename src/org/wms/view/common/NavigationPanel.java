@@ -91,7 +91,7 @@ public class NavigationPanel extends JPanel {
 		btnLogin = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.USER.name());
 		navigationButtonsList.add(btnLogin);
 
-		btnWarehouseView = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.EDIT.name());
+		btnWarehouseView = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.WAREHOUSE.name());
 		navigationButtonsList.add(btnWarehouseView);
 		
 		btnInputOrders = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.INPUT_ORDER.name());
