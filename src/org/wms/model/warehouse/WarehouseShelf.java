@@ -2,13 +2,12 @@ package org.wms.model.warehouse;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -37,7 +36,7 @@ public class WarehouseShelf {
 	
 	@OneToMany(mappedBy="warehouseShelf", cascade=CascadeType.REMOVE)
 	@Fetch(FetchMode.JOIN)
-	protected Set<WarehouseCell> cells = new HashSet<>();
+	protected List<WarehouseCell> cells = new ArrayList<>();
 	
 	public WarehouseShelf() {
 	
@@ -61,7 +60,7 @@ public class WarehouseShelf {
 	}
 	
 	public List<WarehouseCell> getUnmodificableListCells() {
-		return Collections.unmodifiableList(new ArrayList<WarehouseCell>(cells));
+		return Collections.unmodifiableList(cells);
 	}
 	
 }

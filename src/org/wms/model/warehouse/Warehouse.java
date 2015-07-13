@@ -45,6 +45,24 @@ public class Warehouse extends Observable {
 			lines = optLines.get();
 	}
 	
+	public void updateCellStatus() {
+		lines.stream().
+		forEach(line -> {
+			line.shelfs.stream()
+			.forEach(shelf -> {
+				shelf.cells.stream()
+				.forEach(cell ->{
+					WarehouseCell updatedCell = cellPersistenceLayer.get(cell.getId()).get();
+					cell.quantity = updatedCell.quantity;
+					cell.alreadyReservedQuantity = updatedCell.alreadyReservedQuantity;
+				});
+			});
+		});
+		
+		setChanged();
+		notifyObservers();
+	}
+	
 	public List<WarehouseLine> getUnmodifiableLines() {
 		return Collections.unmodifiableList(lines);
 	}

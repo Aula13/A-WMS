@@ -50,7 +50,7 @@ public class BatchRow {
 	/**
 	 * Warehouse cell where need pickup/place material
 	 */
-	@ManyToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
 	@JoinColumn(name="warehouse_cell_id", nullable = false)
 	protected WarehouseCell jobWarehouseCell;

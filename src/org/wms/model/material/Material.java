@@ -32,8 +32,8 @@ public class Material {
 	/**
 	 * List of the OrderRow that contains this material
 	 */
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="material", cascade=CascadeType.REMOVE)
-	protected List<OrderRow> orders = new ArrayList<>();
+//	@OneToMany(fetch=FetchType.EAGER, mappedBy="material", cascade=CascadeType.REMOVE)
+//	protected List<OrderRow> orders = new ArrayList<>();
 	
 	public Material() {
 	}

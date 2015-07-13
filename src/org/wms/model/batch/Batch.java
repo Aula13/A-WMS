@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.OptionalInt;
 import java.util.Set;
 
-import javax.annotation.Generated;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +18,7 @@ import javax.persistence.Table;
 import org.wms.model.common.ListType;
 import org.wms.model.common.Priority;
 import org.wms.model.common.Status;
+import org.wms.model.warehouse.WarehouseCell;
 
 /**
  * Batch is the job list for an operator (a warehouse tour)
@@ -120,6 +120,27 @@ public class Batch {
 			batchRow.getReferredOrderRow().getOrder().updateAllocatedPercentual();
 		
 		batchStatus=Status.ASSIGNED;
+		allocated = 1;
+		return true;
+	}
+	
+	public boolean setAsCompleted() {
+		if(batchStatus!=Status.ASSIGNED) {
+			return false;
+		}
+		for (BatchRow batchRow : batchRows) {
+			batchRow.getReferredOrderRow().setCompleted();
+			WarehouseCell jobCell = batchRow.getJobWarehouseCell();
+			int reservedQty = jobCell.getAlreadyReservedQuantity();
+			int qty = jobCell.getQuantity();
+			
+			jobCell.setAlreadyReservedQuantity(reservedQty-batchRow.getQuantity());
+			jobCell.setQuantity(qty-batchRow.getQuantity());
+		}
+		for (BatchRow batchRow : batchRows)
+			batchRow.getReferredOrderRow().getOrder().updateCompletedPercentual();
+		
+		batchStatus=Status.COMPLETED;
 		allocated = 1;
 		return true;
 	}

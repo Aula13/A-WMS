@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.wms.config.Configuration;
+import org.wms.config.Utils;
 import org.wms.model.common.ICRUDLayer;
 import org.wms.model.common.ListType;
 import org.wms.model.common.ModelReference;
@@ -67,9 +68,6 @@ public class Batches extends Observable implements Observer {
 		this.orders = orders;
 		this.warehouse = warehouse;
 		this.materials = materials;
-//		orders.addObserver(this);
-//		warehouse.addObserver(this);
-//		update(orders, null);
 	}
 
 	/**
@@ -227,6 +225,39 @@ public class Batches extends Observable implements Observer {
 	}
 	
 	/**
+	 * @param batch
+	 * @return
+	 */
+	public boolean setBatchAsAllocate(Batch batch) {
+		if(!batch.setAsAllocated()) {
+			return false;
+		}
+		
+		updateBatch(batch);
+		
+		return true;
+	}
+	
+	/**
+	 * @param batch
+	 * @return
+	 */
+	public boolean setBatchAsCompleted(Batch batch) {
+		if(!batch.isAllocated()) {
+			return false;
+		}
+		
+		if(!batch.setAsCompleted()) {
+			return false;
+		}
+		
+		updateBatch(batch);
+		warehouse.updateCellStatus();
+		
+		return true;
+	}
+	
+	/**
 	 * 
 	 * 
 	 * @param orders
@@ -248,6 +279,8 @@ public class Batches extends Observable implements Observer {
 		//Add new batches
 		batches.stream()
 			.forEach(batch -> addBatch(batch));
+		
+		warehouse.updateCellStatus();
 		
 		setChanged();
 		notifyObservers();

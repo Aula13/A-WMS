@@ -44,6 +44,7 @@ public class WarehouseCell {
 	@Column(name="warehouse_material_quantity")
 	protected int quantity;
 	
+	@Column(name="warehouse_material_res_quantity")
 	protected int alreadyReservedQuantity;
 	
 	public WarehouseCell() {
@@ -83,11 +84,11 @@ public class WarehouseCell {
 	public Material getMaterial() {
 		return material;
 	}
-
+	
 	public int getQuantity() {
 		return quantity;
 	}
-	
+		
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}

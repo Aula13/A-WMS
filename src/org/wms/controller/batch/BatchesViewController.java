@@ -74,6 +74,14 @@ public class BatchesViewController {
 			}
 		};
 		
+		new AbstractJButtonActionListener(view.getBtnMarkBatchAsComplete()) {
+			
+			@Override
+			public void actionTriggered() {
+				btnCompleteAction();
+			}
+		};
+		
 		view.getBatchesTable().addMouseListener(new AbstractTableSelectionListener() {
 			
 			@Override
@@ -125,12 +133,10 @@ public class BatchesViewController {
 		
 		Batch batch = batchesModel.getUnmodificableBatchList().get(rowIndex);
 		
-		if(!batch.setAsAllocated()) {
+		if(!batchesModel.setBatchAsAllocate(batch)) {
 			Utils.msg.errorBox("Error during batch allocation", "Error");
 			return false;
 		}
-		
-		batchesModel.updateBatch(batch);
 		
 		return true;
 	}
@@ -168,7 +174,10 @@ public class BatchesViewController {
 		
 		Batch batch = batchesModel.getUnmodificableBatchList().get(rowIndex);
 		
-		//TODO: Comlpete action
+		if(!batchesModel.setBatchAsCompleted(batch)) {
+			Utils.msg.errorBox("Error during batch mark as completed", "Error");
+			return false;
+		}
 		
 		return true;
 	}

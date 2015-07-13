@@ -3,10 +3,15 @@ package org.wms.view.warehouse;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.wms.model.batch.Batches;
 import org.wms.model.warehouse.Warehouse;
 import org.wms.model.warehouse.WarehouseLine;
 
@@ -14,9 +19,12 @@ public class WarehouseView extends JPanel {
 
 	private Warehouse warehouse;
 	
+	private Batches batches;
+	
 	public WarehouseView(Warehouse warehouse) {
 		super();
 		this.warehouse = warehouse;
+		this.batches = batches;
 		initComponents();
 		initUI();
 	}
@@ -50,6 +58,5 @@ public class WarehouseView extends JPanel {
 			i+=2;
 		}
 
-	}
-	
+	}	
 }

@@ -19,6 +19,8 @@ import org.wms.model.warehouse.WarehouseShelf;
 public class WarehouseLineView extends JPanel {
 	
 	private WarehouseLine line;
+	
+	private List<WarehouseShelfView> shelfViews = new ArrayList<>();
 
 	public WarehouseLineView(WarehouseLine line) {
 		super();
@@ -54,8 +56,16 @@ public class WarehouseLineView extends JPanel {
 		{
 			WarehouseShelfView shelfView = new WarehouseShelfView(shelf);
 			new WarehouseShelfController(shelf, shelfView);
+			
+			shelfViews.add(shelfView);
+			
 			add(shelfView);
 		});
 	}
+	
+//	public void updateValue() {
+//		shelfViews.stream()
+//		.forEach(shelfView-> shelfView.updateValue());
+//	}
 
 }
