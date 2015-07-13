@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -27,8 +28,7 @@ public class WarehouseLine {
 	@Column(name="warehouse_line_code", nullable=false, unique=true)
 	protected String code;
 	
-	@OneToMany(mappedBy="warehouseLine", cascade=CascadeType.REMOVE)
-	@Fetch(FetchMode.JOIN)
+	@OneToMany(mappedBy="warehouseLine", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	protected Set<WarehouseShelf> shelfs = new HashSet<>();
 	
 	public WarehouseLine() {

@@ -38,7 +38,7 @@ public class BatchDao implements ICRUDLayer<Batch> {
 			session.save(batch);			
 			session.getTransaction().commit();	
 			
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			return true;
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
@@ -58,7 +58,7 @@ public class BatchDao implements ICRUDLayer<Batch> {
 			session.saveOrUpdate(batch);
 			session.getTransaction().commit();
 			
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			
 			return true;
 		} catch (Exception e) {
@@ -80,7 +80,7 @@ public class BatchDao implements ICRUDLayer<Batch> {
 			session.delete(batch);		
 			session.getTransaction().commit();
 			
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			
 			return true;
 		} catch (Exception e) {
@@ -100,7 +100,7 @@ public class BatchDao implements ICRUDLayer<Batch> {
 			session.beginTransaction();
 			Batch batch = (Batch) session.get(Batch.class, batchId);
 			session.getTransaction().commit();
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			
 			if(batch!=null)
 				return Optional.of(batch);
@@ -128,7 +128,7 @@ public class BatchDao implements ICRUDLayer<Batch> {
 					.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY) //Filter hibernate join duplicated results
 					.list();
 			session.getTransaction().commit();
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			return Optional.of(batches);
 		} catch (Exception e) {
 			HibernateUtil.closeSession();

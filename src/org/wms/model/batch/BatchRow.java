@@ -42,7 +42,7 @@ public class BatchRow {
 	/**
 	 * Order row that this work list row is referred
 	 */
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(fetch=FetchType.LAZY)
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
 	@JoinColumn(name="order_row_id", nullable = false)
 	protected OrderRow referredOrderRow;
@@ -50,7 +50,7 @@ public class BatchRow {
 	/**
 	 * Warehouse cell where need pickup/place material
 	 */
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(fetch=FetchType.LAZY)
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
 	@JoinColumn(name="warehouse_cell_id", nullable = false)
 	protected WarehouseCell jobWarehouseCell;

@@ -44,7 +44,7 @@ public class OrderDao implements ICRUDLayer<Order> {
 			
 			session.getTransaction().commit();	
 			
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			return true;
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
@@ -70,7 +70,7 @@ public class OrderDao implements ICRUDLayer<Order> {
 					session.delete(orderRow);
 			}
 			session.getTransaction().commit();
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			
 			//Save or update other orderRow
 			session = HibernateUtil.getSession();
@@ -78,14 +78,14 @@ public class OrderDao implements ICRUDLayer<Order> {
 			for (OrderRow orderRow : order.getUnmodificableMaterials())
 				session.saveOrUpdate(orderRow);
 			session.getTransaction().commit();
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			
 			session = HibernateUtil.getSession();
 			session.beginTransaction();	
 			session.saveOrUpdate(order);
 			session.getTransaction().commit();
 			
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			
 			return true;
 		} catch (Exception e) {
@@ -107,7 +107,7 @@ public class OrderDao implements ICRUDLayer<Order> {
 			session.delete(order);		
 			session.getTransaction().commit();
 			
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			
 			return true;
 		} catch (Exception e) {
@@ -127,7 +127,7 @@ public class OrderDao implements ICRUDLayer<Order> {
 			session.beginTransaction();
 			Order order = (Order) session.get(Order.class, orderId);
 			session.getTransaction().commit();
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			
 			if(order!=null)
 				return Optional.of(order);
@@ -154,7 +154,7 @@ public class OrderDao implements ICRUDLayer<Order> {
 					.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY) //Filter hibernate join duplicated results
 					.list();
 			session.getTransaction().commit();
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			return Optional.of(orders);
 		} catch (Exception e) {
 			HibernateUtil.closeSession();

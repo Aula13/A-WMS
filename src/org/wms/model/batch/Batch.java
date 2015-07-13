@@ -46,7 +46,7 @@ public class Batch {
 	/**
 	 * List of the OrderRow that this order contains
 	 */
-	@OneToMany(mappedBy="referredBatch", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="referredBatch", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	//@Fetch(FetchMode.JOIN)
 	protected Set<BatchRow> batchRows = new HashSet<>();
 	

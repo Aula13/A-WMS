@@ -34,8 +34,7 @@ public class WarehouseShelf {
 	@Column(name="warehouse_shelf_code")
 	protected int code;
 	
-	@OneToMany(mappedBy="warehouseShelf", cascade=CascadeType.REMOVE)
-	@Fetch(FetchMode.JOIN)
+	@OneToMany(mappedBy="warehouseShelf", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	protected List<WarehouseCell> cells = new ArrayList<>();
 	
 	public WarehouseShelf() {

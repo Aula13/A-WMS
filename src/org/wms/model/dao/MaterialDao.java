@@ -35,7 +35,7 @@ public class MaterialDao implements ICRUDLayer<Material> {
 			session.beginTransaction();
 			session.save(material);
 			session.getTransaction().commit();
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			return true;
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
@@ -53,7 +53,7 @@ public class MaterialDao implements ICRUDLayer<Material> {
 			session.beginTransaction();
 			session.saveOrUpdate(material);		
 			session.getTransaction().commit();
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			return true;
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
@@ -71,7 +71,7 @@ public class MaterialDao implements ICRUDLayer<Material> {
 			session.beginTransaction();
 			session.delete(material);		
 			session.getTransaction().commit();
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			return true;
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
@@ -90,7 +90,7 @@ public class MaterialDao implements ICRUDLayer<Material> {
 			session.beginTransaction();
 			Material material = (Material) session.get(Material.class, materialId);
 			session.getTransaction().commit();
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			
 			if(material!=null)
 				return Optional.of(material);
@@ -115,7 +115,7 @@ public class MaterialDao implements ICRUDLayer<Material> {
 					.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY) //Filter hibernate join duplicated results
 					.list();
 			session.getTransaction().commit();
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			
 			return Optional.of(materials);
 		} catch (Exception e) {

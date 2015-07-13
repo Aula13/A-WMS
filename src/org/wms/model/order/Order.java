@@ -49,7 +49,7 @@ public class Order {
 	/**
 	 * List of the OrderRow that this order contains
 	 */
-	@OneToMany(mappedBy="order", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="order", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	//@Fetch(FetchMode.SUBSELECT)
 	protected Set<OrderRow> rows = new HashSet<>();
 	

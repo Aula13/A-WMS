@@ -29,6 +29,8 @@ public class HibernateUtil {
 	 */
 	private static ServiceRegistry serviceRegistry;
 	
+	private static Session session;
+	
 	/**
 	 * Session factory initialization
 	 * change configure file 
@@ -46,6 +48,8 @@ public class HibernateUtil {
 		    serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
 		            configuration.getProperties()).build();
 		    sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+		    
+		    session = sessionFactory.openSession();
 		    
 		} catch (Throwable ex) {
 			// Make sure you log the exception, as it might be swallowed
@@ -69,16 +73,16 @@ public class HibernateUtil {
 	 * @return current session
 	 */
 	public static Session getSession() {
-		if(sessionFactory.isClosed())
-			sessionFactory.openSession();
-		return sessionFactory.getCurrentSession();
+		if(!session.isOpen())
+			session = sessionFactory.openSession();
+		return session;
 	}
 	
 	/**
 	 * Close current session
 	 */
 	public static void closeSession() {
-		sessionFactory.getCurrentSession().close();
+		session.close();
 	}
 	
 	public static void closeSessionFactory() {

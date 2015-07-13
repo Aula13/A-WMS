@@ -39,7 +39,7 @@ public class WarehouseLineDao implements ICRUDLayer<WarehouseLine> {
 			session.save(warehouseLine);			
 			session.getTransaction().commit();	
 			
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			return true;
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
@@ -59,7 +59,7 @@ public class WarehouseLineDao implements ICRUDLayer<WarehouseLine> {
 			session.saveOrUpdate(warehouseLine);
 			session.getTransaction().commit();
 			
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			
 			return true;
 		} catch (Exception e) {
@@ -81,7 +81,7 @@ public class WarehouseLineDao implements ICRUDLayer<WarehouseLine> {
 			session.delete(warehouseLine);		
 			session.getTransaction().commit();
 			
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			
 			return true;
 		} catch (Exception e) {
@@ -101,7 +101,7 @@ public class WarehouseLineDao implements ICRUDLayer<WarehouseLine> {
 			session.beginTransaction();
 			WarehouseLine warehouseLine = (WarehouseLine) session.get(WarehouseLine.class, warehouseLineId);
 			session.getTransaction().commit();
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			
 			if(warehouseLine!=null)
 				return Optional.of(warehouseLine);
@@ -129,7 +129,7 @@ public class WarehouseLineDao implements ICRUDLayer<WarehouseLine> {
 					.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY) //Filter hibernate join duplicated results
 					.list();
 			session.getTransaction().commit();
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			return Optional.of(warehouseLines);
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
