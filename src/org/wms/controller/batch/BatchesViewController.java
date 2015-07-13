@@ -2,9 +2,22 @@ package org.wms.controller.batch;
 
 import it.rmautomazioni.controller.listener.AbstractJButtonActionListener;
 
+import java.util.HashMap;
+import java.util.List;
+
+import javax.swing.table.DefaultTableModel;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
+
 import org.wms.config.Utils;
 import org.wms.controller.common.AbstractTableSelectionListener;
 import org.wms.model.batch.Batch;
+import org.wms.model.batch.BatchRow;
 import org.wms.model.batch.Batches;
 import org.wms.view.batch.BatchView;
 import org.wms.view.batch.BatchesView;
@@ -156,7 +169,36 @@ public class BatchesViewController {
 		
 		Batch batch = batchesModel.getUnmodificableBatchList().get(rowIndex);
 		
-		//TODO: print action
+		JasperPrint jasperPrint = null;
+        
+		String[] columnNames = {"Batch id", "Order id", "Order row", 
+				"Material", "Quantity", "Pickup position"};
+		List<BatchRow> rows = batch.getRows();
+        String[][] data = new String[rows.size()][6];
+        
+        int i=0;
+        for (BatchRow row : rows) {
+			data[i][0]=String.valueOf(batch.getId());
+			data[i][1]=String.valueOf(row.getReferredOrderRow().getOrder().getId());
+			data[i][2]=String.valueOf(row.getReferredOrderRow().getId());
+			data[i][3]=String.valueOf(row.getJobWarehouseCell().getMaterial().getCode());
+			data[i][4]=String.valueOf(row.getQuantity());
+			data[i][5]=row.getJobWarehouseCell().getPublicId();
+        	i++;
+		}
+        
+        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
+        
+        try {
+//            JasperCompileManager.compileReportToFile("report/template2.jrxml");
+            jasperPrint = JasperFillManager.fillReport("report/template2.jasper", new HashMap(),
+                    new JRTableModelDataSource(tableModel));
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint);
+            jasperViewer.setVisible(true);
+        } catch (JRException ex) {
+        	Utils.msg.errorBox("Error during start jasper preview tool", "Error");
+        	return false;
+        }
 		
 		return true;
 	}
