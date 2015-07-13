@@ -128,6 +128,7 @@ public class NavigationPanel extends JPanel {
 		
 		this.level = level;
 
+		btnWarehouseView.setVisible(false);
 		btnInputOrders.setVisible(false);
 		btnOutputOrders.setVisible(false);
 		btnVerifyList.setVisible(false);
@@ -137,12 +138,15 @@ public class NavigationPanel extends JPanel {
 		case NO_LEVEL:
 			break;
 		case OPERATOR:
+			btnWarehouseView.setVisible(true);
 			btnBatches.setVisible(true);
 			break;
 		case SUPERVISOR:
-			btnVerifyList.setVisible(true);
+			btnWarehouseView.setVisible(true);
+			btnBatches.setVisible(true);
 			break;
 		case ADMIN:
+			btnWarehouseView.setVisible(true);
 			btnInputOrders.setVisible(true);
 			btnOutputOrders.setVisible(true);
 			btnVerifyList.setVisible(true);
