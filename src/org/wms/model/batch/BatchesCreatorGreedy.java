@@ -11,11 +11,14 @@ import java.util.stream.Collectors;
 
 import org.jdesktop.swingx.util.OS;
 import org.wms.model.common.ListType;
+import org.wms.model.common.Status;
 import org.wms.model.material.Material;
 import org.wms.model.order.Order;
 import org.wms.model.order.OrderRow;
 import org.wms.model.warehouse.Warehouse;
 import org.wms.model.warehouse.WarehouseCell;
+
+import cern.colt.matrix.doublealgo.Statistic;
 
 public class BatchesCreatorGreedy implements IBatchesCreatorStrategy {
 
@@ -103,6 +106,7 @@ public class BatchesCreatorGreedy implements IBatchesCreatorStrategy {
 
 		//Create already reversed map quantity for already allocated batches
 		batches.stream()
+		.filter(batch -> batch.getBatchStatus()!=Status.COMPLETED)
 		.forEach(batch -> batch.getRows().stream()
 				.forEach(batchrow -> 
 				{
@@ -157,7 +161,7 @@ public class BatchesCreatorGreedy implements IBatchesCreatorStrategy {
 		List<OrderRow> orderedOrderRows = new ArrayList<>();
 		
 		orders.stream()
-			.filter(order -> order.getType()==orderType)
+			.filter(order -> order.getType()==orderType && order.getOrderStatus()!=Status.COMPLETED)
 			.forEach(order -> 
 			
 				orderedOrderRows.addAll(order.getUnmodificableMaterials().stream()
