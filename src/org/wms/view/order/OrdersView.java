@@ -18,6 +18,7 @@ import org.wms.controller.order.OrdersTableModel;
 import org.wms.model.batch.Batches;
 import org.wms.model.common.ListType;
 import org.wms.model.order.Orders;
+import org.wms.view.common.TableStatusHighlighter;
 
 /**
  * Order view show a table with the orders list
@@ -73,6 +74,7 @@ public class OrdersView extends JPanel implements Observer {
 	protected void initComponent() {
 		tableModel = new OrdersTableModel(ordersModel, ordersType);
 		ordersTable = FactoryReferences.appStyle.getTableClass(tableModel);
+		new TableStatusHighlighter(ordersTable, 3);
 
 		btnAddOrder = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.PLUS.name());
 		btnEditOrder = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.EDIT.name());
