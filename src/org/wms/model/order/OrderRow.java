@@ -7,15 +7,15 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Cascade;
 import org.wms.model.batch.BatchRow;
 import org.wms.model.material.Material;
 
@@ -42,15 +42,15 @@ public class OrderRow implements Serializable {
 	 * Order to this order row is referred
 	 */
 	@ManyToOne
+	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
 	@JoinColumn(name="order_id", nullable = false)
 	protected Order order;
 	
 	/**
 	 * List of the OrderRow that this order contains
 	 */
-	@ManyToMany(mappedBy="referredOrderRow", cascade=CascadeType.REMOVE)
-	@Fetch(FetchMode.SUBSELECT)
-	protected Set<BatchRow> referredBatchRows = new HashSet<>();
+//	@OneToOne(cascade=CascadeType.ALL)
+//	protected BatchRow referredBatchRow;
 	
 	/**
 	 * Material to this order row is referred
@@ -183,6 +183,15 @@ public class OrderRow implements Serializable {
 	public void setCompleted() {
 		this.completed = true;
 	}
+	
+	/**
+	 * Set referred batch row
+	 * 
+	 * @param referredBatchRow
+	 */
+//	public void setReferredBatchRow(BatchRow referredBatchRow) {
+//		this.referredBatchRow = referredBatchRow;
+//	}
 	
 	/**
 	 * Set picked quantity

@@ -69,14 +69,14 @@ public class MainGUIController {
 				warehouseView, 
 				gui);
 		
-		inputOrdersView = new OrdersView(ordersModel, ListType.INPUT);
+		inputOrdersView = new OrdersView(ordersModel, batchesModel, ListType.INPUT);
 		new OrdersViewController(inputOrdersView, ordersModel, materialsModel);
 		new ChangePageListener(
 				gui.getNavPanel().getBtnInputOrders(), 
 				inputOrdersView, 
 				gui);
 		
-		outputOrdersView = new OrdersView(ordersModel, ListType.OUTPUT);
+		outputOrdersView = new OrdersView(ordersModel, batchesModel, ListType.OUTPUT);
 		new OrdersViewController(outputOrdersView, ordersModel, materialsModel);
 		new ChangePageListener(
 				gui.getNavPanel().getBtnOutputOrders(), 

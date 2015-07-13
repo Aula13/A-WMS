@@ -116,7 +116,11 @@ public class Batch {
 	public boolean setAsAllocated() {
 		for (BatchRow batchRow : batchRows)
 			batchRow.getReferredOrderRow().setAllocated();
+		for (BatchRow batchRow : batchRows)
+			batchRow.getReferredOrderRow().getOrder().updateAllocatedPercentual();
+		
 		batchStatus=Status.ASSIGNED;
+		allocated = 1;
 		return true;
 	}
 	

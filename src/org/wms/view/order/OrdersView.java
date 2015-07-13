@@ -15,6 +15,7 @@ import javax.swing.JTable;
 
 import org.wms.config.IconTypeAWMS;
 import org.wms.controller.order.OrdersTableModel;
+import org.wms.model.batch.Batches;
 import org.wms.model.common.ListType;
 import org.wms.model.order.Orders;
 
@@ -35,6 +36,8 @@ public class OrdersView extends JPanel implements Observer {
 
 	protected Orders ordersModel;
 	
+	protected Batches batchesModel;
+	
 	protected JTable ordersTable;
 	
 	protected OrdersTableModel tableModel;
@@ -53,12 +56,13 @@ public class OrdersView extends JPanel implements Observer {
 	 * @param ordersModel reference to the orders model
 	 * @param inputType true if the view is for input orders
 	 */
-	public OrdersView(Orders ordersModel, ListType ordersType) {
+	public OrdersView(Orders ordersModel, Batches batchesModel, ListType ordersType) {
 		this.ordersModel = ordersModel;
 		this.ordersType = ordersType;
 		initComponent();
 		initUI();
 		ordersModel.addObserver(this);
+		batchesModel.addObserver(this);
 		updateValue();
 	}
 	

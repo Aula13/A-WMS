@@ -344,6 +344,9 @@ public class Order {
 				.filter(row -> row.isAllocated())
 				.collect(Collectors.toList()).size();
 		allocationPercentual = (((float) allocatedOrderRowSize)/rows.size())*100;
+		
+		if(completePercentual<100.0f && allocationPercentual>0.0f)
+			orderStatus=Status.ASSIGNED;
 	}
 	
 	/**
@@ -360,6 +363,9 @@ public class Order {
 				.filter(row -> row.isCompleted())
 				.collect(Collectors.toList()).size();
 		completePercentual = (((float) compleOrderRowRowSize)/rows.size())*100;
+		
+		if(completePercentual==100.0f)
+			orderStatus=Status.COMPLETED;
 	}
 	
 	/**
