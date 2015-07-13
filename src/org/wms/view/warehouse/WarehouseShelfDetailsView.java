@@ -10,6 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.wms.config.IconTypeAWMS;
@@ -22,7 +23,7 @@ public class WarehouseShelfDetailsView extends JDialog {
 	
 	private JPanel containerPanel;
 	
-	private JPanel cellsTablePanel;
+	private JScrollPane cellsTablePanel;
 	private WarehouseCellsTableModel tblWarehouseCellModel;
 	private JTable tblWarehouseCell;
 	
@@ -52,15 +53,15 @@ public class WarehouseShelfDetailsView extends JDialog {
 	}
 	
 	private void initCellsTablePanel() {
-		cellsTablePanel = FactoryReferences.appStyle.getPanelClass();
-		cellsTablePanel.setLayout(new BorderLayout());
 		
 		tblWarehouseCellModel = new WarehouseCellsTableModel(shelf);
 		tblWarehouseCell = FactoryReferences.appStyle.getTableClass(tblWarehouseCellModel);
 		
 		tblWarehouseCell.setRowHeight(40);
 		
-		cellsTablePanel.add(tblWarehouseCell, BorderLayout.CENTER);
+		cellsTablePanel = new JScrollPane(tblWarehouseCell);
+		cellsTablePanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
 	}
 	
 	/**
