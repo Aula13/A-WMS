@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.jdesktop.swingx.util.OS;
 import org.wms.model.common.ListType;
 import org.wms.model.material.Material;
 import org.wms.model.order.Order;
@@ -70,6 +71,8 @@ public class BatchesCreatorGreedy implements IBatchesCreatorStrategy {
 				batchRow.jobWarehouseCell = warehouseCell;
 				batchRow.quantity = orderrow.getQuantity();
 				batchRow.referredOrderRow = orderrow;
+				
+//				orderrow.setReferredBatchRow(batchRow);
 				
 				//If there is place on the forklift
 				if(!batch.checkCanAddRow(orderrow.getQuantity())) {
@@ -155,7 +158,12 @@ public class BatchesCreatorGreedy implements IBatchesCreatorStrategy {
 		
 		orders.stream()
 			.filter(order -> order.getType()==orderType)
-			.forEach(order -> orderedOrderRows.addAll(order.getUnmodificableMaterials()));
+			.forEach(order -> 
+			
+				orderedOrderRows.addAll(order.getUnmodificableMaterials().stream()
+						.filter(row -> !row.isAllocated())
+						.collect(Collectors.toList()))
+			);
 		
 		Collections.sort(orderedOrderRows, new Comparator<OrderRow>() {
 			
