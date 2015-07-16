@@ -5,31 +5,51 @@ import it.rmautomazioni.view.factories.RMColour;
 import java.awt.Color;
 import java.awt.Component;
 
-import javax.swing.JTable;
-
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.wms.model.common.Status;
 
+/**
+ * This provide table rows highligheter
+ * based on status cell
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class TableStatusHighlighter {
 
 	JXTable table;
 	
 	int columnToCheck;
 
-	public TableStatusHighlighter(JTable table, int columnToCheck) {
+	/**
+	 * Provide table and the column index of the status column
+	 * to check
+	 * 
+	 * The table should be instance of JXTable
+	 * The column data should contain string value of enum Status
+	 * 
+	 * @see org.wms.model.common.Status
+	 * 
+	 * @param table
+	 * @param columnToCheck
+	 * 
+	 * 
+	 */
+	public TableStatusHighlighter(JXTable table, int columnToCheck) {
 		super();
-		if(table instanceof JXTable) {
-			this.table = (JXTable) table;
-			this.columnToCheck = columnToCheck;
-			configureTableHighlights();
-		}
+		this.table = table;
+		this.columnToCheck = columnToCheck;
+		configureTableHighlights();
 	}
 	
-	private void configureTableHighlights() {
-		// Visualizzo la riga in rosso se la bobina è in errore
+	/**
+	 * Add table highlighters
+	 */
+	protected void configureTableHighlights() {
+		// Row referred to element in WAITING status
 		final HighlightPredicate waitingPredicate = new HighlightPredicate() {
 			@Override 
 			public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
@@ -37,7 +57,8 @@ public class TableStatusHighlighter {
 				return value==Status.WAITING;
 			}
 		};
-		// Visualizzo la riga in arancio se la bobina è in raffreddamento
+		
+		// Row referred to element in ASSIGNED status
 		final HighlightPredicate assignedPredicate = new HighlightPredicate() {
 			@Override 
 			public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
@@ -45,7 +66,8 @@ public class TableStatusHighlighter {
 				return value==Status.ASSIGNED;
 			}
 		};
-		// Visualizzo la riga in grigio chiaro se la bobina è stata eliminata
+		
+		// Row referred to element in COMPLETED status
 		final HighlightPredicate completedPredicate = new HighlightPredicate() {
 			@Override 
 			public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
@@ -54,11 +76,12 @@ public class TableStatusHighlighter {
 			}
 		};		
 		
+		//Setup element backgroung based on the status
 		ColorHighlighter waitingHL = new ColorHighlighter(waitingPredicate, RMColour.RM_DARK_RED, Color.WHITE);
 		ColorHighlighter assignedHL = new ColorHighlighter(assignedPredicate, Color.YELLOW, Color.BLACK);
 		ColorHighlighter completedHL = new ColorHighlighter(completedPredicate, RMColour.RM_GREEN, Color.WHITE);
 		
-		
+		//Add highlighter to the table
 		table.addHighlighter(waitingHL);
 		table.addHighlighter(assignedHL);
 		table.addHighlighter(completedHL);

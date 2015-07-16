@@ -39,12 +39,18 @@ public class Warehouse extends Observable {
 		initWarehouseStructure();
 	}
 	
+	/**
+	 * Create warehouse structure from persistence
+	 */
 	protected void initWarehouseStructure() {
 		Optional<List<WarehouseLine>> optLines = linePersistenceLayer.selectAll();
 		if(optLines.isPresent())
 			lines = optLines.get();
 	}
 	
+	/**
+	 * Update cell quantities from persistence
+	 */
 	public void updateCellStatus() {
 		lines.stream().
 		forEach(line -> {
@@ -63,6 +69,9 @@ public class Warehouse extends Observable {
 		notifyObservers();
 	}
 	
+	/**
+	 * @return list of line
+	 */
 	public List<WarehouseLine> getUnmodifiableLines() {
 		return Collections.unmodifiableList(lines);
 	}

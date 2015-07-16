@@ -29,6 +29,10 @@ public class HibernateUtil {
 	 */
 	private static ServiceRegistry serviceRegistry;
 	
+	/**
+	 * Unique session reference for
+	 * support lazy loading
+	 */
 	private static Session session;
 	
 	/**

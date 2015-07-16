@@ -9,12 +9,25 @@ import org.wms.model.warehouse.WarehouseShelf;
 import org.wms.view.warehouse.WarehouseShelfDetailsView;
 import org.wms.view.warehouse.WarehouseShelfView;
 
+/**
+ * Shelf view controller manage shelf details view behaviours
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class WarehouseShelfController {
 
 	private WarehouseShelf shelf;
 	
 	private WarehouseShelfView view;
 
+	/**
+	 * Open shelf details view when shelf code field
+	 * is pressed 
+	 * 
+	 * @param shelf
+	 * @param view
+	 */
 	public WarehouseShelfController(WarehouseShelf shelf,
 			WarehouseShelfView view) {
 		super();
@@ -37,12 +50,15 @@ public class WarehouseShelfController {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				selectShelfCodeField();
+				openShelfDetailsView();
 			}
 		});
 	}
 	
-	protected void selectShelfCodeField() {
+	/**
+	 * Open shelf details view
+	 */
+	protected void openShelfDetailsView() {
 		WarehouseShelfDetailsView detailsView = new WarehouseShelfDetailsView(shelf);
 		new WarehouseShelfDetailsController(shelf, detailsView);
 		detailsView.setVisible(true);

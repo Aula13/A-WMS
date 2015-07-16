@@ -225,8 +225,10 @@ public class Batches extends Observable implements Observer {
 	}
 	
 	/**
+	 * Set a batch as allocate and persist it
+	 * 
 	 * @param batch
-	 * @return
+	 * @return true if the batch is allocated
 	 */
 	public boolean setBatchAsAllocate(Batch batch) {
 		if(!batch.setAsAllocated()) {
@@ -239,8 +241,11 @@ public class Batches extends Observable implements Observer {
 	}
 	
 	/**
+	 * Set a batch as completed and persist it
+	 * Update also warehouse cell residual quantity
+	 * 
 	 * @param batch
-	 * @return
+	 * @return true if the batch is completed
 	 */
 	public boolean setBatchAsCompleted(Batch batch) {
 		if(!batch.isAllocated()) {
@@ -258,7 +263,7 @@ public class Batches extends Observable implements Observer {
 	}
 	
 	/**
-	 * 
+	 * Create a batch list using the order list to pickup
 	 * 
 	 * @param orders
 	 * @param warehouse
@@ -286,6 +291,9 @@ public class Batches extends Observable implements Observer {
 		notifyObservers();
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		createBatches(orders.getUnmodificableOrderList(), warehouse);

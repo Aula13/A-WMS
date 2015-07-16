@@ -16,23 +16,32 @@ import org.wms.controller.warehouse.WarehouseShelfController;
 import org.wms.model.warehouse.WarehouseLine;
 import org.wms.model.warehouse.WarehouseShelf;
 
+/**
+ * Warehouse line panel show the shelf in vertical alignment
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class WarehouseLineView extends JPanel {
 	
 	private WarehouseLine line;
 	
 	private List<WarehouseShelfView> shelfViews = new ArrayList<>();
 
+	/**
+	 * Create a GUI for a line
+	 * 
+	 * @param line
+	 */
 	public WarehouseLineView(WarehouseLine line) {
 		super();
 		this.line = line;
-		initComponents();
 		initUI();
 	}
 	
-	private void initComponents() {
-		
-	}
-	
+	/**
+	 * Init UI, place each component
+	 */
 	private void initUI() {
 		setLayout(new GridLayout(line.getUnmodifiableListShelfs().size(),0));
 		setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -62,10 +71,4 @@ public class WarehouseLineView extends JPanel {
 			add(shelfView);
 		});
 	}
-	
-//	public void updateValue() {
-//		shelfViews.stream()
-//		.forEach(shelfView-> shelfView.updateValue());
-//	}
-
 }

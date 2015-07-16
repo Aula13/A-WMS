@@ -30,6 +30,18 @@ import org.wms.view.batch.BatchesView;
  * @author Stefano Pessina, Daniele Ciriello
  *
  */
+/**
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
+/**
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
+/**
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class BatchesViewController {
 
 	/**
@@ -111,30 +123,35 @@ public class BatchesViewController {
 	}
 	
 	
+
 	/**
-	 * This method launch the order details view
-	 * and its controller
+	 * Open batch details view
 	 * 
-	 * @param order order to edit/show
-	 * @param isNew true if the model is a new model, false if it's an existent model
+	 * @param batch to show
 	 */
-	protected void launchOrderEditView(Batch batch){
+	protected void launchBatchView(Batch batch){
 		batchDialog = new BatchView(batch);
 		new BatchViewController(batchDialog, batch, batchesModel);
 		batchDialog.setVisible(true);
 	}
 	
+
 	/**
-	 * This method call the order details view
-	 * to create a new order
+	 * Refresh button update batch computation
+	 * 
 	 */
 	protected void btnRefreshAction() {
 		batchesModel.update(batchesModel, null);
 	}
 	
+
 	/**
-	 * This method call the order details view
-	 * to edit an existent order
+	 * Mark a batch and it's order row associated
+	 * as allocated or assigned.
+	 * This mean the operator is started with
+	 * pickup or place of the list
+	 * 
+	 * @return
 	 */
 	protected boolean btnAllocateAction() {
 		if(view.getBatchesTable().getSelectedRow()==-1) {
@@ -155,9 +172,9 @@ public class BatchesViewController {
 	}
 	
 	/**
-	 * This method delete an existent order
-	 * selected in the table
-	 * if it's possible
+	 * Print a report of pickup/place fork lift list
+	 * 
+	 * @return
 	 */
 	protected boolean btnPrintAction() {
 		if(view.getBatchesTable().getSelectedRow()==-1) {
@@ -203,7 +220,7 @@ public class BatchesViewController {
 	}
 	
 	/**
-	 * This method call mark as complete action
+	 * Mark an allocated batch as completed
 	 */
 	protected boolean btnCompleteAction() {
 		if(view.getBatchesTable().getSelectedRow()==-1) {
@@ -224,7 +241,7 @@ public class BatchesViewController {
 	}
 	
 	/**
-	 * When the user selected an order in table
+	 * When the user selected an batch in table
 	 * the mark as allocated/completed and print buttons will be enabled
 	 * 
 	 * Moreover if the user press twice
@@ -240,7 +257,7 @@ public class BatchesViewController {
 		
 		if(doubleClick) {
 			Batch batch = batchesModel.getUnmodificableBatchList().get(rowIndex);
-			launchOrderEditView(batch); 
+			launchBatchView(batch); 
 		}
 	}
 	

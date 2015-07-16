@@ -5,11 +5,24 @@ import it.rmautomazioni.controller.listener.AbstractJButtonActionListener;
 import org.wms.model.warehouse.WarehouseShelf;
 import org.wms.view.warehouse.WarehouseShelfDetailsView;
 
+/**
+ * Shelf details view controller
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class WarehouseShelfDetailsController {
 	
 	WarehouseShelf shelf;
 	WarehouseShelfDetailsView view;
 	
+	/**
+	 * Implements dispose view action when exit button
+	 * is pressed
+	 * 
+	 * @param shelf
+	 * @param view
+	 */
 	public WarehouseShelfDetailsController(WarehouseShelf shelf,
 			WarehouseShelfDetailsView view) {
 		super();
@@ -23,7 +36,5 @@ public class WarehouseShelfDetailsController {
 				view.dispose();
 			}
 		};
-	}
-	
-	
+	}	
 }

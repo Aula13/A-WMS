@@ -12,9 +12,9 @@ import org.wms.controller.batch.BatchRowsTableModel;
 import org.wms.model.batch.Batch;
 
 /**
- * Order rows view contains a table for order row editing
+ * Batch rows view contains a table for batch rows
  * 
- * It provide also a command bar for add or delete an order row
+ * No editing feature is provided for the batch row
  * 
  * @author Stefano Pessina, Daniele Ciriello
  *

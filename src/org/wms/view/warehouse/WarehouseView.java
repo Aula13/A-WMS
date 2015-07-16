@@ -15,24 +15,32 @@ import org.wms.model.batch.Batches;
 import org.wms.model.warehouse.Warehouse;
 import org.wms.model.warehouse.WarehouseLine;
 
+/**
+ * WarehouseView shows the warehouse layout in a scrollable
+ * panel.
+ * 
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class WarehouseView extends JPanel {
 
 	private Warehouse warehouse;
 	
-	private Batches batches;
-	
+	/**
+	 * Create warehouse layout
+	 * 
+	 * @param warehouse
+	 */
 	public WarehouseView(Warehouse warehouse) {
 		super();
 		this.warehouse = warehouse;
-		this.batches = batches;
-		initComponents();
 		initUI();
 	}
 	
-	private void initComponents() {		
-		
-	}
-	
+	/**
+	 * Create UI
+	 */
 	private void initUI() {
 		setName("WAREHOUSE STATUS");
 		setLayout(new BorderLayout());

@@ -8,9 +8,9 @@ import org.wms.model.batch.Batches;
 import org.wms.view.batch.BatchView;
 
 /**
- * Controller for order edit view
+ * Controller for batch details view
  * 
- * manage all the view actions and connections between OrderEditView and Order model
+ * manage all the view actions and connections between BatchView and Batch model
  * 
  * @author Stefano Pessina, Daniele Ciriello
  *
@@ -18,17 +18,17 @@ import org.wms.view.batch.BatchView;
 public class BatchViewController {
 
 	/**
-	 * Reference to the order edit view
+	 * Reference to the batch view
 	 */
 	protected BatchView view;
 	
 	/**
-	 * Reference to the order model
+	 * Reference to the batch model
 	 */
 	protected Batch batch;
 	
 	/**
-	 * Reference to the orders model
+	 * Reference to the batches model
 	 */
 	protected Batches batchesModel;
 

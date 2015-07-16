@@ -58,38 +58,88 @@ public class WarehouseCell {
 		this.quantity = quantity;
 	}
 	
+	/**
+	 * Get warehouse shelf where this cell
+	 * is placed 
+	 * 
+	 * @return warehouse shelf
+	 */
 	public WarehouseShelf getWarehouseShelf() {
 		return warehouseShelf;
 	}
 	
+	/**
+	 * Get already reserved quantity
+	 * provided by batch creation algorithm
+	 * 
+	 * @return already reserved quantity
+	 */
 	public int getAlreadyReservedQuantity() {
 		return alreadyReservedQuantity;
 	}
 
-	public void setAlreadyReservedQuantity(int alreadyReservedQuantity) {
+	/**
+	 * Set already reserved quantity
+	 * 
+	 * @param true if the already reserved quantity is set, false if the new value is not valid
+	 */
+	public boolean setAlreadyReservedQuantity(int alreadyReservedQuantity) {
+		if(alreadyReservedQuantity>quantity)
+			return false;
+		if(alreadyReservedQuantity<0)
+			return false;
+		
 		this.alreadyReservedQuantity = alreadyReservedQuantity;
+		return true;
 	}
 
+	/**
+	 * Get cell id
+	 * 
+	 * @return cell id
+	 */
 	public long getId() {
 		return id;
 	}
 	
 	/**
+	 * Get the id of this cell inside the warehouse
+	 * more usefull for users
+	 * 
 	 * @return id with line and shelf identifier
 	 */
 	public String getPublicId() {
 		return warehouseShelf.getPublicId() + "/" + id;
 	}
 
+	/**
+	 * @return material stored in this cell
+	 */
 	public Material getMaterial() {
 		return material;
 	}
 	
+	/**
+	 * @return quantity stored in this cell
+	 */
 	public int getQuantity() {
 		return quantity;
 	}
 		
-	public void setQuantity(int quantity) {
+	/**
+	 * Set cell material quantity
+	 * the new value should be greater than zero and
+	 * greater than the already reserved quantity
+	 * 
+	 * @param quantity
+	 * @return true if the quantity is set, false if the new value is not valid
+	 */
+	public boolean setQuantity(int quantity) {
+		if(quantity<0)
+			return false;
+		if(quantity<alreadyReservedQuantity)
+			return false;
 		this.quantity = quantity;
+		return true;
 	}
 }

@@ -28,6 +28,10 @@ import org.wms.model.warehouse.WarehouseCell;
  * @author Stefano Pessina, Daniele Ciriello
  *
  */
+/**
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 @Entity
 @Table(name="wms_batch")
 public class Batch {
@@ -68,34 +72,72 @@ public class Batch {
 		this.type = type;
 	}
 	
+	/**
+	 * @return batch id
+	 */
 	public long getId() {
 		return id;
 	}
 
+	/**
+	 * @return batch type 
+	 */
 	public ListType getType() {
 		return type;
 	}
 
+	/**
+	 * @return batch priority
+	 */
 	public Priority getPriority() {
 		return priority;
 	}
 	
-	public void addRow(BatchRow row) {
+	/**
+	 * Add new row to the batch
+	 * 
+	 * @param row
+	 */
+	public boolean addRow(BatchRow row) {
+		if(!checkCanAddRow(row.getQuantity()))
+			return false;
 		batchRows.add(row);
+		return true;
 	}
 	
+	/**
+	 * Get the batch rows list for
+	 * this batch
+	 * 
+	 * @return batch list row
+	 */
 	public List<BatchRow> getRows() {
 		return new ArrayList<BatchRow>(batchRows);
 	}
 
+	/**
+	 * Get batch status 
+	 * 
+	 * @return batch status
+	 */
 	public Status getBatchStatus() {
 		return batchStatus;
 	}
 	
+	/**
+	 * @return true if the batch is already allocated
+	 */
 	public boolean isAllocated() {
 		return allocated==1;
 	}
 	
+	/**
+	 * 
+	 * Get the total quantity actually loaded
+	 * on this batch
+	 * 
+	 * @return quantity
+	 */
 	public int getActualQuantity() {
 		OptionalInt actualQuantity = batchRows.stream()
 				.mapToInt(row -> row.getQuantity())
@@ -105,14 +147,41 @@ public class Batch {
 		return 0;
 	}
 	
+	/**
+	 * Get if this batch is full
+	 * this happen when the total quantity
+	 * reach the capacity of the fork list
+	 * 
+	 * @return true if this batch is full
+	 */
 	public boolean isFull() {
 		return getActualQuantity()>=capacity;
 	}
 	
+	/**
+	 * @return fork lift capacity
+	 */
+	public static int getCapacity() {
+		return capacity;
+	}
+	
+	/**
+	 * Check if a new row can be added to this order 
+	 * 
+	 * @param quantity of the new row to add
+	 * @return true if the row can be added
+	 */
 	public boolean checkCanAddRow(int quantity) {
 		return getActualQuantity()+quantity<=capacity;
 	}
 	
+	/**
+	 * Set all the batch row as allocated 
+	 * Mark batch as ASSIGNED
+	 * Update allocated percentual of the referred orders
+	 * 
+	 * @return true if the order is marked as allocated
+	 */
 	public boolean setAsAllocated() {
 		for (BatchRow batchRow : batchRows)
 			batchRow.getReferredOrderRow().setAllocated();
@@ -124,6 +193,13 @@ public class Batch {
 		return true;
 	}
 	
+	/**
+	 * Set all the batch row as completed 
+	 * Mark batch as COMPLETED
+	 * Update complete percentual of the referred orders
+	 * 
+	 * @return true if the order is marked as allocated
+	 */
 	public boolean setAsCompleted() {
 		if(batchStatus!=Status.ASSIGNED) {
 			return false;

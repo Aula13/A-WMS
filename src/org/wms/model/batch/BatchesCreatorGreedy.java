@@ -20,8 +20,20 @@ import org.wms.model.warehouse.WarehouseCell;
 
 import cern.colt.matrix.doublealgo.Statistic;
 
+/**
+ * Greedy implementation of batch list creator algorithm
+ * 
+ * Greedy choice: take same material first
+ * 				and minor quantity second 
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class BatchesCreatorGreedy implements IBatchesCreatorStrategy {
 
+	/* (non-Javadoc)
+	 * @see org.wms.model.batch.IBatchesCreatorStrategy#computeListOfBatch(java.util.List, java.util.List, org.wms.model.warehouse.Warehouse, java.util.List)
+	 */
 	@Override
 	public List<Batch> computeListOfBatch(
 			List<Batch> alreadyAllocatedBatches,
@@ -40,6 +52,14 @@ public class BatchesCreatorGreedy implements IBatchesCreatorStrategy {
 		return solution;
 	}
 	
+	/**
+	 * Compute greedy batch in base of the orders type
+	 * 
+	 * @param orders
+	 * @param orderType
+	 * @param warehouseCells
+	 * @return batch list
+	 */
 	protected List<Batch> greedyBatch(List<Order> orders, ListType orderType, Map<Long,List<WarehouseCell>> warehouseCells) {
 		
 		List<Batch> solution = new ArrayList<Batch>();
@@ -74,8 +94,6 @@ public class BatchesCreatorGreedy implements IBatchesCreatorStrategy {
 				batchRow.jobWarehouseCell = warehouseCell;
 				batchRow.quantity = orderrow.getQuantity();
 				batchRow.referredOrderRow = orderrow;
-				
-//				orderrow.setReferredBatchRow(batchRow);
 				
 				//If there is place on the forklift
 				if(!batch.checkCanAddRow(orderrow.getQuantity())) {
@@ -204,16 +222,6 @@ public class BatchesCreatorGreedy implements IBatchesCreatorStrategy {
 		
 		
 		return orderedOrderRows;
-	}
-	
-	/**
-	 * Take prepared order
-	 * take the first (greedy choice)
-	 * 
-	 * @return
-	 */
-	protected OrderRow selectNext() {
-		return null;
 	}
 
 	/**

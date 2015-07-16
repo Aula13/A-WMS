@@ -17,6 +17,12 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 /**
+ * Warehouse shelf model store the main information about the shelf
+ * and the reference to the warehouse cell contained in the shelf
+ * 
+ * Include the business logic
+ * Include hibernate annotations for persistence
+ * 
  * @author Stefano Pessina, Daniele Ciriello
  *
  */
@@ -46,18 +52,39 @@ public class WarehouseShelf {
 		this.id = id;
 	}
 
+	/**
+	 * Get the shelf id
+	 * 
+	 * @return shelf
+	 */
 	public long getId() {
 		return id;
 	}
 	
+	/**
+	 * Get the shelf public id
+	 * more usefull for user 
+	 * 
+	 * @return public id (contain line public id)
+	 */
 	public String getPublicId() {
-		return warehouseLine.getCode() + "/" + id;
+		return warehouseLine.getPublicId() + "/" + id;
 	}
 	
+	/**
+	 * Get the line where the shelf is stored
+	 * 
+	 * @return line reference
+	 */
 	public WarehouseLine getWarehouseLine() {
 		return warehouseLine;
 	}
 	
+	/**
+	 * Get cells contained in the shelf
+	 * 
+	 * @return cell list
+	 */
 	public List<WarehouseCell> getUnmodificableListCells() {
 		return Collections.unmodifiableList(cells);
 	}

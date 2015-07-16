@@ -17,6 +17,16 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+/**
+ * Warehouse line model store main information for a line
+ * and reference to the shelfs contained in the line
+ * 
+ * Include the business logic
+ * Include hibernate annotations for persistence
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 @Entity
 @Table(name="wms_warehouse_line")
 public class WarehouseLine {
@@ -41,14 +51,30 @@ public class WarehouseLine {
 		this.code = code;
 	}
 	
+	/**
+	 * Get line id
+	 * 
+	 * @return line id
+	 */
 	public long getId() {
 		return id;
 	}
 	
-	public String getCode() {
+	/**
+	 * Get alphabetical line code
+	 * more usefull for users
+	 * 
+	 * @return line code
+	 */
+	public String getPublicId() {
 		return code;
 	}
 	
+	/**
+	 * Get warehouse shelfs contained in the line
+	 * 
+	 * @return list of warehouse shelf
+	 */
 	public List<WarehouseShelf> getUnmodifiableListShelfs() {
 		return Collections.unmodifiableList(new ArrayList<WarehouseShelf>(shelfs));
 	}

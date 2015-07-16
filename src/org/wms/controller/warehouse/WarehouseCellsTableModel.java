@@ -6,7 +6,7 @@ import org.wms.model.warehouse.WarehouseCell;
 import org.wms.model.warehouse.WarehouseShelf;
 
 /**
- * Materials table model
+ * Warehouse cells table model
  * 
  * implements standard methods for a table model
  * 
@@ -18,8 +18,8 @@ public class WarehouseCellsTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 7985896633962121613L;
 
 	/**
-	 * Order model
-	 * to fetch order row
+	 * warehouse shelf model
+	 * to fetch warehouse cell
 	 */
 	protected WarehouseShelf shelf;
 	
@@ -29,7 +29,7 @@ public class WarehouseCellsTableModel extends AbstractTableModel {
 	protected String[] headers = {"Code", "Material", "Q.ty", "Res. q.ty"};
 	
 	/**
-	 * Costructor
+	 * Create shelf table model
 	 * 
 	 * @param shelf reference to the order model
 	 */

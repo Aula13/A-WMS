@@ -13,11 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import org.jdesktop.swingx.JXTable;
 import org.wms.config.IconTypeAWMS;
 import org.wms.controller.batch.BatchesTableModel;
-import org.wms.controller.order.OrdersTableModel;
 import org.wms.model.batch.Batches;
-import org.wms.model.common.ListType;
 import org.wms.view.common.TableStatusHighlighter;
 
 /**
@@ -70,7 +69,7 @@ public class BatchesView extends JPanel implements Observer {
 	protected void initComponent() {
 		tableModel = new BatchesTableModel(batchesModel);
 		batchesTable = FactoryReferences.appStyle.getTableClass(tableModel);
-		new TableStatusHighlighter(batchesTable, 3);
+		new TableStatusHighlighter((JXTable)batchesTable, 3);
 		
 		btnRefreshBatches = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.REFRESH.name());
 		btnMarkBatchAsAllocated = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.START.name());

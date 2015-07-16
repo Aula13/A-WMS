@@ -17,6 +17,12 @@ import org.wms.config.IconTypeAWMS;
 import org.wms.controller.warehouse.WarehouseCellsTableModel;
 import org.wms.model.warehouse.WarehouseShelf;
 
+/**
+ * The JDialog shows the cells status stored in a shelf  
+ * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
 public class WarehouseShelfDetailsView extends JDialog {
 	
 	private WarehouseShelf shelf;
@@ -30,6 +36,11 @@ public class WarehouseShelfDetailsView extends JDialog {
 	private JPanel confirmationPanel;
 	private JButton btnConfirm;
 	
+	/**
+	 * Create JDialog to show the cells status of the shelf
+	 * 
+	 * @param shelf
+	 */
 	public WarehouseShelfDetailsView(WarehouseShelf shelf) {
 		super();
 		this.shelf = shelf;
@@ -52,6 +63,9 @@ public class WarehouseShelfDetailsView extends JDialog {
 		initContainerPanel();
 	}
 	
+	/**
+	 * Add the cell table panel
+	 */
 	private void initCellsTablePanel() {
 		
 		tblWarehouseCellModel = new WarehouseCellsTableModel(shelf);
@@ -89,6 +103,9 @@ public class WarehouseShelfDetailsView extends JDialog {
 		confirmationPanel.add(btnConfirm);
 	}
 	
+	/**
+	 * @return reference to the confirm button
+	 */
 	public JButton getBtnConfirm() {
 		return btnConfirm;
 	}
