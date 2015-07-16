@@ -5,10 +5,10 @@ import it.rmautomazioni.controller.listener.AbstractJButtonActionListener;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
@@ -171,8 +171,8 @@ public class BatchesViewController {
 		
 		JasperPrint jasperPrint = null;
         
-		String[] columnNames = {"Batch id", "Order id", "Order row", 
-				"Material", "Quantity", "Pickup position"};
+		String[] columnNames = {"BATCHID", "ORDID", "ORDROWID", 
+				"MAT", "QTA", "WHPICK"};
 		List<BatchRow> rows = batch.getRows();
         String[][] data = new String[rows.size()][6];
         
@@ -190,10 +190,9 @@ public class BatchesViewController {
         DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
         
         try {
-//            JasperCompileManager.compileReportToFile("report/template2.jrxml");
-            jasperPrint = JasperFillManager.fillReport("report/template2.jasper", new HashMap(),
+            jasperPrint = JasperFillManager.fillReport("report/batchtemplate.jasper", new HashMap(),
                     new JRTableModelDataSource(tableModel));
-            JasperViewer jasperViewer = new JasperViewer(jasperPrint);
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint,false);
             jasperViewer.setVisible(true);
         } catch (JRException ex) {
         	Utils.msg.errorBox("Error during start jasper preview tool", "Error");
