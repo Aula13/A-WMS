@@ -60,6 +60,7 @@ public class ResourceUtil {
 		iconResource.addResource(IconTypeAWMS.START.name(), iconPath + "play.png");
 		iconResource.addResource(IconTypeAWMS.PRINT.name(), iconPath + "print.png");
 		iconResource.addResource(IconTypeAWMS.COMPLETED.name(), iconPath + "completed.png");
+		iconResource.addResource(IconTypeAWMS.WAREHOUSE.name(), iconPath + "warehouse.png");
 		
 		return iconResource;
 	}

@@ -38,7 +38,7 @@ public class WarehouseShelfDao implements ICRUDLayer<WarehouseShelf> {
 			session.save(warehouseShelf);			
 			session.getTransaction().commit();	
 			
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			return true;
 		} catch (Exception e) {
 			HibernateUtil.closeSession();
@@ -58,7 +58,7 @@ public class WarehouseShelfDao implements ICRUDLayer<WarehouseShelf> {
 			session.saveOrUpdate(warehouseShelf);
 			session.getTransaction().commit();
 			
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			
 			return true;
 		} catch (Exception e) {
@@ -80,7 +80,7 @@ public class WarehouseShelfDao implements ICRUDLayer<WarehouseShelf> {
 			session.delete(warehouseShelf);		
 			session.getTransaction().commit();
 			
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			
 			return true;
 		} catch (Exception e) {
@@ -100,7 +100,7 @@ public class WarehouseShelfDao implements ICRUDLayer<WarehouseShelf> {
 			session.beginTransaction();
 			WarehouseShelf warehouseShelf = (WarehouseShelf) session.get(WarehouseShelf.class, warehouseShelfId);
 			session.getTransaction().commit();
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			
 			if(warehouseShelf!=null)
 				return Optional.of(warehouseShelf);
@@ -128,7 +128,7 @@ public class WarehouseShelfDao implements ICRUDLayer<WarehouseShelf> {
 					.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY) //Filter hibernate join duplicated results
 					.list();
 			session.getTransaction().commit();
-			HibernateUtil.closeSession();
+//			HibernateUtil.closeSession();
 			return Optional.of(warehouseShelfs);
 		} catch (Exception e) {
 			HibernateUtil.closeSession();

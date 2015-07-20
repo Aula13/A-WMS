@@ -1,4 +1,4 @@
-package org.wms.graph;
+package org.wms.model.graph;
 
 import org.wms.model.warehouse.WarehouseCell;
 
@@ -15,6 +15,11 @@ public class WarehouseNode {
 	 * the node's label
 	 */
 	private String label;
+	
+	/**
+	 * the node's cell
+	 */
+	private WarehouseCell cell = null;
 	
 	/**
 	 * Creates a node with a label
@@ -37,5 +42,13 @@ public class WarehouseNode {
 	 */
 	public String toString() {
 		return "N"+label;
+	}
+
+	public WarehouseCell getCell() {
+		return cell;
+	}
+
+	public void setCell(WarehouseCell cell) {
+		this.cell = cell;
 	}
 }

@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -48,8 +49,8 @@ public class Order {
 	/**
 	 * List of the OrderRow that this order contains
 	 */
-	@OneToMany(mappedBy="order", cascade=CascadeType.REMOVE)
-	@Fetch(FetchMode.SUBSELECT)
+	@OneToMany(mappedBy="order", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	//@Fetch(FetchMode.SUBSELECT)
 	protected Set<OrderRow> rows = new HashSet<>();
 	
 	@Column(name="order_type", nullable=false)
@@ -343,6 +344,9 @@ public class Order {
 				.filter(row -> row.isAllocated())
 				.collect(Collectors.toList()).size();
 		allocationPercentual = (((float) allocatedOrderRowSize)/rows.size())*100;
+		
+		if(completePercentual<100.0f && allocationPercentual>0.0f)
+			orderStatus=Status.ASSIGNED;
 	}
 	
 	/**
@@ -359,6 +363,9 @@ public class Order {
 				.filter(row -> row.isCompleted())
 				.collect(Collectors.toList()).size();
 		completePercentual = (((float) compleOrderRowRowSize)/rows.size())*100;
+		
+		if(completePercentual==100.0f)
+			orderStatus=Status.COMPLETED;
 	}
 	
 	/**

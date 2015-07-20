@@ -39,12 +39,39 @@ public class Warehouse extends Observable {
 		initWarehouseStructure();
 	}
 	
+	/**
+	 * Create warehouse structure from persistence
+	 */
 	protected void initWarehouseStructure() {
 		Optional<List<WarehouseLine>> optLines = linePersistenceLayer.selectAll();
 		if(optLines.isPresent())
 			lines = optLines.get();
 	}
 	
+	/**
+	 * Update cell quantities from persistence
+	 */
+	public void updateCellStatus() {
+		lines.stream().
+		forEach(line -> {
+			line.shelfs.stream()
+			.forEach(shelf -> {
+				shelf.cells.stream()
+				.forEach(cell ->{
+					WarehouseCell updatedCell = cellPersistenceLayer.get(cell.getId()).get();
+					cell.quantity = updatedCell.quantity;
+					cell.alreadyReservedQuantity = updatedCell.alreadyReservedQuantity;
+				});
+			});
+		});
+		
+		setChanged();
+		notifyObservers();
+	}
+	
+	/**
+	 * @return list of line
+	 */
 	public List<WarehouseLine> getUnmodifiableLines() {
 		return Collections.unmodifiableList(lines);
 	}

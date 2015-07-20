@@ -83,7 +83,7 @@ public class WMS {
 			
 		} catch (Exception e) {
 			stopBackgroudTasks();
-			logger.error(e.getMessage());
+			logger.error(e);
 			Utils.msg.errorBox("Error", "Error during application initialization");
 			return false;
 		}
@@ -157,6 +157,7 @@ public class WMS {
 		
 		MainGUI mgui = new MainGUI(DbConnectionProvider.CONNECTION_STATUS, SecurityConfig.getSecurityManager().getStatus());
 		new MainGUIController(mgui, 
+				ModelReference.warehouseModel,
 				ModelReference.ordersModel, 
 				ModelReference.materialsModel,
 				ModelReference.batchesModel);

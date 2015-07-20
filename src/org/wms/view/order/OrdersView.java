@@ -13,10 +13,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import org.jdesktop.swingx.JXTable;
 import org.wms.config.IconTypeAWMS;
 import org.wms.controller.order.OrdersTableModel;
+import org.wms.model.batch.Batches;
 import org.wms.model.common.ListType;
 import org.wms.model.order.Orders;
+import org.wms.view.common.TableStatusHighlighter;
 
 /**
  * Order view show a table with the orders list
@@ -34,6 +37,8 @@ import org.wms.model.order.Orders;
 public class OrdersView extends JPanel implements Observer {
 
 	protected Orders ordersModel;
+	
+	protected Batches batchesModel;
 	
 	protected JTable ordersTable;
 	
@@ -53,12 +58,13 @@ public class OrdersView extends JPanel implements Observer {
 	 * @param ordersModel reference to the orders model
 	 * @param inputType true if the view is for input orders
 	 */
-	public OrdersView(Orders ordersModel, ListType ordersType) {
+	public OrdersView(Orders ordersModel, Batches batchesModel, ListType ordersType) {
 		this.ordersModel = ordersModel;
 		this.ordersType = ordersType;
 		initComponent();
 		initUI();
 		ordersModel.addObserver(this);
+		batchesModel.addObserver(this);
 		updateValue();
 	}
 	
@@ -69,6 +75,7 @@ public class OrdersView extends JPanel implements Observer {
 	protected void initComponent() {
 		tableModel = new OrdersTableModel(ordersModel, ordersType);
 		ordersTable = FactoryReferences.appStyle.getTableClass(tableModel);
+		new TableStatusHighlighter((JXTable)ordersTable, 3);
 
 		btnAddOrder = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.PLUS.name());
 		btnEditOrder = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.EDIT.name());

@@ -30,9 +30,8 @@ import org.wms.view.order.OrderRowsView;
 import com.toedter.calendar.JDateChooser;
 
 /**
- * Order view shows details about an order
+ * Batch view shows details about an order
  * 
- * this view allow also order editing
  * 
  * @author Stefano Pessina, Daniele Ciriello
  *

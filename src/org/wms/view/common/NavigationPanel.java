@@ -32,6 +32,8 @@ public class NavigationPanel extends JPanel {
 	 */
 	private JButton btnLogin;	
 
+	private JButton btnWarehouseView;
+	
 	/**
 	 * Orders list button
 	 */
@@ -89,6 +91,9 @@ public class NavigationPanel extends JPanel {
 		btnLogin = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.USER.name());
 		navigationButtonsList.add(btnLogin);
 
+		btnWarehouseView = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.WAREHOUSE.name());
+		navigationButtonsList.add(btnWarehouseView);
+		
 		btnInputOrders = FactoryReferences.buttons.getButtonWithIcon(IconTypeAWMS.INPUT_ORDER.name());
 		navigationButtonsList.add(btnInputOrders);
 		
@@ -123,6 +128,7 @@ public class NavigationPanel extends JPanel {
 		
 		this.level = level;
 
+		btnWarehouseView.setVisible(false);
 		btnInputOrders.setVisible(false);
 		btnOutputOrders.setVisible(false);
 		btnVerifyList.setVisible(false);
@@ -132,12 +138,15 @@ public class NavigationPanel extends JPanel {
 		case NO_LEVEL:
 			break;
 		case OPERATOR:
+			btnWarehouseView.setVisible(true);
 			btnBatches.setVisible(true);
 			break;
 		case SUPERVISOR:
-			btnVerifyList.setVisible(true);
+			btnWarehouseView.setVisible(true);
+			btnBatches.setVisible(true);
 			break;
 		case ADMIN:
+			btnWarehouseView.setVisible(true);
 			btnInputOrders.setVisible(true);
 			btnOutputOrders.setVisible(true);
 			btnVerifyList.setVisible(true);
@@ -153,6 +162,13 @@ public class NavigationPanel extends JPanel {
 	 */
 	public JButton getBtnLogin() {
 		return btnLogin;
+	}
+	
+	/**
+	 * @return reference to warehouse view
+	 */
+	public JButton getBtnWarehouseView() {
+		return btnWarehouseView;
 	}
 	
 	/**

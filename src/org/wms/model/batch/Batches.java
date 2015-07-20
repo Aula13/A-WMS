@@ -4,14 +4,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.Optional;
 import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.wms.config.Configuration;
+import org.wms.config.Utils;
 import org.wms.model.common.ICRUDLayer;
 import org.wms.model.common.ListType;
+import org.wms.model.common.ModelReference;
+import org.wms.model.common.Status;
+import org.wms.model.material.Materials;
+import org.wms.model.order.Order;
+import org.wms.model.order.Orders;
+import org.wms.model.warehouse.Warehouse;
 
 /**
  * Batchs model
@@ -25,7 +33,7 @@ import org.wms.model.common.ListType;
  * @author Stefano Pessina, Daniele Ciriello
  *
  */
-public class Batches extends Observable {
+public class Batches extends Observable implements Observer {
 	
 	private Logger logger = Logger.getLogger(Configuration.SUPERVISOR_LOGGER);
 	
@@ -36,14 +44,30 @@ public class Batches extends Observable {
 	
 	private ICRUDLayer<Batch> persistentLayer;
 	
+	private IBatchesCreatorStrategy batchesCreatorStrategy;
+	
+	Orders orders;
+	
+	Warehouse warehouse;
+	
+	Materials materials;
+	
 	/**
 	 * Constructor
 	 * 
 	 * @param persistentLayer class the provide method for persistence
 	 */
-	public Batches(ICRUDLayer<Batch> persistentLayer) {
+	public Batches(Orders orders,
+			Warehouse warehouse,
+			Materials materials,
+			ICRUDLayer<Batch> persistentLayer, 
+			IBatchesCreatorStrategy batchesCreatorStrategy) {
 		super();
 		this.persistentLayer = persistentLayer;
+		this.batchesCreatorStrategy = batchesCreatorStrategy;
+		this.orders = orders;
+		this.warehouse = warehouse;
+		this.materials = materials;
 	}
 
 	/**
@@ -198,6 +222,81 @@ public class Batches extends Observable {
 		semaphore.release();
 		
 		return Collections.unmodifiableList(filteredBatchs);
+	}
+	
+	/**
+	 * Set a batch as allocate and persist it
+	 * 
+	 * @param batch
+	 * @return true if the batch is allocated
+	 */
+	public boolean setBatchAsAllocate(Batch batch) {
+		if(!batch.setAsAllocated()) {
+			return false;
+		}
+		
+		updateBatch(batch);
+		
+		return true;
+	}
+	
+	/**
+	 * Set a batch as completed and persist it
+	 * Update also warehouse cell residual quantity
+	 * 
+	 * @param batch
+	 * @return true if the batch is completed
+	 */
+	public boolean setBatchAsCompleted(Batch batch) {
+		if(!batch.isAllocated()) {
+			return false;
+		}
+		
+		if(!batch.setAsCompleted()) {
+			return false;
+		}
+		
+		updateBatch(batch);
+		warehouse.updateCellStatus();
+		
+		return true;
+	}
+	
+	/**
+	 * Create a batch list using the order list to pickup
+	 * 
+	 * @param orders
+	 * @param warehouse
+	 */
+	public void createBatches(List<Order> orders, Warehouse warehouse) {
+		//Delete batch not already assigned
+		getUnmodificableBatchList().stream()
+			.filter(batch -> batch.getBatchStatus().compareTo(Status.WAITING)==0)
+			.forEach(batch -> deleteBatch(batch));
+		
+		//Compute new list of batch
+		List<Batch> batches = batchesCreatorStrategy.computeListOfBatch(
+				getUnmodificableBatchList(),
+				orders, 
+				warehouse,
+				materials.getUnmodificableMaterialList());
+		
+		//Add new batches
+		batches.stream()
+			.forEach(batch -> addBatch(batch));
+		
+		warehouse.updateCellStatus();
+		
+		setChanged();
+		notifyObservers();
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
+	@Override
+	public void update(Observable o, Object arg) {
+		createBatches(orders.getUnmodificableOrderList(), warehouse);
 	}
 	
 	/**

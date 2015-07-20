@@ -11,10 +11,12 @@ import org.wms.model.batch.Batches;
 import org.wms.model.common.ListType;
 import org.wms.model.material.Materials;
 import org.wms.model.order.Orders;
+import org.wms.model.warehouse.Warehouse;
 import org.wms.view.batch.BatchesView;
 import org.wms.view.common.LoginPopupMenu;
 import org.wms.view.common.MainGUI;
 import org.wms.view.order.OrdersView;
+import org.wms.view.warehouse.WarehouseView;
 
 /**
  * Main GUI controller manage the connection between models and the main GUI
@@ -35,12 +37,15 @@ public class MainGUIController {
 	 */
 	protected final LoginPopupMenu loginMenu;
 	
+	protected final WarehouseView warehouseView;
+	
 	protected final OrdersView inputOrdersView;
 	protected final OrdersView outputOrdersView;
 	
 	protected final BatchesView batchesView;
 
 	public MainGUIController(MainGUI gui, 
+			Warehouse warehouse,
 			Orders ordersModel, 
 			Materials materialsModel,
 			Batches batchesModel) {
@@ -58,14 +63,20 @@ public class MainGUIController {
 			}
 		};
 		
-		inputOrdersView = new OrdersView(ordersModel, ListType.INPUT);
+		warehouseView = new WarehouseView(warehouse);
+		new ChangePageListener(
+				gui.getNavPanel().getBtnWarehouseView(), 
+				warehouseView, 
+				gui);
+		
+		inputOrdersView = new OrdersView(ordersModel, batchesModel, ListType.INPUT);
 		new OrdersViewController(inputOrdersView, ordersModel, materialsModel);
 		new ChangePageListener(
 				gui.getNavPanel().getBtnInputOrders(), 
 				inputOrdersView, 
 				gui);
 		
-		outputOrdersView = new OrdersView(ordersModel, ListType.OUTPUT);
+		outputOrdersView = new OrdersView(ordersModel, batchesModel, ListType.OUTPUT);
 		new OrdersViewController(outputOrdersView, ordersModel, materialsModel);
 		new ChangePageListener(
 				gui.getNavPanel().getBtnOutputOrders(), 

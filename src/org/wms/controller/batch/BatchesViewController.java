@@ -2,9 +2,22 @@ package org.wms.controller.batch;
 
 import it.rmautomazioni.controller.listener.AbstractJButtonActionListener;
 
+import java.util.HashMap;
+import java.util.List;
+
+import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableModel;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
+
 import org.wms.config.Utils;
 import org.wms.controller.common.AbstractTableSelectionListener;
 import org.wms.model.batch.Batch;
+import org.wms.model.batch.BatchRow;
 import org.wms.model.batch.Batches;
 import org.wms.view.batch.BatchView;
 import org.wms.view.batch.BatchesView;
@@ -14,6 +27,18 @@ import org.wms.view.batch.BatchesView;
  * 
  * manage all the view actions and connections between BatchesView and BatchesModel
  * 
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
+/**
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
+/**
+ * @author Stefano Pessina, Daniele Ciriello
+ *
+ */
+/**
  * @author Stefano Pessina, Daniele Ciriello
  *
  */
@@ -74,6 +99,14 @@ public class BatchesViewController {
 			}
 		};
 		
+		new AbstractJButtonActionListener(view.getBtnMarkBatchAsComplete()) {
+			
+			@Override
+			public void actionTriggered() {
+				btnCompleteAction();
+			}
+		};
+		
 		view.getBatchesTable().addMouseListener(new AbstractTableSelectionListener() {
 			
 			@Override
@@ -90,30 +123,35 @@ public class BatchesViewController {
 	}
 	
 	
+
 	/**
-	 * This method launch the order details view
-	 * and its controller
+	 * Open batch details view
 	 * 
-	 * @param order order to edit/show
-	 * @param isNew true if the model is a new model, false if it's an existent model
+	 * @param batch to show
 	 */
-	protected void launchOrderEditView(Batch batch){
+	protected void launchBatchView(Batch batch){
 		batchDialog = new BatchView(batch);
 		new BatchViewController(batchDialog, batch, batchesModel);
 		batchDialog.setVisible(true);
 	}
 	
+
 	/**
-	 * This method call the order details view
-	 * to create a new order
+	 * Refresh button update batch computation
+	 * 
 	 */
 	protected void btnRefreshAction() {
-		//TODO: Refresh action
+		batchesModel.update(batchesModel, null);
 	}
 	
+
 	/**
-	 * This method call the order details view
-	 * to edit an existent order
+	 * Mark a batch and it's order row associated
+	 * as allocated or assigned.
+	 * This mean the operator is started with
+	 * pickup or place of the list
+	 * 
+	 * @return
 	 */
 	protected boolean btnAllocateAction() {
 		if(view.getBatchesTable().getSelectedRow()==-1) {
@@ -125,20 +163,18 @@ public class BatchesViewController {
 		
 		Batch batch = batchesModel.getUnmodificableBatchList().get(rowIndex);
 		
-		if(!batch.setAsAllocated()) {
+		if(!batchesModel.setBatchAsAllocate(batch)) {
 			Utils.msg.errorBox("Error during batch allocation", "Error");
 			return false;
 		}
-		
-		batchesModel.updateBatch(batch);
 		
 		return true;
 	}
 	
 	/**
-	 * This method delete an existent order
-	 * selected in the table
-	 * if it's possible
+	 * Print a report of pickup/place fork lift list
+	 * 
+	 * @return
 	 */
 	protected boolean btnPrintAction() {
 		if(view.getBatchesTable().getSelectedRow()==-1) {
@@ -150,13 +186,41 @@ public class BatchesViewController {
 		
 		Batch batch = batchesModel.getUnmodificableBatchList().get(rowIndex);
 		
-		//TODO: print action
+		JasperPrint jasperPrint = null;
+        
+		String[] columnNames = {"BATCHID", "ORDID", "ORDROWID", 
+				"MAT", "QTA", "WHPICK"};
+		List<BatchRow> rows = batch.getRows();
+        String[][] data = new String[rows.size()][6];
+        
+        int i=0;
+        for (BatchRow row : rows) {
+			data[i][0]=String.valueOf(batch.getId());
+			data[i][1]=String.valueOf(row.getReferredOrderRow().getOrder().getId());
+			data[i][2]=String.valueOf(row.getReferredOrderRow().getId());
+			data[i][3]=String.valueOf(row.getJobWarehouseCell().getMaterial().getCode());
+			data[i][4]=String.valueOf(row.getQuantity());
+			data[i][5]=row.getJobWarehouseCell().getPublicId();
+        	i++;
+		}
+        
+        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
+        
+        try {
+            jasperPrint = JasperFillManager.fillReport("report/batchtemplate.jasper", new HashMap(),
+                    new JRTableModelDataSource(tableModel));
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint,false);
+            jasperViewer.setVisible(true);
+        } catch (JRException ex) {
+        	Utils.msg.errorBox("Error during start jasper preview tool", "Error");
+        	return false;
+        }
 		
 		return true;
 	}
 	
 	/**
-	 * This method call mark as complete action
+	 * Mark an allocated batch as completed
 	 */
 	protected boolean btnCompleteAction() {
 		if(view.getBatchesTable().getSelectedRow()==-1) {
@@ -168,13 +232,16 @@ public class BatchesViewController {
 		
 		Batch batch = batchesModel.getUnmodificableBatchList().get(rowIndex);
 		
-		//TODO: Comlpete action
+		if(!batchesModel.setBatchAsCompleted(batch)) {
+			Utils.msg.errorBox("Error during batch mark as completed", "Error");
+			return false;
+		}
 		
 		return true;
 	}
 	
 	/**
-	 * When the user selected an order in table
+	 * When the user selected an batch in table
 	 * the mark as allocated/completed and print buttons will be enabled
 	 * 
 	 * Moreover if the user press twice
@@ -190,7 +257,7 @@ public class BatchesViewController {
 		
 		if(doubleClick) {
 			Batch batch = batchesModel.getUnmodificableBatchList().get(rowIndex);
-			launchOrderEditView(batch); 
+			launchBatchView(batch); 
 		}
 	}
 	
