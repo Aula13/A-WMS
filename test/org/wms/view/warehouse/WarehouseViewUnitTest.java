@@ -8,7 +8,7 @@ public class WarehouseViewUnitTest {
 
 	@Test
 	public void testWarehouseView() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 }

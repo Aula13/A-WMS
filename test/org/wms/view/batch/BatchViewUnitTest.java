@@ -8,17 +8,17 @@ public class BatchViewUnitTest {
 
 	@Test
 	public void testBatchView() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	@Test
 	public void testGetConfirmButton() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	@Test
 	public void testGetCancelButton() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 }

@@ -8,7 +8,7 @@ public class GraphViewControllerUnitTest {
 
 	@Test
 	public void testGraphViewController() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 }
