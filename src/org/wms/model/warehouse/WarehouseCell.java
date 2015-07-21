@@ -51,11 +51,13 @@ public class WarehouseCell {
 		
 	}
 
-	public WarehouseCell(long id, Material material, int quantity) {
+	public WarehouseCell(long id, Material material, int quantity,
+			WarehouseShelf shelf) {
 		super();
 		this.id = id;
 		this.material = material;
 		this.quantity = quantity;
+		this.warehouseShelf = shelf;
 	}
 	
 	/**

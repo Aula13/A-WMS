@@ -47,9 +47,10 @@ public class WarehouseShelf {
 	
 	}
 	
-	public WarehouseShelf(long id) {
+	public WarehouseShelf(long id, WarehouseLine line) {
 		super();
 		this.id = id;
+		this.warehouseLine = line;
 	}
 
 	/**

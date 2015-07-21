@@ -50,7 +50,7 @@ public class MaterialDaoIntegTest {
 	 */
 	@Test
 	public void testCreateFail() {
-		materialDao.create(newMaterial);
+		assertTrue(materialDao.create(newMaterial));
 		assertFalse(materialDao.create(newMaterial));
 		assertTrue(materialDao.get(newMaterial.getCode()).isPresent());
 	}

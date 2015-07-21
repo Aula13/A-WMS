@@ -87,8 +87,8 @@ public class BatchUnitTest {
 	 */
 	@Test
 	public void testGetRows() {
-		assertEquals(testBatch.getRows().get(0), mockBatchRow1);
-		assertEquals(testBatch.getRows().get(1), mockBatchRow2);
+		assertTrue(testBatch.getRows().contains(mockBatchRow1));
+		assertTrue(testBatch.getRows().contains(mockBatchRow2));
 	}
 
 	/**
