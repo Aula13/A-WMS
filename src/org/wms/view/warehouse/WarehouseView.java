@@ -52,12 +52,12 @@ public class WarehouseView extends JPanel {
 		
 		add(scrollpane, BorderLayout.CENTER);
 		
-		warehousemap.setLayout(new GridLayout(1, warehouse.lines.size()*2));
+		warehousemap.setLayout(new GridLayout(1, warehouse.getUnmodifiableLines().size()*2));
 		warehousemap.setSize(1000, this.getHeight());
 		warehousemap.setPreferredSize(new Dimension(1000, 1000));
 		
 		int i=0;
-		for (WarehouseLine line : warehouse.lines) {
+		for (WarehouseLine line : warehouse.getUnmodifiableLines()) {
 			WarehouseLineView lineView = new WarehouseLineView(line);
 			warehousemap.add(lineView);
 			if(i%2==0)

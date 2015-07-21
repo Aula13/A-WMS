@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.wms.model.common.Priority;
 import org.wms.model.order.Order;
 import org.wms.model.order.Orders;
+import org.wms.test.TestUtils;
 import org.wms.view.order.OrderView;
 
 /**
@@ -38,6 +39,8 @@ public class OrderViewControllerUnitTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		TestUtils.mockMessageBox();
+		
 		mockOrderView = mock(OrderView.class);
 		mockOrder = mock(Order.class);
 		mockOrders = mock(Orders.class);

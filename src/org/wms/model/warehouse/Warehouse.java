@@ -22,7 +22,7 @@ import org.wms.model.common.ICRUDLayer;
  */
 public class Warehouse extends Observable {
 	
-	public List<WarehouseLine> lines = new ArrayList<>();
+	protected List<WarehouseLine> lines = new ArrayList<>();
 	
 	protected ICRUDLayer<WarehouseLine> linePersistenceLayer;
 	protected ICRUDLayer<WarehouseShelf> shelfPersistenceLayer;

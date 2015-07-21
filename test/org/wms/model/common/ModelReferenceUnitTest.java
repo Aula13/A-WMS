@@ -22,6 +22,8 @@ public class ModelReferenceUnitTest {
 		ModelReference.initModel();
 		assertNotNull(ModelReference.materialsModel);
 		assertNotNull(ModelReference.ordersModel);
+		assertNotNull(ModelReference.batchesModel);
+		assertNotNull(ModelReference.warehouseModel);
 	}
 
 }

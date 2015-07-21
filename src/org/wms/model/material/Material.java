@@ -1,17 +1,10 @@
 package org.wms.model.material;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.wms.model.order.OrderRow;
+import javax.persistence.UniqueConstraint;
 
 /**
  * Material model
@@ -26,7 +19,7 @@ import org.wms.model.order.OrderRow;
 public class Material {
 
 	@Id
-	@Column(name="material_id")
+	@Column(name="material_id", nullable=false)
 	protected long code;
 	
 	/**

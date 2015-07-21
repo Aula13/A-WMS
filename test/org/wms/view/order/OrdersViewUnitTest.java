@@ -18,6 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.wms.config.ResourceUtil;
 import org.wms.main.WMS;
+import org.wms.model.batch.Batches;
 import org.wms.model.common.ListType;
 import org.wms.model.order.Orders;
 
@@ -33,6 +34,8 @@ public class OrdersViewUnitTest {
 	
 	private static Orders mockOrdersModel;
 	
+	private static Batches mockBatchesModel;
+	
 	private static JTable mockOrdersTable;
 	
 	private static JButton btnEditOrder;
@@ -43,10 +46,11 @@ public class OrdersViewUnitTest {
 	public static void setUpBeforeClass() throws Exception {
 		mockOrdersTable = mock(JTable.class);
 		mockOrdersModel = mock(Orders.class);
+		mockBatchesModel = mock(Batches.class);
 		
 		WMS.initFactories();
 		
-		view = new OrdersView(mockOrdersModel, ListType.INPUT);
+		view = new OrdersView(mockOrdersModel, mockBatchesModel, ListType.INPUT);
 		view.ordersTable = mockOrdersTable;
 		
 		btnEditOrder = new JButton();
