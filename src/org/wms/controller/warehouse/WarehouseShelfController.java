@@ -17,9 +17,11 @@ import org.wms.view.warehouse.WarehouseShelfView;
  */
 public class WarehouseShelfController {
 
-	private WarehouseShelf shelf;
+	protected WarehouseShelf shelf;
 	
-	private WarehouseShelfView view;
+	protected WarehouseShelfView view;
+	
+	protected WarehouseShelfDetailsView detailsView;
 
 	/**
 	 * Open shelf details view when shelf code field
@@ -59,9 +61,8 @@ public class WarehouseShelfController {
 	 * Open shelf details view
 	 */
 	protected void openShelfDetailsView() {
-		WarehouseShelfDetailsView detailsView = new WarehouseShelfDetailsView(shelf);
+		detailsView = new WarehouseShelfDetailsView(shelf);
 		new WarehouseShelfDetailsController(shelf, detailsView);
 		detailsView.setVisible(true);
 	}
-
 }
