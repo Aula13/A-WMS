@@ -210,8 +210,12 @@ public class Batch {
 			int reservedQty = jobCell.getAlreadyReservedQuantity();
 			int qty = jobCell.getQuantity();
 			
-			jobCell.setAlreadyReservedQuantity(reservedQty-batchRow.getQuantity());
-			jobCell.setQuantity(qty-batchRow.getQuantity());
+			if(type==ListType.OUTPUT) {
+				jobCell.setAlreadyReservedQuantity(reservedQty-batchRow.getQuantity());
+				jobCell.setQuantity(qty-batchRow.getQuantity());
+			} else {
+				jobCell.setQuantity(qty+batchRow.getQuantity());
+			}
 		}
 		for (BatchRow batchRow : batchRows)
 			batchRow.getReferredOrderRow().getOrder().updateCompletedPercentual();

@@ -67,16 +67,22 @@ public class BatchesCreatorGreedy implements IBatchesCreatorStrategy {
 		List<OrderRow> ordersrows = prepareOrders(orders, orderType);
 		
 		for (OrderRow orderrow : ordersrows) {
-
-			Optional<WarehouseCell> optWarehouseCell = isValidSelection(orderrow, warehouseCells.get(orderrow.getMaterial().getCode()));
-
+			
+			Optional<WarehouseCell> optWarehouseCell;
+			if(orderType == ListType.OUTPUT)
+				optWarehouseCell = isValidSelection(orderrow, warehouseCells.get(orderrow.getMaterial().getCode()));
+			else
+				optWarehouseCell = Optional.of(getMinorQuantityCell(warehouseCells.get(orderrow.getMaterial().getCode())));
+			
 			//Check if the warehouse have this material
 			if(optWarehouseCell.isPresent()) {
 
 				//Update already allocated material in warehouse
 				//Retrive cell for pick the material
 				WarehouseCell warehouseCell = optWarehouseCell.get();
-				warehouseCell.setAlreadyReservedQuantity(
+				
+				if(orderType == ListType.OUTPUT)
+					warehouseCell.setAlreadyReservedQuantity(
 						warehouseCell.getAlreadyReservedQuantity()+orderrow.getQuantity());
 
 				//If no batch => create it
@@ -238,6 +244,25 @@ public class BatchesCreatorGreedy implements IBatchesCreatorStrategy {
 		if(availableCell.isEmpty())
 			return Optional.empty();
 		return Optional.of(availableCell.get(0));
+	}
+	
+	/**
+	 * Search the cell with minor quantity
+	 * 
+	 * @param warehouseCells
+	 * @return warehouse cell with minor quantity
+	 */
+	protected WarehouseCell getMinorQuantityCell(List<WarehouseCell> warehouseCells) {
+		WarehouseCell min = null;
+		for (WarehouseCell warehouseCell : warehouseCells) {
+			if(min==null)
+				min = warehouseCell;
+			else {
+				if(min.getQuantity()>warehouseCell.getQuantity())
+					min=warehouseCell;
+			}
+		}
+		return min;
 	}
 
 }
