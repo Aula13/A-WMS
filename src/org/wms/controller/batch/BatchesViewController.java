@@ -34,14 +34,6 @@ import org.wms.view.batch.BatchesView;
  * @author Stefano Pessina, Daniele Ciriello
  *
  */
-/**
- * @author Stefano Pessina, Daniele Ciriello
- *
- */
-/**
- * @author Stefano Pessina, Daniele Ciriello
- *
- */
 public class BatchesViewController {
 
 	/**
