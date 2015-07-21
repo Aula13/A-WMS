@@ -225,6 +225,8 @@ public class OrderView extends JDialog {
 	 * @return id selected by the user
 	 */
 	public long getSelectedId() {
+		if(idField.getText().compareTo("")==0)
+			return 0l;
 		return Long.parseLong(idField.getText());
 	}
 	
